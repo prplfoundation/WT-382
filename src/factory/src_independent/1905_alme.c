@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -319,7 +319,7 @@
 // Private (non-standarized) packet structure for custom (not present in the
 // standard) ALME primitives:
 ////////////////////////////////////////////////////////////////////////////////
-// 
+//
 // NOTE: We are using "reserved" 'alme_type' values. We might have to remove
 // these new "custom" ALMEs if the standard is ever updated to make use of these
 // types.
@@ -914,7 +914,7 @@ INT8U *forge_1905_ALME_from_structure(INT8U *memory_structure, INT16U *len)
                     _I2B(&m->interface_descriptors[i].vendor_specific_info[j].ie_type,      &p);
                     _I2B(&m->interface_descriptors[i].vendor_specific_info[j].length_field, &p);
                     _InB( m->interface_descriptors[i].vendor_specific_info[j].oui,          &p, 3);
-                    
+
                     if (m->interface_descriptors[i].vendor_specific_info[j].length_field > 3)
                     {
                         _InB( m->interface_descriptors[i].vendor_specific_info[j].vendor_si, &p, m->interface_descriptors[i].vendor_specific_info[j].length_field - 3);
@@ -1353,7 +1353,7 @@ INT8U *forge_1905_ALME_from_structure(INT8U *memory_structure, INT16U *len)
 
             _I1B(&m->alme_type, &p);
             _I2B(&m->bytes_nr,  &p);
-            
+
             if (m->bytes_nr > 0)
             {
                 _InB( m->bytes,  &p, m->bytes_nr);
@@ -1615,10 +1615,10 @@ INT8U compare_1905_ALME_structures(INT8U *memory_structure_1, INT8U *memory_stru
                     {
                         return 1;
                     }
-                   
+
                 }
             }
-                 
+
             return 0;
         }
 
@@ -1730,7 +1730,7 @@ INT8U compare_1905_ALME_structures(INT8U *memory_structure_1, INT8U *memory_stru
                     return 1;
                 }
             }
-                 
+
             return 0;
         }
 
@@ -1814,7 +1814,7 @@ INT8U compare_1905_ALME_structures(INT8U *memory_structure_1, INT8U *memory_stru
                     }
                 }
             }
-                 
+
             return 0;
         }
 
@@ -1848,7 +1848,7 @@ INT8U compare_1905_ALME_structures(INT8U *memory_structure_1, INT8U *memory_stru
                     return 1;
                 }
             }
-                 
+
             return 0;
         }
 
@@ -1914,7 +1914,7 @@ INT8U compare_1905_ALME_structures(INT8U *memory_structure_1, INT8U *memory_stru
             {
                 return 1;
             }
-                 
+
             return 0;
         }
 
@@ -1956,7 +1956,7 @@ INT8U compare_1905_ALME_structures(INT8U *memory_structure_1, INT8U *memory_stru
                     return 1;
                 }
             }
-                 
+
             return 0;
         }
 
@@ -1971,7 +1971,7 @@ INT8U compare_1905_ALME_structures(INT8U *memory_structure_1, INT8U *memory_stru
             {
                 return 1;
             }
-                 
+
             return 0;
         }
 
@@ -1990,7 +1990,7 @@ INT8U compare_1905_ALME_structures(INT8U *memory_structure_1, INT8U *memory_stru
             {
                 return 1;
             }
-                 
+
             return 0;
         }
 

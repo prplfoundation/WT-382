@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -68,7 +68,7 @@
 #include <linux/if_packet.h>  // sockaddr_ll
 #include <sys/ioctl.h>        // ioctl(), SIOCGIFINDEX
 #include <net/if.h>           // struct ifreq, IFNAZSIZE
-#include <netinet/ether.h>    // ETH_P_ALL, ETH_A_LEN 
+#include <netinet/ether.h>    // ETH_P_ALL, ETH_A_LEN
 #include <unistd.h>           // close()
 #include <pthread.h>          // pthread_create(), mutex functions
 
@@ -108,7 +108,7 @@ pthread_mutex_t interface_mutex = PTHREAD_MUTEX_INITIALIZER;
 // The function used to register a new special type interface is part of the
 // API ("registerInterfaceStub()") and its documentation can be consulting on
 // its ".h" file.
-// 
+//
 struct _stubTable
 {
     INT8U  stub_entries_nr;
@@ -204,7 +204,7 @@ INT8U _executeInterfaceStub(char *interface_name, INT8U stub_type, ...)
             struct interfaceInfo *m;
 
             m = va_arg(args, struct interfaceInfo *);
-            
+
             ((void (*)(char *, char*, struct interfaceInfo *))f)(interface_name, interfaces_list_extended_params[i], m);
 
             break;
@@ -214,7 +214,7 @@ INT8U _executeInterfaceStub(char *interface_name, INT8U stub_type, ...)
             struct linkMetrics *m;
 
             m = va_arg(args, struct linkMetrics *);
-            
+
             ((void (*)(char *, char*, struct linkMetrics *))f)(interface_name, interfaces_list_extended_params[i], m);
 
             break;
@@ -348,7 +348,7 @@ static void *_pushButtonConfigurationThread(void *p)
     unsigned char new_mac[6];
     INT16U        interface_type;
     INT8U         local_interface_mac_address[6];
-    
+
     int executed;
 
     aux = (struct _pushButtonThreadData *)p;
@@ -422,7 +422,7 @@ static void *_pushButtonConfigurationThread(void *p)
             case INTERFACE_TYPE_MOCA_V1_1:
             {
                 // TODO
-                // 
+                //
                 break;
             }
             case INTERFACE_TYPE_UNKNOWN:
@@ -486,7 +486,7 @@ static void *_pushButtonConfigurationThread(void *p)
         //
         {
             INT8U                  message[3+20];
-            
+
             message[0]  = PLATFORM_QUEUE_EVENT_AUTHENTICATED_LINK;
             message[1]  = 0x00;
             message[2]  = 0x14;
@@ -549,7 +549,7 @@ static INT32S _readInterfaceParameter(char *interface_name, char *parameter_name
     if(NULL != (fp = fopen(sys_path, "r")))
     {
         char aux[30];
-      
+
         if (NULL != fgets(aux, sizeof(aux), fp))
         {
             ret = atoi(aux);
@@ -837,7 +837,7 @@ struct interfaceInfo *PLATFORM_GET_1905_INTERFACE_INFO(char *interface_name)
         // *********************************************************************
         // ********************** REGULAR INTERFACE ****************************
         // *********************************************************************
-        
+
         // This is a "regular" interface. Query the Linux kernel for data
 
         int fd;
@@ -927,7 +927,7 @@ struct interfaceInfo *PLATFORM_GET_1905_INTERFACE_INFO(char *interface_name)
         // Check the 'power_state'
         //
         m->power_state = INTERFACE_POWER_STATE_ON;
-        
+
         // Add neighbor MAC addresses
         //
         m->neighbor_mac_addresses_nr = INTERFACE_NEIGHBORS_UNKNOWN;
@@ -1368,7 +1368,7 @@ void PLATFORM_FREE_LIST_OF_BRIDGES(struct bridge *x, INT8U nr)
 
     return;
 }
-    
+
 INT8U PLATFORM_SEND_RAW_PACKET(char *interface_name, INT8U *dst_mac, INT8U *src_mac, INT16U eth_type, INT8U *payload, INT16U payload_len)
 {
     int i, first_time;
@@ -1432,9 +1432,9 @@ INT8U PLATFORM_SEND_RAW_PACKET(char *interface_name, INT8U *dst_mac, INT8U *src_
         PLATFORM_PRINTF_DEBUG_ERROR("[PLATFORM] socket('%s') returned with errno=%d (%s) while opening a RAW socket\n", interface_name, errno, strerror(errno));
         return 0;
     }
-  
+
     // Retrieve ethernet interface index
-    // 
+    //
     PLATFORM_PRINTF_DEBUG_DETAIL("[PLATFORM] Retrieving interface index\n");
     strncpy(ifr.ifr_name, interface_name, IFNAMSIZ);
     if (ioctl(s, SIOCGIFINDEX, &ifr) == -1)
@@ -1466,7 +1466,7 @@ INT8U PLATFORM_SEND_RAW_PACKET(char *interface_name, INT8U *dst_mac, INT8U *src_
     eh->ether_shost[4] = src_mac[4];
     eh->ether_shost[5] = src_mac[5];
     eh->ether_type     = htons(eth_type);
-    
+
     // Fill buffer
     //
     memcpy(buffer + sizeof(*eh), payload, payload_len);
@@ -1482,7 +1482,7 @@ INT8U PLATFORM_SEND_RAW_PACKET(char *interface_name, INT8U *dst_mac, INT8U *src_
     socket_address.sll_addr[3]  = dst_mac[3];
     socket_address.sll_addr[4]  = dst_mac[4];
     socket_address.sll_addr[5]  = dst_mac[5];
-    socket_address.sll_addr[6]  = 0x00; 
+    socket_address.sll_addr[6]  = 0x00;
     socket_address.sll_addr[7]  = 0x00;
 
     PLATFORM_PRINTF_DEBUG_DETAIL("[PLATFORM] Sending data to RAW socket\n");

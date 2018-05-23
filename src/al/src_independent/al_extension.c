@@ -3,7 +3,7 @@
  *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -101,7 +101,7 @@ struct _ieee1905DmExtension
 // - process1905CmduExtensions(): Run through all the registered entities to
 //                                process the non-standard data embedded in the
 //                                incoming CMDU
-// - send1905CmduExtensions()   : Run through all the registered entities to 
+// - send1905CmduExtensions()   : Run through all the registered entities to
 //                                extend the outgoing CMDU with the
 //                                non-standard data
 // - free1905CmduExtensions()   : Free no longer used resources allocated by
@@ -200,12 +200,12 @@ INT8U free1905CmduExtensions(struct CMDU *c)
 // Public functions (data model callback processing).
 ////////////////////////////////////////////////////////////////////////////////
 
-// - obtainExtendedLocalInfo(): Run through all the registered entities to 
+// - obtainExtendedLocalInfo(): Run through all the registered entities to
 //                              obtain the local non-standard data (embedded in
 //                              Vendor Specific TLVs)
-// - updateExtendedInfo()     : Run through all the registered entities to 
+// - updateExtendedInfo()     : Run through all the registered entities to
 //                              update the non-standard data in the datamodel.
-// - dumpExtendedInfo()       : Run through all the registered entities to 
+// - dumpExtendedInfo()       : Run through all the registered entities to
 //                              extend the 'dnd' ALME response (non-standard
 //                              data from datamodel)
 // - freeExtendedLocalInfo()  : Free no longer used resources allocated by
@@ -219,7 +219,7 @@ INT8U obtainExtendedLocalInfo(struct vendorSpecificTLV ***extensions, INT8U *nr)
 
     struct vendorSpecificTLV **total_tlvs;      // The returned TLVs from all
                                                 // the registered actors
-    INT8U                      total_tlvs_nr;  
+    INT8U                      total_tlvs_nr;
 
     struct vendorSpecificTLV **tlvs;            // TLVs returned by some
                                                 // registered actor

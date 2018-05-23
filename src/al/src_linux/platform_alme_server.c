@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -153,7 +153,7 @@ void *almeServerThread(void *p)
         PLATFORM_PRINTF_DEBUG_ERROR("[PLATFORM] *ALME server thread* setsockopt() failed with errno=%d (%s)\n", errno, strerror(errno));
         return NULL;
     }
-     
+
     // Prepare the sockaddr_in structure
     //
     if (0 == alme_server_port)
@@ -165,7 +165,7 @@ void *almeServerThread(void *p)
     server_addr.sin_family      = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
     server_addr.sin_port        = htons(alme_server_port);
-     
+
     // Bind
     //
     if(bind(socketfd,(struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
@@ -173,7 +173,7 @@ void *almeServerThread(void *p)
         PLATFORM_PRINTF_DEBUG_ERROR("[PLATFORM] *ALME server thread* bind() failed\n");
         return NULL;
     }
-     
+
     // Listen
     //
     if (-1 == listen(socketfd, 3))
@@ -181,7 +181,7 @@ void *almeServerThread(void *p)
         PLATFORM_PRINTF_DEBUG_ERROR("[PLATFORM] *ALME server thread* listen() failed with errno=%d (%s)\n", errno, strerror(errno));
         return NULL;
     }
-     
+
     // Accept connections from an incoming clients
     //
     while (1)
@@ -195,11 +195,11 @@ void *almeServerThread(void *p)
 
         memset(&client_addr, 0, sizeof(client_addr));
         addrlen = sizeof(client_addr);
-        
+
         // Accept an incoming connection
         //
         PLATFORM_PRINTF_DEBUG_DETAIL("[PLATFORM] *ALME server thread* Waiting for incoming connections...\n");
-     
+
         new_socketfd = accept(socketfd, (struct sockaddr *)&client_addr, (socklen_t*)&addrlen);
         if (new_socketfd < 0)
         {
@@ -207,7 +207,7 @@ void *almeServerThread(void *p)
             continue;
         }
         PLATFORM_PRINTF_DEBUG_DETAIL("[PLATFORM] *ALME server thread* New connection established from HLE.\n");
-         
+
         // Receive a message from client
         //
         total_size = 0;
@@ -229,7 +229,7 @@ void *almeServerThread(void *p)
                 break;
             }
         }
-         
+
         if(0 == read_size)
         {
             // Connection closed, forward ALME message to the AL entity
@@ -313,7 +313,7 @@ void *almeServerThread(void *p)
             PLATFORM_PRINTF_DEBUG_WARNING("[PLATFORM] *ALME server thread* recv() failed.\n");
         }
     }
-     
+
     return NULL;
 }
 

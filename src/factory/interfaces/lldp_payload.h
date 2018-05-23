@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -57,8 +57,8 @@
 struct PAYLOAD
 {
     #define MAX_LLDP_TLVS 10
-    INT8U   *list_of_TLVs[MAX_LLDP_TLVS+1]; 
-                                   // NULL-terminated list of pointers to TLV 
+    INT8U   *list_of_TLVs[MAX_LLDP_TLVS+1];
+                                   // NULL-terminated list of pointers to TLV
                                    // structures.
                                    // The "end of lldppdu" TLV is not included
                                    // in this list.
@@ -73,7 +73,7 @@ struct PAYLOAD
 // This function receives a pointer to a streams containing ETH layer packet
 // data (ie. offset +14 in a raw network packet, just after the source MAC
 // address, destination MAC address and ETH type fields).
-// 
+//
 // The payload of this stream must contain a LLDP bridge discovery message, as
 // detailed in "IEEE Std 1905.1-2013, Section 6.1"
 //
@@ -86,7 +86,7 @@ struct PAYLOAD
 //
 // The stream must always finish with a "TLV_TYPE_END_OF_LLDPPDU" TLV, but this
 // one won't be contained in the returned PAYLOAD structure.
-// 
+//
 // If any type of error/inconsistency is found, a NULL pointer is returned
 // instead, otherwise remember to free the received structure once you don't
 // need it anymore (using the "free_lldp_PAYLOAD_structure()" function)
@@ -135,7 +135,7 @@ void free_lldp_PAYLOAD_structure(struct PAYLOAD *memory_structure);
 
 
 // This function receives a pointer to a  streams returned by
-// "forge_lldp_PAYLOAD_from_structure()" 
+// "forge_lldp_PAYLOAD_from_structure()"
 //
 #define  free_lldp_PAYLOAD_packet  PLATFORM_FREE
 

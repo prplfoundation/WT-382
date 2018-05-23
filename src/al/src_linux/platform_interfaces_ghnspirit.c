@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -79,7 +79,7 @@ static char  itu_ghn_generic_phy_xml_url[] = "http://handle.itu.int/11.1002/3000
 #define VARIANT_POF       (0x04)
 
 static char *variant_names[] = {
-  "ITU-T G.996x Powerline", 
+  "ITU-T G.996x Powerline",
   "ITU-T G.996x Phoneline",
   "ITU-T G.996x Coax Baseband",
   "ITU-T G.996x Coax RF",
@@ -436,7 +436,7 @@ void _getInterfaceInfoFromGhnSpiritDevice(char *interface_name, char *ghnspirit_
                 PLATFORM_PRINTF_DEBUG_ERROR("[PLATFORM] Problems obtaining the IPv4 type. Check the order of parameters in the LCMP command!\n");
             }
 
-            m->ipv4_nr = 1; 
+            m->ipv4_nr = 1;
             m->ipv4    = (struct _ipv4 *)malloc(sizeof(struct _ipv4));
 
             sscanf(value, "%hhd.%hhd.%hhd.%hhd",
@@ -480,7 +480,7 @@ void _getInterfaceInfoFromGhnSpiritDevice(char *interface_name, char *ghnspirit_
                 PLATFORM_PRINTF_DEBUG_ERROR("[PLATFORM] Problems obtaining the IPv6 type. Check the order of parameters in the LCMP command!\n");
             }
 
-            m->ipv6_nr = 1; 
+            m->ipv6_nr = 1;
             m->ipv6    = (struct _ipv6 *)malloc(sizeof(struct _ipv6));
 
             sscanf(value, "%02hhx%02hhx:%02hhx%02hhx:%02hhx%02hhx:%02hhx%02hhx:%02hhx%02hhx:%02hhx%02hhx:%02hhx%02hhx:%02hhx%02hhx",
@@ -951,7 +951,7 @@ void _getMetricsFromGhnSpiritDevice(char *interface_name, char *ghnspirit_extend
 
     // TODO: Hardcoded value for now (9% is used for signalization).
     //
-    m->tx_link_availability = 91; 
+    m->tx_link_availability = 91;
 
     // According to the standard (Table 6-20), this field must be set to 0xff
     // for non IEEE 802.11 links
@@ -979,7 +979,7 @@ void _startPushButtonOnGhnSpiritDevice(char *interface_name, char *ghnspirit_ext
 
     char *ghn_mac_address;
     char *lcmp_password;
-   
+
     // Obtain G.hn/Spirit MAC address and LCMP password
     //
     if (0 == _extractMacAndPassword(ghnspirit_extended_params, &ghn_mac_address, &lcmp_password))

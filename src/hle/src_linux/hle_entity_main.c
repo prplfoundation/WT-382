@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -287,7 +287,7 @@ int _sendAlmeRequestAndWaitForReply(char *server_ip_and_port, INT8U *alme_reques
         PLATFORM_PRINTF_DEBUG_ERROR("Invalid address format. Must follow this template: '<ip_address>:<port_number>'\n");
         return 0;
     }
-     
+
     //Create socket
     //
     sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -305,13 +305,13 @@ int _sendAlmeRequestAndWaitForReply(char *server_ip_and_port, INT8U *alme_reques
     server.sin_port        = htons(atoi(port));
 
     free(aux);
- 
+
     if (connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0)
     {
         PLATFORM_PRINTF_DEBUG_ERROR("connect() failed with errno=%d (%s)\n", errno, strerror(errno));
         return 0;
     }
-     
+
     // Send the ALME REQUEST message
     //
     PLATFORM_PRINTF_DEBUG_INFO("Sending ALME request message (%d byte(s) long)...\n", alme_request_len);
@@ -353,7 +353,7 @@ int _sendAlmeRequestAndWaitForReply(char *server_ip_and_port, INT8U *alme_reques
         PLATFORM_PRINTF_DEBUG_ERROR("shutdown(\"SHUT_WR\") failed with errno=%d (%s)\n", errno, strerror(errno));
         return 0;
     }
-         
+
     // Receive a reply from the server
     //
     PLATFORM_PRINTF_DEBUG_INFO("Waiting for the ALME reply...\n");
@@ -381,7 +381,7 @@ int _sendAlmeRequestAndWaitForReply(char *server_ip_and_port, INT8U *alme_reques
 
         if (total_received >= *alme_reply_len)
         {
-            // This message is too big. 
+            // This message is too big.
             //
             PLATFORM_PRINTF_DEBUG_ERROR("Error! Received message is too big\n");
             return 0;
@@ -462,7 +462,7 @@ int main(int argc, char *argv[])
                 // <ip address>:<tcp port> where the AL is waiting for HLE
                 // messages (ex: "10.8.34.3:8970")
                 //
-                al_ip_address_and_tcp_port = optarg; 
+                al_ip_address_and_tcp_port = optarg;
                 break;
             }
 
@@ -471,7 +471,7 @@ int main(int argc, char *argv[])
                 // ALME REQUEST message that we want to send the AL entity
                 // (ex: "ALME-GET-INTF-LIST.request")
                 //
-                alme_request_type = optarg; 
+                alme_request_type = optarg;
                 break;
             }
             case 'h':

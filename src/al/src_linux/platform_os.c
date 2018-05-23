@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -115,14 +115,14 @@ static void _pcapProcessPacket(u_char *arg, const struct pcap_pkthdr *pkthdr, co
 {
     // This function is executed (on a per-interface dedicated thread) every
     // time a new 1905 packet arrives
-  
+
     struct _pcapCaptureThreadData *aux;
 
     INT8U   message[3+MAX_NETWORK_SEGMENT_SIZE];
     INT16U  message_len;
     INT8U   message_len_msb;
     INT8U   message_len_lsb;
-    
+
     if (NULL == arg)
     {
         // Invalid argument
@@ -130,7 +130,7 @@ static void _pcapProcessPacket(u_char *arg, const struct pcap_pkthdr *pkthdr, co
         PLATFORM_PRINTF_DEBUG_ERROR("[PLATFORM] *Pcap thread* Invalid arguments in _pcapProcessPacket()\n");
         return;
     }
-   
+
     aux = (struct _pcapCaptureThreadData *)arg;
 
     if (pkthdr->len > MAX_NETWORK_SEGMENT_SIZE)
@@ -251,8 +251,8 @@ static void *_pcapLoopThread(void *p)
     //      address
     //
     //   2. Have ethertype == ETHERTYPE_LLDP *and* are addressed to the special
-    //      LLDP nearest bridge multicast MAC address 
-    //      
+    //      LLDP nearest bridge multicast MAC address
+    //
     snprintf(
               pcap_filter_expression,
               sizeof(pcap_filter_expression),
@@ -297,7 +297,7 @@ static void *_pcapLoopThread(void *p)
 
         return NULL;
     }
-    
+
     // Signal the main thread so that it can continue its work
     //
     pthread_mutex_lock(&pcap_filters_mutex);
@@ -534,7 +534,7 @@ static void *_pushButtonThread(void *p)
         }
         fclose(fd_gpio);
     }
-    
+
     // ... and then re-open the GPIO file descriptors for reading in "raw"
     // (ie "open" instead of "fopen") mode.
     //
@@ -714,7 +714,7 @@ static void *_topologyMonitorThread(void *p)
         PLATFORM_PRINTF_DEBUG_ERROR("[PLATFORM] *Push button thread* inotify_add_watch() returned with errno=%d (%s)\n", errno, strerror(errno));
         return NULL;
     }
-    
+
     while (1)
     {
         int   nfds;
@@ -823,7 +823,7 @@ struct deviceInfo *PLATFORM_GET_DEVICE_INFO(void)
 {
     // TODO: Retrieve real data from OS
 
-    static struct deviceInfo x = 
+    static struct deviceInfo x =
     {
         .friendly_name      = "Kitchen ice cream dispatcher",
         .manufacturer_name  = "Megacorp S.A.",
@@ -883,16 +883,16 @@ INT8U PLATFORM_CREATE_QUEUE(const char *name)
     // session), destroy and re-create it
     //
     mq_unlink(name);
-       
-    attr.mq_flags   = 0;  
-    attr.mq_maxmsg  = 100;  
-    attr.mq_curmsgs = 0; 
+
+    attr.mq_flags   = 0;
+    attr.mq_maxmsg  = 100;
+    attr.mq_curmsgs = 0;
     attr.mq_msgsize = MAX_NETWORK_SEGMENT_SIZE+3;
       //
       // NOTE: The biggest value in the queue is going to be a message from the
       // "pcap" event, which is MAX_NETWORK_SEGMENT_SIZE+3 bytes long.
-      // The "PLATFORM_CREATE_QUEUE()" documentation mentions 
-      
+      // The "PLATFORM_CREATE_QUEUE()" documentation mentions
+
     if ((mqd_t) -1 == (mqdes = mq_open(name, O_RDWR | O_CREAT, 0666, &attr)))
     {
         // Could not create queue
@@ -969,7 +969,7 @@ INT8U PLATFORM_REGISTER_QUEUE_EVENT(INT8U queue_id, INT8U event_type, void *data
             // The AL entity is telling us that it is capable of processing ALME
             // messages and that it wants to receive ALME messages on the
             // provided queue.
-            // 
+            //
             // In our platform-dependent implementation, we have decided that
             // ALME messages are going to be received on a dedicated thread
             // that runs a TCP server.
@@ -1025,7 +1025,7 @@ INT8U PLATFORM_REGISTER_QUEUE_EVENT(INT8U queue_id, INT8U event_type, void *data
                 //
                 return 0;
             }
-            
+
             p2->queue_id = queue_id;
             p2->token    = p1->token;
             p2->periodic = PLATFORM_QUEUE_EVENT_TIMEOUT_PERIODIC == event_type ? 1 : 0;
@@ -1037,7 +1037,7 @@ INT8U PLATFORM_REGISTER_QUEUE_EVENT(INT8U queue_id, INT8U event_type, void *data
             se.sigev_notify          = SIGEV_THREAD;
             se.sigev_notify_function = _timerHandler;
             se.sigev_value.sival_ptr = (void *)p2;
-            
+
             if (-1 == timer_create(CLOCK_REALTIME, &se, &timer_id))
             {
                 // Failed to create a new timer
@@ -1112,7 +1112,7 @@ INT8U PLATFORM_REGISTER_QUEUE_EVENT(INT8U queue_id, INT8U event_type, void *data
             //
             pthread_t                           thread;
             struct _topologyMonitorThreadData  *p;
- 
+
             p = (struct _topologyMonitorThreadData *)malloc(sizeof(struct _topologyMonitorThreadData));
             if (NULL == p)
             {

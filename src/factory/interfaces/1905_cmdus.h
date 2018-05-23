@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -92,12 +92,12 @@ struct CMDU
     INT16U  message_type;          // Any of the CMDU_TYPE_* types
 
     INT16U  message_id;            // Identifies the message
-    
+
     INT8U   relay_indicator;       // Set to '1' to indicate that his packet
                                    // must be relayed by 1905 AL to its
                                    // neighbors.
 
-    INT8U   **list_of_TLVs;        // NULL-terminated list of pointers to TLV 
+    INT8U   **list_of_TLVs;        // NULL-terminated list of pointers to TLV
                                    // structures.
                                    // The "end of message" TLV is not included
                                    // in this list.
@@ -113,7 +113,7 @@ struct CMDU
 // containing ETH layer packet data (ie. offset +14 in a raw network packet,
 // just after the source MAC address, destination MAC address and ETH type
 // fields).
-// 
+//
 // The payload of each stream must contain a 1905 CMDU as detailed in ""IEEE
 // Std 1905.1-2013, Section 6.2 (Table 6-3 and beyond)"
 //
@@ -133,7 +133,7 @@ struct CMDU
 // all of them share the same 'message_id'.
 //
 // For each possible CMDU message type, the following list of TLVs is returned:
-// 
+//
 //   CMDU_TYPE_TOPOLOGY_DISCOVERY
 //     - 1 TLV_TYPE_AL_MAC_ADDRESS_TYPE
 //     - 1 TLV_TYPE_MAC_ADDRESS_TYPE
@@ -184,7 +184,7 @@ struct CMDU
 //     - 1 TLV_TYPE_AL_MAC_ADDRESS_TYPE
 //     - 1 TLV_TYPE_PUSH_BUTTON_EVENT_NOTIFICATION
 //
-//   CMDU_TYPE_PUSH_BUTTON_JOIN_NOTIFICATION    
+//   CMDU_TYPE_PUSH_BUTTON_JOIN_NOTIFICATION
 //     - 1 TLV_TYPE_AL_MAC_ADDRESS_TYPE
 //     - 1 TLV_TYPE_PUSH_BUTTON_JOIN_NOTIFICATION
 //
@@ -194,7 +194,7 @@ struct CMDU
 // If the aggregated payload of all the streams does not contain one of the TLVs
 // required for its 'message_type', this function returns an error (a NULL
 // pointer).
-// 
+//
 // If the aggregated payload of all the streams contains more TLVs than those
 // required for its 'message_type', they are ignored (ie. not contained in the
 // returned structure)

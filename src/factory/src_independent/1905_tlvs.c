@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -252,7 +252,7 @@ INT8U *parse_1905_TLV_from_packet(INT8U *packet_stream)
                 {
                     INT8U aux;
 
-                    if (10 != ret->local_interfaces[i].media_specific_data_size) 
+                    if (10 != ret->local_interfaces[i].media_specific_data_size)
                     {
                         // Malformed packet
                         //
@@ -267,14 +267,14 @@ INT8U *parse_1905_TLV_from_packet(INT8U *packet_stream)
                     _E1B(&p, &ret->local_interfaces[i].media_specific_data.ieee80211.ap_channel_band);
                     _E1B(&p, &ret->local_interfaces[i].media_specific_data.ieee80211.ap_channel_center_frequency_index_1);
                     _E1B(&p, &ret->local_interfaces[i].media_specific_data.ieee80211.ap_channel_center_frequency_index_2);
-                   
+
                 }
                 else if (
                           (MEDIA_TYPE_IEEE_1901_WAVELET == ret->local_interfaces[i].media_type) ||
                           (MEDIA_TYPE_IEEE_1901_FFT     == ret->local_interfaces[i].media_type)
                         )
                 {
-                    if (7 != ret->local_interfaces[i].media_specific_data_size) 
+                    if (7 != ret->local_interfaces[i].media_specific_data_size)
                     {
                         // Malformed packet
                         //
@@ -286,7 +286,7 @@ INT8U *parse_1905_TLV_from_packet(INT8U *packet_stream)
                 }
                 else
                 {
-                    if (0 != ret->local_interfaces[i].media_specific_data_size) 
+                    if (0 != ret->local_interfaces[i].media_specific_data_size)
                     {
                         // Malformed packet
                         //
@@ -537,7 +537,7 @@ INT8U *parse_1905_TLV_from_packet(INT8U *packet_stream)
                 PLATFORM_FREE(ret);
                 return NULL;
             }
-            
+
             _E1B(&p, &link_metrics_type);
 
             if (link_metrics_type >= 3)
@@ -679,7 +679,7 @@ INT8U *parse_1905_TLV_from_packet(INT8U *packet_stream)
             _EnB(&p, ret->neighbor_al_address, 6);
 
             ret->receiver_link_metrics_nr = (len-12)/23;
-            
+
             ret->receiver_link_metrics = (struct _receiverLinkMetricEntries *)PLATFORM_MALLOC(sizeof(struct _receiverLinkMetricEntries) * ret->receiver_link_metrics_nr);
 
             for (i=0; i < ret->receiver_link_metrics_nr; i++)
@@ -952,7 +952,7 @@ INT8U *parse_1905_TLV_from_packet(INT8U *packet_stream)
                 {
                     INT8U aux;
 
-                    if (10 != ret->media_types[i].media_specific_data_size) 
+                    if (10 != ret->media_types[i].media_specific_data_size)
                     {
                         // Malformed packet
                         //
@@ -967,14 +967,14 @@ INT8U *parse_1905_TLV_from_packet(INT8U *packet_stream)
                     _E1B(&p, &ret->media_types[i].media_specific_data.ieee80211.ap_channel_band);
                     _E1B(&p, &ret->media_types[i].media_specific_data.ieee80211.ap_channel_center_frequency_index_1);
                     _E1B(&p, &ret->media_types[i].media_specific_data.ieee80211.ap_channel_center_frequency_index_2);
-                   
+
                 }
                 else if (
                           (MEDIA_TYPE_IEEE_1901_WAVELET == ret->media_types[i].media_type) ||
                           (MEDIA_TYPE_IEEE_1901_FFT     == ret->media_types[i].media_type)
                         )
                 {
-                    if (7 != ret->media_types[i].media_specific_data_size) 
+                    if (7 != ret->media_types[i].media_specific_data_size)
                     {
                         // Malformed packet
                         //
@@ -986,7 +986,7 @@ INT8U *parse_1905_TLV_from_packet(INT8U *packet_stream)
                 }
                 else
                 {
-                    if (0 != ret->media_types[i].media_specific_data_size) 
+                    if (0 != ret->media_types[i].media_specific_data_size)
                     {
                         // Malformed packet
                         //
@@ -1892,7 +1892,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
             {
                 tlv_length += 6 + 2 + 1;  // MAC (6 bytes) + media type (2
                                           // bytes) + number of octets (1 byte)
-                              
+
                 tlv_length += m->local_interfaces[i].media_specific_data_size;
             }
             *len = 1 + 2 + tlv_length;
@@ -1923,7 +1923,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
                 {
                     INT8U aux;
 
-                    if (10 != m->local_interfaces[i].media_specific_data_size) 
+                    if (10 != m->local_interfaces[i].media_specific_data_size)
                     {
                         // Malformed structure
                         //
@@ -1937,14 +1937,14 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
                     _I1B(&m->local_interfaces[i].media_specific_data.ieee80211.ap_channel_band,                     &p);
                     _I1B(&m->local_interfaces[i].media_specific_data.ieee80211.ap_channel_center_frequency_index_1, &p);
                     _I1B(&m->local_interfaces[i].media_specific_data.ieee80211.ap_channel_center_frequency_index_2, &p);
-                   
+
                 }
                 else if (
                           (MEDIA_TYPE_IEEE_1901_WAVELET == m->local_interfaces[i].media_type) ||
                           (MEDIA_TYPE_IEEE_1901_FFT     == m->local_interfaces[i].media_type)
                         )
                 {
-                    if (7 != m->local_interfaces[i].media_specific_data_size) 
+                    if (7 != m->local_interfaces[i].media_specific_data_size)
                     {
                         // Malformed structure
                         //
@@ -1955,7 +1955,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
                 }
                 else
                 {
-                    if (0 != m->local_interfaces[i].media_specific_data_size) 
+                    if (0 != m->local_interfaces[i].media_specific_data_size)
                     {
                         // Malformed structure
                         //
@@ -2283,7 +2283,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
-            
+
             if (m->result_code != LINK_METRIC_RESULT_CODE_TLV_INVALID_NEIGHBOR)
             {
                 // Malformed structure
@@ -2316,7 +2316,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
-            
+
             if (m->role != IEEE80211_ROLE_REGISTRAR)
             {
                 // Malformed structure
@@ -2349,7 +2349,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
-            
+
             if (
                  (m->freq_band != IEEE80211_FREQUENCY_BAND_2_4_GHZ) &&
                  (m->freq_band != IEEE80211_FREQUENCY_BAND_5_GHZ)   &&
@@ -2386,7 +2386,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
-            
+
             if (m->role != IEEE80211_ROLE_REGISTRAR)
             {
                 // Malformed structure
@@ -2419,7 +2419,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
-            
+
             if (
                  (m->freq_band != IEEE80211_FREQUENCY_BAND_2_4_GHZ) &&
                  (m->freq_band != IEEE80211_FREQUENCY_BAND_5_GHZ)   &&
@@ -2480,7 +2480,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
             {
                 tlv_length += 2 + 1;  //  media type (2 bytes) +
                                       //  number of octets (1 byte)
-                              
+
                 tlv_length += m->media_types[i].media_specific_data_size;
             }
             *len = 1 + 2 + tlv_length;
@@ -2509,7 +2509,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
                 {
                     INT8U aux;
 
-                    if (10 != m->media_types[i].media_specific_data_size) 
+                    if (10 != m->media_types[i].media_specific_data_size)
                     {
                         // Malformed structure
                         //
@@ -2523,14 +2523,14 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
                     _I1B(&m->media_types[i].media_specific_data.ieee80211.ap_channel_band,                     &p);
                     _I1B(&m->media_types[i].media_specific_data.ieee80211.ap_channel_center_frequency_index_1, &p);
                     _I1B(&m->media_types[i].media_specific_data.ieee80211.ap_channel_center_frequency_index_2, &p);
-                   
+
                 }
                 else if (
                           (MEDIA_TYPE_IEEE_1901_WAVELET == m->media_types[i].media_type) ||
                           (MEDIA_TYPE_IEEE_1901_FFT     == m->media_types[i].media_type)
                         )
                 {
-                    if (7 != m->media_types[i].media_specific_data_size) 
+                    if (7 != m->media_types[i].media_specific_data_size)
                     {
                         // Malformed structure
                         //
@@ -2541,7 +2541,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
                 }
                 else
                 {
-                    if (0 != m->media_types[i].media_specific_data_size) 
+                    if (0 != m->media_types[i].media_specific_data_size)
                     {
                         // Malformed structure
                         //
@@ -2846,7 +2846,7 @@ INT8U *forge_1905_TLV_from_structure(INT8U *memory_structure, INT16U *len)
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
-            
+
             if (
                  m->profile != PROFILE_1905_1 &&
                  m->profile != PROFILE_1905_1A
@@ -3564,7 +3564,7 @@ INT8U compare_1905_TLV_structures(INT8U *memory_structure_1, INT8U *memory_struc
                     {
                         return 1;
                     }
-                   
+
                 }
                 else if (
                           (MEDIA_TYPE_IEEE_1901_WAVELET == p1->local_interfaces[i].media_type) ||
@@ -3579,7 +3579,7 @@ INT8U compare_1905_TLV_structures(INT8U *memory_structure_1, INT8U *memory_struc
                     }
                 }
             }
-                 
+
             return 0;
         }
 
@@ -3799,7 +3799,7 @@ INT8U compare_1905_TLV_structures(INT8U *memory_structure_1, INT8U *memory_struc
                                      p1->receiver_link_metrics[i].intf_type                  !=  p2->receiver_link_metrics[i].intf_type                           ||
                                      p1->receiver_link_metrics[i].packet_errors              !=  p2->receiver_link_metrics[i].packet_errors                       ||
                                      p1->receiver_link_metrics[i].packets_received           !=  p2->receiver_link_metrics[i].packets_received                    ||
-                                     p1->receiver_link_metrics[i].rssi                       !=  p2->receiver_link_metrics[i].rssi    
+                                     p1->receiver_link_metrics[i].rssi                       !=  p2->receiver_link_metrics[i].rssi
                    )
                 {
                     return 1;
@@ -3972,7 +3972,7 @@ INT8U compare_1905_TLV_structures(INT8U *memory_structure_1, INT8U *memory_struc
                     {
                         return 1;
                     }
-                   
+
                 }
                 else if (
                           (MEDIA_TYPE_IEEE_1901_WAVELET == p1->media_types[i].media_type) ||
@@ -3987,7 +3987,7 @@ INT8U compare_1905_TLV_structures(INT8U *memory_structure_1, INT8U *memory_struc
                     }
                 }
             }
-                 
+
             return 0;
         }
 
@@ -4549,9 +4549,9 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 {
                     callback(write_function, new_prefix, sizeof(p->local_interfaces[i].media_specific_data.ieee1901.network_identifier), "network_identifier", "0x%02x", p->local_interfaces[i].media_specific_data.ieee1901.network_identifier);
                 }
-                
+
             }
-                 
+
             return;
         }
 
@@ -4580,7 +4580,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                     callback(write_function, new_prefix, sizeof(p->bridging_tuples[i].bridging_tuple_macs[j].mac_address), "mac_address", "0x%02x",  p->bridging_tuples[i].bridging_tuple_macs[j].mac_address);
                 }
             }
-                 
+
             return;
         }
 
@@ -4608,7 +4608,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
 
                 callback(write_function, new_prefix, sizeof(p->non_1905_neighbors[i].mac_address), "mac_address", "0x%02x", p->non_1905_neighbors[i].mac_address);
             }
-                 
+
             return;
         }
 
@@ -4637,7 +4637,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 callback(write_function, new_prefix, sizeof(p->neighbors[i].mac_address), "mac_address", "0x%02x",  p->neighbors[i].mac_address);
                 callback(write_function, new_prefix, sizeof(p->neighbors[i].bridge_flag), "bridge_flag", "%d",     &p->neighbors[i].bridge_flag);
             }
-                 
+
             return;
         }
 
@@ -4687,7 +4687,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 callback(write_function, new_prefix, sizeof(p->transmitter_link_metrics[i].link_availability),          "link_availability",          "%d",      &p->transmitter_link_metrics[i].link_availability);
                 callback(write_function, new_prefix, sizeof(p->transmitter_link_metrics[i].phy_rate),                   "phy_rate",                   "%d",      &p->transmitter_link_metrics[i].phy_rate);
             }
-                 
+
             return;
         }
 
@@ -4721,7 +4721,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 callback(write_function, new_prefix, sizeof(p->receiver_link_metrics[i].packets_received),           "packets_received",           "%d",      &p->receiver_link_metrics[i].packets_received);
                 callback(write_function, new_prefix, sizeof(p->receiver_link_metrics[i].rssi),                       "rssi",                       "%d",      &p->receiver_link_metrics[i].rssi);
             }
-                 
+
             return;
         }
 
@@ -4834,9 +4834,9 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 {
                     callback(write_function, new_prefix, sizeof(p->media_types[i].media_specific_data.ieee1901.network_identifier), "network_identifier", "0x%02x", p->media_types[i].media_specific_data.ieee1901.network_identifier);
                 }
-                
+
             }
-                 
+
             return;
         }
 
@@ -4878,7 +4878,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 callback(write_function, new_prefix, p->local_interfaces[i].generic_phy_description_xml_url_len,                     "generic_phy_description_xml_url",     "%s",       p->local_interfaces[i].generic_phy_description_xml_url);
                 callback(write_function, new_prefix, p->local_interfaces[i].generic_phy_common_data.media_specific_bytes_nr,         "media_specific_bytes",                "0x%02x",   p->local_interfaces[i].generic_phy_common_data.media_specific_bytes);
             }
-                 
+
             return;
         }
 
@@ -4933,7 +4933,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                     callback(write_function, new_prefix, sizeof(p->ipv4_interfaces[i].ipv4[j].ipv4_dhcp_server), "ipv4_dhcp_server", "%ipv4",   p->ipv4_interfaces[i].ipv4[j].ipv4_dhcp_server);
                 }
             }
-                 
+
             return;
         }
 
@@ -4965,7 +4965,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                     callback(write_function, new_prefix, sizeof(p->ipv6_interfaces[i].ipv6[j].ipv6_address_origin), "ipv6_address_origin", "0x%02x",   p->ipv6_interfaces[i].ipv6[j].ipv6_address_origin);
                 }
             }
-                 
+
             return;
         }
 
@@ -4989,7 +4989,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 callback(write_function, new_prefix, sizeof(p->local_interfaces[i].media_specific_bytes_nr), "media_specific_bytes_nr", "%d",      &p->local_interfaces[i].media_specific_bytes_nr);
                 callback(write_function, new_prefix, p->local_interfaces[i].media_specific_bytes_nr,         "media_specific_bytes",    "0x%02x",   p->local_interfaces[i].media_specific_bytes);
             }
-                 
+
             return;
         }
 
@@ -5026,7 +5026,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 callback(write_function, new_prefix, sizeof(p->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes_nr), "media_specific_bytes_nr", "%d",      &p->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes_nr);
                 callback(write_function, new_prefix, p->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes_nr,         "media_specific_bytes",    "0x%02x",   p->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes);
             }
-                 
+
             return;
         }
 
@@ -5048,7 +5048,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 callback(write_function, new_prefix, sizeof(p->power_change_interfaces[i].interface_address),     "interface_address",       "0x%02x",   p->power_change_interfaces[i].interface_address);
                 callback(write_function, new_prefix, sizeof(p->power_change_interfaces[i].requested_power_state), "requested_power_state",   "0x%02x",  &p->power_change_interfaces[i].requested_power_state);
             }
-                 
+
             return;
         }
 
@@ -5070,7 +5070,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                 callback(write_function, new_prefix, sizeof(p->power_change_interfaces[i].interface_address), "interface_address",  "0x%02x",  p->power_change_interfaces[i].interface_address);
                 callback(write_function, new_prefix, sizeof(p->power_change_interfaces[i].result),            "result",             "%d",     &p->power_change_interfaces[i].result);
             }
-                 
+
             return;
         }
 
@@ -5109,7 +5109,7 @@ void visit_1905_TLV_structure(INT8U *memory_structure, void (*callback)(void (*w
                     }
                 }
             }
-                 
+
             return;
         }
 
@@ -5193,7 +5193,7 @@ char *convert_1905_TLV_type_to_string(INT8U tlv_type)
         default:
             return "Unknown";
     }
-   
+
     // This code cannot be reached
     //
     return "";

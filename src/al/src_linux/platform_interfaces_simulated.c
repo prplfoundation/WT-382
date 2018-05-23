@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -117,14 +117,14 @@
 //   uuid                                          = 1111000020100204
 //   interface_type                                = INTERFACE_TYPE_IEEE_802_11G_2_4_GHZ
 //   ieee80211.bssid                               = 00:00:00:00:00:00
-//   ieee80211.ssid                                = 
+//   ieee80211.ssid                                =
 //   ieee80211.role                                = IEEE80211_ROLE_NON_AP_NON_PCP_STA
 //   ieee80211.ap_channel_band                     = 0
 //   ieee80211.ap_channel_center_frequency_index_1 = 0
 //   ieee80211.ap_channel_center_frequency_index_2 = 0
 //   ieee80211.authentication_mode                 = IEEE80211_AUTH_MODE_OPEN | IEEE80211_AUTH_MODE_WPAPSK
 //   ieee80211.encryption_mode                     = IEEE80211_ENCRYPTION_MODE_AES
-//   ieee80211.network_key                         = 
+//   ieee80211.network_key                         =
 //   is_secured                                    = 0
 //   push_button_on_going                          = 0
 //   push_button_new_mac_address                   = 00:00:00:00:00:00
@@ -501,7 +501,7 @@ void _getInterfaceInfoFromSimulatedDevice(__attribute__((unused)) char *interfac
                        m->interface_type_data.other.media_specific.unsupported.bytes     = (INT8U *)realloc(m->interface_type_data.other.media_specific.unsupported.bytes, sizeof(INT8U) * (m->interface_type_data.other.media_specific.unsupported.bytes_nr + 1));
                    }
 
-                   sscanf(p, "%02hhx", &(m->interface_type_data.other.media_specific.unsupported.bytes[m->interface_type_data.other.media_specific.unsupported.bytes_nr])); 
+                   sscanf(p, "%02hhx", &(m->interface_type_data.other.media_specific.unsupported.bytes[m->interface_type_data.other.media_specific.unsupported.bytes_nr]));
 
                    m->interface_type_data.other.media_specific.unsupported.bytes_nr++;
 
@@ -752,7 +752,7 @@ void _getMetricsFromSimulatedDevice(__attribute__((unused)) char *interface_name
 {
     FILE  *fp;
     char  *simulation_filename;
-   
+
     if (NULL == (simulation_filename = index(simulated_extended_params, ':')))
     {
         PLATFORM_PRINTF_DEBUG_ERROR("[PLATFORM] Missing simulation file name in extended params string (%s)\n", simulated_extended_params);
@@ -850,7 +850,7 @@ void _startPushButtonOnSimulatedDevice(__attribute__((unused)) char *interface_n
     fclose(fp2);
 
     rename(simulation_filename_tmp, simulation_filename);
-    
+
     return;
 }
 

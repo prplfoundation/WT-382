@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -71,11 +71,11 @@ struct _dataModel
     INT8U              al_mac_address[6];
     INT8U              local_interfaces_nr;
 
-    struct _localInterface 
+    struct _localInterface
     {
         char               *name;
         INT8U               mac_address[6];
- 
+
         INT8U               neighbors_nr;
 
         struct _neighbor
@@ -91,7 +91,7 @@ struct _dataModel
 
             }                  *remote_interfaces;
 
-        }                  *neighbors; 
+        }                  *neighbors;
 
     }                 *local_interfaces;
 
@@ -102,7 +102,7 @@ struct _dataModel
             INT32U                                      update_timestamp;
 
             struct deviceInformationTypeTLV            *info;
-                      
+
             INT8U                                       bridges_nr;
             struct deviceBridgingCapabilityTLV        **bridges;
 
@@ -799,7 +799,7 @@ INT8U DMupdateDiscoveryTimeStamps(INT8U *receiving_interface_addr, INT8U *al_mac
                     *ellapsed = aux - x->last_bridge_discovery_ts;
                 }
                 else
-                {    
+                {
                     *ellapsed = 0;
                 }
             }
@@ -809,7 +809,7 @@ INT8U DMupdateDiscoveryTimeStamps(INT8U *receiving_interface_addr, INT8U *al_mac
         default:
         {
             PLATFORM_PRINTF_DEBUG_ERROR("Unknown 'timestamp_type' (%d)\n", timestamp_type);
-            
+
             return 0;
         }
     }
@@ -974,7 +974,7 @@ INT8U *DMmacToAlMac(INT8U *mac_address)
 }
 
 INT8U DMupdateNetworkDeviceInfo(INT8U *al_mac_address,
-                                INT8U in_update,  struct deviceInformationTypeTLV             *info, 
+                                INT8U in_update,  struct deviceInformationTypeTLV             *info,
                                 INT8U br_update,  struct deviceBridgingCapabilityTLV         **bridges,           INT8U bridges_nr,
                                 INT8U no_update,  struct non1905NeighborDeviceListTLV        **non1905_neighbors, INT8U non1905_neighbors_nr,
                                 INT8U x1_update,  struct neighborDeviceListTLV               **x1905_neighbors,   INT8U x1905_neighbors_nr,
@@ -1320,7 +1320,7 @@ INT8U DMupdateNetworkDeviceMetrics(INT8U *metrics)
             break;
         }
     }
-    
+
     if (j == data_model.network_devices[i].metrics_with_neighbors_nr)
     {
         // A matching entry was *not* found. Create a new one
@@ -1344,7 +1344,7 @@ INT8U DMupdateNetworkDeviceMetrics(INT8U *metrics)
             data_model.network_devices[i].metrics_with_neighbors[data_model.network_devices[i].metrics_with_neighbors_nr].rx_metrics_timestamp = 0;
             data_model.network_devices[i].metrics_with_neighbors[data_model.network_devices[i].metrics_with_neighbors_nr].rx_metrics           = NULL;
         }
-        else 
+        else
         {
             data_model.network_devices[i].metrics_with_neighbors[data_model.network_devices[i].metrics_with_neighbors_nr].tx_metrics_timestamp = 0;
             data_model.network_devices[i].metrics_with_neighbors[data_model.network_devices[i].metrics_with_neighbors_nr].tx_metrics           = NULL;
@@ -1686,7 +1686,7 @@ INT8U DMrunGarbageCollector(void)
 
             // Next, Remove all references to this node from other node's
             // metrics information entries
-            // 
+            //
             for (j=0; j<data_model.network_devices_nr; j++)
             {
                 INT8U original_neighbors_nr;
@@ -1731,7 +1731,7 @@ INT8U DMrunGarbageCollector(void)
             }
 
             // And also from the local interfaces database
-            // 
+            //
             DMremoveALNeighborFromInterface(al_mac_address, "all");
         }
 

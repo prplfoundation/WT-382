@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -169,7 +169,7 @@ INT8U (*DMgetListOfNeighbors(INT8U *al_mac_addresses_nr))[6];
 //        interfaces = ["eth1"]
 //        links_nr   = 1
 //
-// 
+//
 // The returned pointers, once they are no longer needed, must be freed by the
 // caller with "DMfreeListOfLinksWithNeighbor()". Example:
 //
@@ -332,11 +332,11 @@ INT8U *DMmacToAlMac(INT8U *mac_addresses);
 //            already existing link, in which case it is updated)
 //
 //  TODO: Would it be worth to merge these functions in the future?
-//            
+//
 // Return '0' if there was a problem, '1' otherwise
 //
 INT8U DMupdateNetworkDeviceInfo(INT8U *al_mac_address,
-                                INT8U in_update,  struct deviceInformationTypeTLV             *info, 
+                                INT8U in_update,  struct deviceInformationTypeTLV             *info,
                                 INT8U br_update,  struct deviceBridgingCapabilityTLV         **bridges,           INT8U bridges_nr,
                                 INT8U no_update,  struct non1905NeighborDeviceListTLV        **non1905_neighbors, INT8U non1905_neighbors_nr,
                                 INT8U x1_update,  struct neighborDeviceListTLV               **x1905_neighbors,   INT8U x1905_neighbors_nr,
@@ -402,7 +402,7 @@ void DMdumpNetworkDevices(void (*write_function)(const char *fmt, ...));
 INT8U DMrunGarbageCollector(void);
 
 // Remove a neighbor from a particular local interface.
-// 
+//
 // 'al_mac_address' is the 1905 neighbour MAC address that you want to remove.
 //
 // 'interface_name' is the name of the local interface where you want to remove

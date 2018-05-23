@@ -1,9 +1,9 @@
 /*
  *  Broadband Forum BUS (Broadband User Services) Work Area
- *  
+ *
  *  Copyright (c) 2017, Broadband Forum
  *  Copyright (c) 2017, MaxLinear, Inc. and its affiliates
- *  
+ *
  *  This is draft software, is subject to change, and has not been
  *  approved by members of the Broadband Forum. It is made available to
  *  non-members for internal study purposes only. For such study
@@ -13,7 +13,7 @@
  *  organization for other than study purposes of the original or
  *  modified works is not permitted). For the avoidance of doubt, no
  *  patent rights are conferred by this license.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -26,23 +26,23 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  *  Unless a different date is specified upon issuance of a draft
  *  software release, all member and non-member license rights under the
  *  draft software release will expire on the earliest to occur of (i)
  *  nine months from the date of issuance, (ii) the issuance of another
  *  version of the same software release, or (iii) the adoption of the
  *  draft software release as final.
- *  
+ *
  *  ---
- *  
+ *
  *  This version of this source file is part of the Broadband Forum
  *  WT-382 IEEE 1905.1/1a stack project.
- *  
+ *
  *  Please follow the release link (given below) for further details
  *  of the release, e.g. license validity dates and availability of
  *  more recent draft or final releases.
- *  
+ *
  *  Release name: WT-382_draft1
  *  Release link: https://www.broadband-forum.org/software#WT-382_draft1
  */
@@ -113,7 +113,7 @@ struct PAYLOAD *parse_lldp_PAYLOAD_from_packet(INT8U *packet_stream)
         {
             ret->list_of_TLVs[i] = tlv;
         }
-        
+
         // All LLDP TLVs start with the same two bytes:
         //
         //   |byte #1 |byte #2 |
@@ -134,7 +134,7 @@ struct PAYLOAD *parse_lldp_PAYLOAD_from_packet(INT8U *packet_stream)
 
         p += len;
         i++;
-    } 
+    }
 
     // Before returning, we must make sure that this packet contained all the
     // needed TLVs (ie. "chassis ID", "port ID" and "time to live")
@@ -310,7 +310,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
 }
 
 
-    
+
 void free_lldp_PAYLOAD_structure(struct PAYLOAD *memory_structure)
 {
     INT8U i;
