@@ -50,6 +50,8 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
+#include <1905_cmdus.h>
+
 #include <stdbool.h> // bool
 #include <stddef.h>  // size_t
 
@@ -60,9 +62,6 @@
  * Interface control can be implemented in various ways. The ::interface struct collects the functions needed to
  * get statistics from an interface and to control it.
  */
-
-/** @brief Definition of a MAC address. */
-typedef INT8U mac_address[6];
 
 /** @brief Defintion of a BSS. */
 struct bss_info {
