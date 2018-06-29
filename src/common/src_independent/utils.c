@@ -54,7 +54,7 @@
 // Public API
 ////////////////////////////////////////////////////////////////////////////////
 //
-void print_callback(void (*write_function)(const char *fmt, ...), const char *prefix, INT8U size, const char *name, const char *fmt, void *p)
+void print_callback(void (*write_function)(const char *fmt, ...), const char *prefix, INT8U size, const char *name, const char *fmt, const void *p)
 {
 
        if (0 == PLATFORM_MEMCMP(fmt, "%s", 3))
@@ -85,19 +85,19 @@ void print_callback(void (*write_function)(const char *fmt, ...), const char *pr
 
            if (1 == size)
            {
-               write_function(fmt_line, prefix, name, *(INT8U *)p);
+               write_function(fmt_line, prefix, name, *(const INT8U *)p);
 
                return;
            }
            else if (2 == size)
            {
-               write_function(fmt_line, prefix, name, *(INT16U *)p);
+               write_function(fmt_line, prefix, name, *(const INT16U *)p);
 
                return;
            }
            else if (4 == size)
            {
-               write_function(fmt_line, prefix, name, *(INT32U *)p);
+               write_function(fmt_line, prefix, name, *(const INT32U *)p);
 
                return;
            }
@@ -123,7 +123,7 @@ void print_callback(void (*write_function)(const char *fmt, ...), const char *pr
            {
                // Write one element to aux2
                //
-               PLATFORM_SNPRINTF(aux2, AUX2_SIZE-1, fmt, *((INT8U *)p+i));
+               PLATFORM_SNPRINTF(aux2, AUX2_SIZE-1, fmt, *((const INT8U *)p+i));
 
                // Obtain its length
                //
