@@ -13,6 +13,17 @@
 #include <unistd.h>
 #include <utime.h>             // utime()
 
+static struct supportedServiceTLV multiApAgentService = {
+    .tlv_type          = TLV_TYPE_SUPPORTED_SERVICE,
+    .supported_service_nr = 1,
+    .supported_service = (enum serviceType[]){ SERVICE_MULTI_AP_AGENT },
+};
+
+static struct supportedServiceTLV multiApControllerService = {
+    .tlv_type          = TLV_TYPE_SUPPORTED_SERVICE,
+    .supported_service_nr = 2,
+    .supported_service = (enum serviceType[]){ SERVICE_MULTI_AP_CONTROLLER, SERVICE_MULTI_AP_AGENT },
+};
 
 static struct CMDU aletest_send_cmdu_autoconfig_search = {
     .message_version = CMDU_MESSAGE_VERSION_1905_1_2013,
@@ -39,6 +50,7 @@ static struct CMDU aletest_send_cmdu_autoconfig_search = {
                     .freq_band         = IEEE80211_FREQUENCY_BAND_2_4_GHZ,
                 }
             },
+            (INT8U *)&multiApAgentService,
             NULL,
         },
 };
@@ -62,6 +74,7 @@ static struct CMDU aletest_expect_cmdu_autoconfig_response = {
                     .freq_band         = IEEE80211_FREQUENCY_BAND_2_4_GHZ,
                 }
             },
+            (INT8U *)&multiApControllerService,
             NULL,
         },
 };
