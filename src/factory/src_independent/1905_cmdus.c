@@ -53,6 +53,7 @@
 #include "1905_tlvs.h"
 #include "1905_l2.h"
 #include "packet_tools.h"
+#include "tlv.h"
 
 /** @brief Specification of the constraint of how many times a something may occur. */
 enum count_required {
@@ -301,10 +302,10 @@ static INT8U _relayed_CMDU[] = \
 #define CHECK_CMDU_RX_RULES (2)
 static INT8U _check_CMDU_rules(const struct CMDU *p, INT8U rules_type)
 {
-    INT8U  i;
+    unsigned  i;
     INT8U  structure_has_been_modified;
-    INT8U  counter[TLV_TYPE_LAST + 1];
-    INT8U  tlvs_to_remove[TLV_TYPE_LAST + 1];
+    INT8U  counter[TLV_TYPE_NUM];
+    INT8U  tlvs_to_remove[TLV_TYPE_NUM];
 
     if ((NULL == p) || (NULL == p->list_of_TLVs))
     {
@@ -317,7 +318,7 @@ static INT8U _check_CMDU_rules(const struct CMDU *p, INT8U rules_type)
     // First of all, count how many times each type of TLV message appears in
     // the structure. We will use this information later
     //
-    for (i=0; i<=TLV_TYPE_LAST; i++)
+    for (i=0; i<TLV_TYPE_NUM; i++)
     {
         counter[i]        = 0;
         tlvs_to_remove[i] = 0;
@@ -330,7 +331,7 @@ static INT8U _check_CMDU_rules(const struct CMDU *p, INT8U rules_type)
         i++;
     }
 
-    for (i=0; i<=TLV_TYPE_LAST; i++)
+    for (i=0; i<TLV_TYPE_NUM; i++)
     {
         enum count_required required_count = count_required_zero;
 
