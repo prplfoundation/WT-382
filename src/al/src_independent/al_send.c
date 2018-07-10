@@ -1537,6 +1537,21 @@ INT8U _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
 // structure, fill it with all the pertaining information retrieved from the
 // local device.
 //
+static void _obtainLocalSupportedServicesTLV(struct supportedServiceTLV *supported_service_tlv)
+{
+    /** @todo Controller is optional */
+    enum serviceType  *supported_services = PLATFORM_MALLOC(2*sizeof(enum serviceType));
+    supported_services[0] = SERVICE_MULTI_AP_CONTROLLER;
+    supported_services[1] = SERVICE_MULTI_AP_AGENT;
+    supported_service_tlv->tlv_type = TLV_TYPE_SUPPORTED_SERVICE;
+    supported_service_tlv->supported_service_nr = ARRAY_SIZE(supported_services);
+    supported_service_tlv->supported_service = supported_services;
+}
+
+// Given a pointer to a preallocated "genericPhyDeviceInformationTypeTLV"
+// structure, fill it with all the pertaining information retrieved from the
+// local device.
+//
 void _obtainLocalGenericPhyTLV(struct genericPhyDeviceInformationTypeTLV *generic_phy)
 {
     INT8U  al_mac_address[6];
@@ -2004,6 +2019,7 @@ void _updateLocalDeviceData()
     struct neighborDeviceListTLV              **x1905_neighbors;   INT8U x1905_neighbors_nr;
     struct powerOffInterfaceTLV               **power_off;
     struct l2NeighborDeviceTLV                **l2_neighbors;
+    struct supportedServiceTLV                 *supported_service_tlv;
     struct genericPhyDeviceInformationTypeTLV  *generic_phy;
     struct x1905ProfileVersionTLV              *profile;
     struct deviceIdentificationTypeTLV         *identification;
@@ -2029,6 +2045,7 @@ void _updateLocalDeviceData()
     power_off[0]    = (struct powerOffInterfaceTLV*)              PLATFORM_MALLOC(sizeof(struct powerOffInterfaceTLV));
     l2_neighbors    = (struct l2NeighborDeviceTLV**)              PLATFORM_MALLOC(sizeof(struct l2NeighborDeviceTLV*));
     l2_neighbors[0] = (struct l2NeighborDeviceTLV*)               PLATFORM_MALLOC(sizeof(struct l2NeighborDeviceTLV));
+    supported_service_tlv = (struct supportedServiceTLV*)         PLATFORM_MALLOC(sizeof(struct supportedServiceTLV));
     generic_phy     = (struct genericPhyDeviceInformationTypeTLV*)PLATFORM_MALLOC(sizeof(struct genericPhyDeviceInformationTypeTLV));
     profile         = (struct x1905ProfileVersionTLV*)            PLATFORM_MALLOC(sizeof(struct x1905ProfileVersionTLV));
     identification  = (struct deviceIdentificationTypeTLV*)       PLATFORM_MALLOC(sizeof(struct deviceIdentificationTypeTLV));
@@ -2041,6 +2058,7 @@ void _updateLocalDeviceData()
     _obtainLocalNeighborsTLV            (&non1905_neighbors, &non1905_neighbors_nr, &x1905_neighbors, &x1905_neighbors_nr);
     _obtainLocalPowerOffInterfacesTLV   (power_off[0]);
     _obtainLocalL2NeighborsTLV          (l2_neighbors[0]);
+    _obtainLocalSupportedServicesTLV    (supported_service_tlv);
     _obtainLocalGenericPhyTLV           (generic_phy);
     _obtainLocalProfileTLV              (profile);
     _obtainLocalDeviceIdentificationTLV (identification);
@@ -2069,6 +2087,7 @@ void _updateLocalDeviceData()
                               1, x1905_neighbors,   x1905_neighbors_nr,
                               1, power_off,         1,
                               1, l2_neighbors,      1,
+                              1, supported_service_tlv,
                               1, generic_phy,
                               1, profile,
                               1, identification,
@@ -2346,8 +2365,6 @@ INT8U send1905TopologyResponsePacket(char *interface_name, INT16U mid, INT8U* de
     struct powerOffInterfaceTLV            power_off;
     struct l2NeighborDeviceTLV             l2_neighbors;
     struct supportedServiceTLV             supported_service_tlv;
-    /** @todo Controller is optional */
-    enum serviceType                       supported_services[] = {SERVICE_MULTI_AP_CONTROLLER, SERVICE_MULTI_AP_AGENT};
 
     INT8U                                 non_1905_neighbors_nr;
     INT8U                                 neighbors_nr;
@@ -2394,12 +2411,7 @@ INT8U send1905TopologyResponsePacket(char *interface_name, INT16U mid, INT8U* de
         total_tlvs++;                    // L2 neighbor device TLV
     }
 
-    // Fill the supported service TLV.
-    //
-    supported_service_tlv.tlv_type = TLV_TYPE_SUPPORTED_SERVICE;
-    /** @todo Controller is optional */
-    supported_service_tlv.supported_service_nr = ARRAY_SIZE(supported_services);
-    supported_service_tlv.supported_service = supported_services;
+    _obtainLocalSupportedServicesTLV(&supported_service_tlv);
     total_tlvs++;
 
     response_message.message_version = CMDU_MESSAGE_VERSION_1905_1_2013;
@@ -2464,6 +2476,7 @@ INT8U send1905TopologyResponsePacket(char *interface_name, INT16U mid, INT8U* de
     _freeLocalNeighborsTLV           (&non_1905_neighbors, &non_1905_neighbors_nr, &neighbors, &neighbors_nr);
     _freeLocalPowerOffInterfacesTLV  (&power_off);
     _freeLocalL2NeighborsTLV         (&l2_neighbors);
+    /** @todo free supported services */
 
     PLATFORM_FREE(response_message.list_of_TLVs);
 
@@ -3097,8 +3110,6 @@ INT8U send1905APAutoconfigurationSearchPacket(char *interface_name, INT16U mid, 
     struct searchedRoleTLV        searched_role_tlv;
     struct autoconfigFreqBandTLV  ac_freq_band_tlv;
     struct supportedServiceTLV    supported_service_tlv;
-    /* Search packet is only sent if this is not a controller. */
-    enum serviceType              supported_services[] = {SERVICE_MULTI_AP_AGENT};
     struct supportedServiceTLV    searched_service_tlv;
     /* Search packet is only sent if this is not a controller. */
     enum serviceType              searched_services[] = {SERVICE_MULTI_AP_CONTROLLER};
@@ -3119,11 +3130,7 @@ INT8U send1905APAutoconfigurationSearchPacket(char *interface_name, INT16U mid, 
     ac_freq_band_tlv.tlv_type  = TLV_TYPE_AUTOCONFIG_FREQ_BAND;
     ac_freq_band_tlv.freq_band = freq_band;
 
-    // Fill the supported service TLV.
-    //
-    supported_service_tlv.tlv_type = TLV_TYPE_SUPPORTED_SERVICE;
-    supported_service_tlv.supported_service_nr = ARRAY_SIZE(supported_services);
-    supported_service_tlv.supported_service = supported_services;
+    _obtainLocalSupportedServicesTLV(&supported_service_tlv);
 
     // Fill the searched service TLV.
     //
@@ -3158,6 +3165,7 @@ INT8U send1905APAutoconfigurationSearchPacket(char *interface_name, INT16U mid, 
     // Free memory
     //
     _freeLocalAlMacAddressTLV(&al_mac_addr_tlv);
+    /** @todo free supported services */
 
     PLATFORM_FREE(search_message.list_of_TLVs);
 
@@ -3177,8 +3185,6 @@ INT8U send1905APAutoconfigurationResponsePacket(char *interface_name, INT16U mid
     struct supportedRoleTLV      supported_role_tlv;
     struct supportedFreqBandTLV  supported_freq_band_tlv;
     struct supportedServiceTLV   supported_service_tlv;
-    /* Response packet is only sent if this is a controller, and we are always an agent as well, so include both. */
-    enum serviceType             supported_services[] = {SERVICE_MULTI_AP_CONTROLLER, SERVICE_MULTI_AP_AGENT};
 
     PLATFORM_PRINTF_DEBUG_INFO("--> CMDU_TYPE_AP_AUTOCONFIGURATION_RESPONSE (%s)\n", interface_name);
 
@@ -3192,11 +3198,7 @@ INT8U send1905APAutoconfigurationResponsePacket(char *interface_name, INT16U mid
     supported_freq_band_tlv.tlv_type  = TLV_TYPE_SUPPORTED_FREQ_BAND;
     supported_freq_band_tlv.freq_band = freq_band;
 
-    // Fill the supported service TLV.
-    //
-    supported_service_tlv.tlv_type = TLV_TYPE_SUPPORTED_SERVICE;
-    supported_service_tlv.supported_service_nr = ARRAY_SIZE(supported_services);
-    supported_service_tlv.supported_service = supported_services;
+    _obtainLocalSupportedServicesTLV(&supported_service_tlv);
 
     // Build the CMDU
     //
@@ -3229,6 +3231,7 @@ INT8U send1905APAutoconfigurationResponsePacket(char *interface_name, INT16U mid
 
     // Free memory
     //
+    /** @todo free supported services */
     PLATFORM_FREE(response_message.list_of_TLVs);
 
     return ret;
