@@ -54,6 +54,8 @@
 #include "bbf_tlvs.h"
 #include "bbf_send.h"     // CBKUpdateBBFExtendedInfo
 
+#include <string.h> // memcmp(), memcpy(), ...
+
 extern INT8U   bbf_query; // from bbf_send.c
 
 
@@ -114,7 +116,7 @@ INT8U CBKprocess1905BBFExtensions(struct CMDU *memory_structure)
 
                     // Process only embedded BBF TLVs
                     //
-                    if (0 == PLATFORM_MEMCMP(vs_tlv->vendorOUI, BBF_OUI, 3))
+                    if (0 == memcmp(vs_tlv->vendorOUI, BBF_OUI, 3))
                     {
                         tlv = parse_bbf_TLV_from_packet(vs_tlv->m);
 
@@ -175,7 +177,7 @@ INT8U CBKprocess1905BBFExtensions(struct CMDU *memory_structure)
 
                   // Process only embedded BBF TLVs
                   //
-                  if (0 == PLATFORM_MEMCMP(vs_tlv->vendorOUI, BBF_OUI, 3))
+                  if (0 == memcmp(vs_tlv->vendorOUI, BBF_OUI, 3))
                   {
                       bbf_tlv = parse_bbf_TLV_from_packet(vs_tlv->m);
 

@@ -57,6 +57,8 @@
 #include "bbf_tlvs.h"
 #include "bbf_tlv_test_vectors.h"
 
+#include <string.h> // memcmp(), memcpy(), ...
+
 INT8U _check(const char *test_description, INT8U mode, INT8U *input, INT8U *expected_output, INT16U expected_output_len)
 {
     INT8U  result;
@@ -78,7 +80,7 @@ INT8U _check(const char *test_description, INT8U mode, INT8U *input, INT8U *expe
     if (mode == CHECK_TRUE)
     {
         // Compare the packets
-        if ((expected_output_len == real_output_len) && (0 == PLATFORM_MEMCMP(expected_output, real_output, real_output_len)))
+        if ((expected_output_len == real_output_len) && (0 == memcmp(expected_output, real_output, real_output_len)))
         {
             result = 0;
             PLATFORM_PRINTF("%-100s: OK\n", test_description);
@@ -108,7 +110,7 @@ INT8U _check(const char *test_description, INT8U mode, INT8U *input, INT8U *expe
     }
     else
     {
-        if ((expected_output_len == real_output_len) && (0 == PLATFORM_MEMCMP(expected_output, real_output, real_output_len)))
+        if ((expected_output_len == real_output_len) && (0 == memcmp(expected_output, real_output, real_output_len)))
         {
             result = 1;
             PLATFORM_PRINTF("%-100s: KO !!!\n", test_description);
