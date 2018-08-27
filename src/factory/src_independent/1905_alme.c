@@ -54,6 +54,7 @@
 #include "packet_tools.h"
 
 #include <string.h> // memcmp()
+#include <stdio.h>  // snprintf
 
 ////////////////////////////////////////////////////////////////////////////////
 // Custom (non-standarized) packet structure for standard ALME primitives:
@@ -2047,7 +2048,7 @@ void visit_1905_ALME_structure(INT8U *memory_structure, visitor_callback callbac
             {
                 char new_prefix[MAX_PREFIX];
 
-                PLATFORM_SNPRINTF(new_prefix, MAX_PREFIX-1, "%sinterface_descriptors[%d]->", prefix, i);
+                snprintf(new_prefix, MAX_PREFIX-1, "%sinterface_descriptors[%d]->", prefix, i);
                 new_prefix[MAX_PREFIX-1] = 0x0;
 
                 callback(write_function, new_prefix, sizeof(p->interface_descriptors[i].interface_address),       "interface_address",        "0x%02x", p->interface_descriptors[i].interface_address);
@@ -2057,7 +2058,7 @@ void visit_1905_ALME_structure(INT8U *memory_structure, visitor_callback callbac
 
                 for (j=0; j < p->interface_descriptors[i].vendor_specific_info_nr; j++)
                 {
-                    PLATFORM_SNPRINTF(new_prefix, MAX_PREFIX-1, "%sinterface_descriptors[%d]->vendor_specific_info[%d]->", prefix, i, j);
+                    snprintf(new_prefix, MAX_PREFIX-1, "%sinterface_descriptors[%d]->vendor_specific_info[%d]->", prefix, i, j);
                     new_prefix[MAX_PREFIX-1] = 0x0;
 
                     callback(write_function, new_prefix, sizeof(p->interface_descriptors[i].vendor_specific_info[j].ie_type),      "ie_type",      "%d",     &p->interface_descriptors[i].vendor_specific_info[j].ie_type);
@@ -2140,7 +2141,7 @@ void visit_1905_ALME_structure(INT8U *memory_structure, visitor_callback callbac
             {
                 char new_prefix[MAX_PREFIX];
 
-                PLATFORM_SNPRINTF(new_prefix, MAX_PREFIX-1, "%saddresses[%d]->", prefix, i);
+                snprintf(new_prefix, MAX_PREFIX-1, "%saddresses[%d]->", prefix, i);
                 new_prefix[MAX_PREFIX-1] = 0x0;
 
                 callback(write_function, new_prefix, sizeof(p->addresses[i]), "", "0x%02x",  p->addresses[i]);
@@ -2181,14 +2182,14 @@ void visit_1905_ALME_structure(INT8U *memory_structure, visitor_callback callbac
             {
                 char new_prefix[MAX_PREFIX];
 
-                PLATFORM_SNPRINTF(new_prefix, MAX_PREFIX-1, "%srules[%d]->", prefix, i);
+                snprintf(new_prefix, MAX_PREFIX-1, "%srules[%d]->", prefix, i);
                 new_prefix[MAX_PREFIX-1] = 0x0;
 
                 callback(write_function, new_prefix, sizeof(p->rules[i].addresses_nr), "addresses_nr",  "%d",  &p->rules[i].addresses_nr);
 
                 for (j=0; j < p->rules[i].addresses_nr; j++)
                 {
-                    PLATFORM_SNPRINTF(new_prefix, MAX_PREFIX-1, "%srules[%d]->addresses[%d]", prefix, i, j);
+                    snprintf(new_prefix, MAX_PREFIX-1, "%srules[%d]->addresses[%d]", prefix, i, j);
                     new_prefix[MAX_PREFIX-1] = 0x0;
 
                     callback(write_function, new_prefix, sizeof(p->rules[i].addresses[j]), "", "0x%02x",  p->rules[i].addresses[j]);
@@ -2214,7 +2215,7 @@ void visit_1905_ALME_structure(INT8U *memory_structure, visitor_callback callbac
             {
                 char new_prefix[MAX_PREFIX];
 
-                PLATFORM_SNPRINTF(new_prefix, MAX_PREFIX-1, "%saddresses[%d]->", prefix, i);
+                snprintf(new_prefix, MAX_PREFIX-1, "%saddresses[%d]->", prefix, i);
                 new_prefix[MAX_PREFIX-1] = 0x0;
 
                 callback(write_function, new_prefix, sizeof(p->addresses[i]), "", "0x%02x",  p->addresses[i]);
@@ -2282,19 +2283,19 @@ void visit_1905_ALME_structure(INT8U *memory_structure, visitor_callback callbac
             {
                 char new_prefix[MAX_PREFIX];
 
-                PLATFORM_SNPRINTF(new_prefix, MAX_PREFIX-1, "%smetrics[%d]->", prefix, i);
+                snprintf(new_prefix, MAX_PREFIX-1, "%smetrics[%d]->", prefix, i);
                 new_prefix[MAX_PREFIX-1] = 0x0;
 
                 callback(write_function, new_prefix, sizeof(p->metrics[i].neighbor_dev_address), "neighbor_dev_address",        "0x%02x",   p->metrics[i].neighbor_dev_address);
                 callback(write_function, new_prefix, sizeof(p->metrics[i].local_intf_address),   "local_intf_address",          "0x%02x",   p->metrics[i].local_intf_address);
                 callback(write_function, new_prefix, sizeof(p->metrics[i].bridge_flag)   ,       "bridge_flag",                 "%d",      &p->metrics[i].bridge_flag);
 
-                PLATFORM_SNPRINTF(new_prefix, MAX_PREFIX-1, "%smetrics[%d]->tx_metric->", prefix, i);
+                snprintf(new_prefix, MAX_PREFIX-1, "%smetrics[%d]->tx_metric->", prefix, i);
                 new_prefix[MAX_PREFIX-1] = 0x0;
 
                 visit_1905_TLV_structure((INT8U *)p->metrics[i].tx_metric, callback, write_function, new_prefix);
 
-                PLATFORM_SNPRINTF(new_prefix, MAX_PREFIX-1, "%smetrics[%d]->rx_metric->", prefix, i);
+                snprintf(new_prefix, MAX_PREFIX-1, "%smetrics[%d]->rx_metric->", prefix, i);
                 new_prefix[MAX_PREFIX-1] = 0x0;
 
                 visit_1905_TLV_structure((INT8U *)p->metrics[i].rx_metric, callback, write_function, new_prefix);
