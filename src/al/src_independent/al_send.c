@@ -104,7 +104,7 @@ void _obtainLocalDeviceInfoTLV(struct deviceInformationTypeTLV *device_info)
     INT8U    interfaces_names_nr;
     INT8U    i;
 
-    PLATFORM_MEMCPY(al_mac_address, DMalMacGet(), 6);
+    memcpy(al_mac_address, DMalMacGet(), 6);
 
     device_info->tlv_type            = TLV_TYPE_DEVICE_INFORMATION_TYPE;
     device_info->al_mac_address[0]   = al_mac_address[0];
@@ -258,7 +258,7 @@ void _obtainLocalBridgingCapabilitiesTLV(struct deviceBridgingCapabilityTLV *bri
                 {
                     INT8U mac_address[6];
 
-                    PLATFORM_MEMCPY(mac_address, DMinterfaceNameToMac(br[i].bridged_interfaces[j]), 6);
+                    memcpy(mac_address, DMinterfaceNameToMac(br[i].bridged_interfaces[j]), 6);
                     bridge_info->bridging_tuples[i].bridging_tuple_macs[j].mac_address[0] = mac_address[0];
                     bridge_info->bridging_tuples[i].bridging_tuple_macs[j].mac_address[1] = mac_address[1];
                     bridge_info->bridging_tuples[i].bridging_tuple_macs[j].mac_address[2] = mac_address[2];
@@ -696,7 +696,7 @@ void _obtainLocalPowerOffInterfacesTLV(struct powerOffInterfaceTLV *power_off)
             power_off->power_off_interfaces = (struct _powerOffInterfaceEntries *)PLATFORM_REALLOC(power_off->power_off_interfaces, sizeof(struct _powerOffInterfaceEntries) * (power_off->power_off_interfaces_nr + 1));
         }
 
-        PLATFORM_MEMCPY(power_off->power_off_interfaces[power_off->power_off_interfaces_nr].interface_address,   x->mac_address, 6);
+        memcpy(power_off->power_off_interfaces[power_off->power_off_interfaces_nr].interface_address,   x->mac_address, 6);
 
 
         // "Translate" from "INTERFACE_TYPE_*" to "MEDIA_TYPE_*"
@@ -896,14 +896,14 @@ void _obtainLocalL2NeighborsTLV(struct l2NeighborDeviceTLV *l2_neighbors)
             l2_neighbors->local_interfaces = (struct _l2InterfacesEntries *)PLATFORM_REALLOC(l2_neighbors->local_interfaces, sizeof(struct _l2InterfacesEntries) * (l2_neighbors->local_interfaces_nr + 1));
         }
 
-        PLATFORM_MEMCPY(l2_neighbors->local_interfaces[l2_neighbors->local_interfaces_nr].local_mac_address, x->mac_address, 6);
+        memcpy(l2_neighbors->local_interfaces[l2_neighbors->local_interfaces_nr].local_mac_address, x->mac_address, 6);
 
         l2_neighbors->local_interfaces[l2_neighbors->local_interfaces_nr].l2_neighbors_nr = x->neighbor_mac_addresses_nr;
         l2_neighbors->local_interfaces[l2_neighbors->local_interfaces_nr].l2_neighbors    = (struct _l2NeighborsEntries *)PLATFORM_MALLOC(sizeof(struct _l2NeighborsEntries) * x->neighbor_mac_addresses_nr);
 
         for (j=0; j<x->neighbor_mac_addresses_nr; j++)
         {
-            PLATFORM_MEMCPY(l2_neighbors->local_interfaces[l2_neighbors->local_interfaces_nr].l2_neighbors[j].l2_neighbor_mac_address, x->neighbor_mac_addresses[j], 6);
+            memcpy(l2_neighbors->local_interfaces[l2_neighbors->local_interfaces_nr].l2_neighbors[j].l2_neighbor_mac_address, x->neighbor_mac_addresses[j], 6);
 
             // TODO: Modify "struct interfaceInfo" in "platform_interfaces.h"
             // to provide "behind MACs" information.
@@ -962,7 +962,7 @@ void _obtainLocalAlMacAddressTLV(struct alMacAddressTypeTLV *al_mac_addr)
 {
     INT8U  al_mac_address[6];
 
-    PLATFORM_MEMCPY(al_mac_address, DMalMacGet(), 6);
+    memcpy(al_mac_address, DMalMacGet(), 6);
 
     al_mac_addr->tlv_type          = TLV_TYPE_AL_MAC_ADDRESS_TYPE;
     al_mac_addr->al_mac_address[0] = al_mac_address[0];
@@ -1111,8 +1111,8 @@ void _obtainLocalMetricsTLVs(INT8U destination, INT8U *specific_neighbor, INT8U 
                 tx_tlvs[total_tlvs] = (struct transmitterLinkMetricTLV *)PLATFORM_MALLOC(sizeof(struct transmitterLinkMetricTLV));
 
                                 tx_tlvs[total_tlvs]->tlv_type                    = TLV_TYPE_TRANSMITTER_LINK_METRIC;
-                PLATFORM_MEMCPY(tx_tlvs[total_tlvs]->local_al_address,             DMalMacGet(),                       6);
-                PLATFORM_MEMCPY(tx_tlvs[total_tlvs]->neighbor_al_address,          al_mac_addresses[i],                6);
+                memcpy(tx_tlvs[total_tlvs]->local_al_address,             DMalMacGet(),                       6);
+                memcpy(tx_tlvs[total_tlvs]->neighbor_al_address,          al_mac_addresses[i],                6);
                                 tx_tlvs[total_tlvs]->transmitter_link_metrics_nr = links_nr;
                                 tx_tlvs[total_tlvs]->transmitter_link_metrics    = PLATFORM_MALLOC(sizeof(struct _transmitterLinkMetricEntries) * links_nr);
             }
@@ -1121,8 +1121,8 @@ void _obtainLocalMetricsTLVs(INT8U destination, INT8U *specific_neighbor, INT8U 
                 rx_tlvs[total_tlvs] = (struct receiverLinkMetricTLV *)PLATFORM_MALLOC(sizeof(struct receiverLinkMetricTLV));
 
                                 rx_tlvs[total_tlvs]->tlv_type                    = TLV_TYPE_RECEIVER_LINK_METRIC;
-                PLATFORM_MEMCPY(rx_tlvs[total_tlvs]->local_al_address,             DMalMacGet(),                       6);
-                PLATFORM_MEMCPY(rx_tlvs[total_tlvs]->neighbor_al_address,          al_mac_addresses[i],                6);
+                memcpy(rx_tlvs[total_tlvs]->local_al_address,             DMalMacGet(),                       6);
+                memcpy(rx_tlvs[total_tlvs]->neighbor_al_address,          al_mac_addresses[i],                6);
                                 rx_tlvs[total_tlvs]->receiver_link_metrics_nr    = links_nr;
                                 rx_tlvs[total_tlvs]->receiver_link_metrics       = PLATFORM_MALLOC(sizeof(struct _receiverLinkMetricEntries) * links_nr);
             }
@@ -1139,8 +1139,8 @@ void _obtainLocalMetricsTLVs(INT8U destination, INT8U *specific_neighbor, INT8U 
 
                 if (NULL != tx_tlvs)
                 {
-                    PLATFORM_MEMCPY(tx_tlvs[total_tlvs]->transmitter_link_metrics[j].local_interface_address,    DMinterfaceNameToMac(local_interfaces[j]), 6);
-                    PLATFORM_MEMCPY(tx_tlvs[total_tlvs]->transmitter_link_metrics[j].neighbor_interface_address, remote_macs[j],                            6);
+                    memcpy(tx_tlvs[total_tlvs]->transmitter_link_metrics[j].local_interface_address,    DMinterfaceNameToMac(local_interfaces[j]), 6);
+                    memcpy(tx_tlvs[total_tlvs]->transmitter_link_metrics[j].neighbor_interface_address, remote_macs[j],                            6);
 
                     if (NULL == f)
                     {
@@ -1172,8 +1172,8 @@ void _obtainLocalMetricsTLVs(INT8U destination, INT8U *specific_neighbor, INT8U 
 
                 if (NULL != rx_tlvs)
                 {
-                    PLATFORM_MEMCPY(rx_tlvs[total_tlvs]->receiver_link_metrics[j].local_interface_address,    DMinterfaceNameToMac(local_interfaces[j]), 6);
-                    PLATFORM_MEMCPY(rx_tlvs[total_tlvs]->receiver_link_metrics[j].neighbor_interface_address, remote_macs[j],                            6);
+                    memcpy(rx_tlvs[total_tlvs]->receiver_link_metrics[j].local_interface_address,    DMinterfaceNameToMac(local_interfaces[j]), 6);
+                    memcpy(rx_tlvs[total_tlvs]->receiver_link_metrics[j].neighbor_interface_address, remote_macs[j],                            6);
 
                     if (NULL == f)
                     {
@@ -1389,11 +1389,11 @@ INT8U _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
                             new_tx_tlvs[0] = (struct transmitterLinkMetricTLV  *)PLATFORM_MALLOC(sizeof(struct transmitterLinkMetricTLV));
 
                                             new_tx_tlvs[0]->tlv_type                    = tx_tlvs[i]->tlv_type;
-                            PLATFORM_MEMCPY(new_tx_tlvs[0]->local_al_address,             tx_tlvs[i]->local_al_address,    6);
-                            PLATFORM_MEMCPY(new_tx_tlvs[0]->neighbor_al_address,          tx_tlvs[i]->neighbor_al_address, 6);
+                            memcpy(new_tx_tlvs[0]->local_al_address,             tx_tlvs[i]->local_al_address,    6);
+                            memcpy(new_tx_tlvs[0]->neighbor_al_address,          tx_tlvs[i]->neighbor_al_address, 6);
                                             new_tx_tlvs[0]->transmitter_link_metrics_nr = 1;
                                             new_tx_tlvs[0]->transmitter_link_metrics    = (struct _transmitterLinkMetricEntries *)PLATFORM_MALLOC(sizeof(struct _transmitterLinkMetricEntries));
-                            PLATFORM_MEMCPY(new_tx_tlvs[0]->transmitter_link_metrics,     &(tx_tlvs[i]->transmitter_link_metrics[k]), sizeof(struct _transmitterLinkMetricEntries));
+                            memcpy(new_tx_tlvs[0]->transmitter_link_metrics,     &(tx_tlvs[i]->transmitter_link_metrics[k]), sizeof(struct _transmitterLinkMetricEntries));
 
                             new_total_tlvs_tx = 1;
                         }
@@ -1412,7 +1412,7 @@ INT8U _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
                                 // metrics info.
                                 //
                                                  new_tx_tlvs[new_total_tlvs_tx-1]->transmitter_link_metrics                                                                 = (struct _transmitterLinkMetricEntries *)PLATFORM_REALLOC(new_tx_tlvs[new_total_tlvs_tx-1]->transmitter_link_metrics, sizeof(struct _transmitterLinkMetricEntries)*(new_tx_tlvs[new_total_tlvs_tx-1]->transmitter_link_metrics_nr + 1));
-                                PLATFORM_MEMCPY(&new_tx_tlvs[new_total_tlvs_tx-1]->transmitter_link_metrics[new_tx_tlvs[new_total_tlvs_tx-1]->transmitter_link_metrics_nr],   &(tx_tlvs[i]->transmitter_link_metrics[k]), sizeof(struct _transmitterLinkMetricEntries));
+                                memcpy(&new_tx_tlvs[new_total_tlvs_tx-1]->transmitter_link_metrics[new_tx_tlvs[new_total_tlvs_tx-1]->transmitter_link_metrics_nr],   &(tx_tlvs[i]->transmitter_link_metrics[k]), sizeof(struct _transmitterLinkMetricEntries));
                                                  new_tx_tlvs[new_total_tlvs_tx-1]->transmitter_link_metrics_nr++;
                             }
                             else
@@ -1423,11 +1423,11 @@ INT8U _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
                                 new_tx_tlvs[new_total_tlvs_tx] = (struct transmitterLinkMetricTLV  *)PLATFORM_MALLOC(sizeof(struct transmitterLinkMetricTLV));
 
                                                 new_tx_tlvs[new_total_tlvs_tx]->tlv_type                    = tx_tlvs[i]->tlv_type;
-                                PLATFORM_MEMCPY(new_tx_tlvs[new_total_tlvs_tx]->local_al_address,             tx_tlvs[i]->local_al_address,    6);
-                                PLATFORM_MEMCPY(new_tx_tlvs[new_total_tlvs_tx]->neighbor_al_address,          tx_tlvs[i]->neighbor_al_address, 6);
+                                memcpy(new_tx_tlvs[new_total_tlvs_tx]->local_al_address,             tx_tlvs[i]->local_al_address,    6);
+                                memcpy(new_tx_tlvs[new_total_tlvs_tx]->neighbor_al_address,          tx_tlvs[i]->neighbor_al_address, 6);
                                                 new_tx_tlvs[new_total_tlvs_tx]->transmitter_link_metrics_nr = 1;
                                                 new_tx_tlvs[new_total_tlvs_tx]->transmitter_link_metrics    = (struct _transmitterLinkMetricEntries *)PLATFORM_MALLOC(sizeof(struct _transmitterLinkMetricEntries));
-                                PLATFORM_MEMCPY(new_tx_tlvs[new_total_tlvs_tx]->transmitter_link_metrics,     &tx_tlvs[i]->transmitter_link_metrics[k], sizeof(struct _transmitterLinkMetricEntries));
+                                memcpy(new_tx_tlvs[new_total_tlvs_tx]->transmitter_link_metrics,     &tx_tlvs[i]->transmitter_link_metrics[k], sizeof(struct _transmitterLinkMetricEntries));
 
                                 new_total_tlvs_tx++;
                             }
@@ -1463,11 +1463,11 @@ INT8U _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
                             new_rx_tlvs[0] = (struct receiverLinkMetricTLV  *)PLATFORM_MALLOC(sizeof(struct receiverLinkMetricTLV));
 
                                             new_rx_tlvs[0]->tlv_type                    = rx_tlvs[i]->tlv_type;
-                            PLATFORM_MEMCPY(new_rx_tlvs[0]->local_al_address,             rx_tlvs[i]->local_al_address,    6);
-                            PLATFORM_MEMCPY(new_rx_tlvs[0]->neighbor_al_address,          rx_tlvs[i]->neighbor_al_address, 6);
+                            memcpy(new_rx_tlvs[0]->local_al_address,             rx_tlvs[i]->local_al_address,    6);
+                            memcpy(new_rx_tlvs[0]->neighbor_al_address,          rx_tlvs[i]->neighbor_al_address, 6);
                                             new_rx_tlvs[0]->receiver_link_metrics_nr    = 1;
                                             new_rx_tlvs[0]->receiver_link_metrics       = (struct _receiverLinkMetricEntries *)PLATFORM_MALLOC(sizeof(struct _receiverLinkMetricEntries));
-                            PLATFORM_MEMCPY(new_rx_tlvs[0]->receiver_link_metrics,        &rx_tlvs[i]->receiver_link_metrics[k], sizeof(struct _receiverLinkMetricEntries));
+                            memcpy(new_rx_tlvs[0]->receiver_link_metrics,        &rx_tlvs[i]->receiver_link_metrics[k], sizeof(struct _receiverLinkMetricEntries));
 
                             new_total_tlvs_rx = 1;
                         }
@@ -1486,7 +1486,7 @@ INT8U _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
                                 // metrics info.
                                 //
                                                  new_rx_tlvs[new_total_tlvs_rx-1]->receiver_link_metrics                                                             = (struct _receiverLinkMetricEntries *)PLATFORM_REALLOC(new_rx_tlvs[new_total_tlvs_rx-1]->receiver_link_metrics, sizeof(struct _receiverLinkMetricEntries)*(new_rx_tlvs[new_total_tlvs_rx-1]->receiver_link_metrics_nr + 1));
-                                PLATFORM_MEMCPY(&new_rx_tlvs[new_total_tlvs_rx-1]->receiver_link_metrics[new_rx_tlvs[new_total_tlvs_rx-1]->receiver_link_metrics_nr],  (&rx_tlvs[i]->receiver_link_metrics[k]), sizeof(struct _receiverLinkMetricEntries));
+                                memcpy(&new_rx_tlvs[new_total_tlvs_rx-1]->receiver_link_metrics[new_rx_tlvs[new_total_tlvs_rx-1]->receiver_link_metrics_nr],  (&rx_tlvs[i]->receiver_link_metrics[k]), sizeof(struct _receiverLinkMetricEntries));
                                                  new_rx_tlvs[new_total_tlvs_rx-1]->receiver_link_metrics_nr++;
                             }
                             else
@@ -1497,11 +1497,11 @@ INT8U _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
                                 new_rx_tlvs[new_total_tlvs_rx] = (struct receiverLinkMetricTLV  *)PLATFORM_MALLOC(sizeof(struct receiverLinkMetricTLV));
 
                                                 new_rx_tlvs[new_total_tlvs_rx]->tlv_type                    = rx_tlvs[i]->tlv_type;
-                                PLATFORM_MEMCPY(new_rx_tlvs[new_total_tlvs_rx]->local_al_address,             rx_tlvs[i]->local_al_address,    6);
-                                PLATFORM_MEMCPY(new_rx_tlvs[new_total_tlvs_rx]->neighbor_al_address,          rx_tlvs[i]->neighbor_al_address, 6);
+                                memcpy(new_rx_tlvs[new_total_tlvs_rx]->local_al_address,             rx_tlvs[i]->local_al_address,    6);
+                                memcpy(new_rx_tlvs[new_total_tlvs_rx]->neighbor_al_address,          rx_tlvs[i]->neighbor_al_address, 6);
                                                 new_rx_tlvs[new_total_tlvs_rx]->receiver_link_metrics_nr    = 1;
                                                 new_rx_tlvs[new_total_tlvs_rx]->receiver_link_metrics       = (struct _receiverLinkMetricEntries *)PLATFORM_MALLOC(sizeof(struct _receiverLinkMetricEntries));
-                                PLATFORM_MEMCPY(new_rx_tlvs[new_total_tlvs_rx]->receiver_link_metrics,        &rx_tlvs[i]->receiver_link_metrics[k], sizeof(struct _receiverLinkMetricEntries));
+                                memcpy(new_rx_tlvs[new_total_tlvs_rx]->receiver_link_metrics,        &rx_tlvs[i]->receiver_link_metrics[k], sizeof(struct _receiverLinkMetricEntries));
 
                                 new_total_tlvs_rx++;
                             }
@@ -1644,15 +1644,15 @@ static void _obtainLocalApOperationalBssTLV(struct apOperationalBssTLV *ap_opera
                         if (x->interface_type_data.ieee80211.role == IEEE80211_ROLE_AP &&
                             memcmp(x->interface_type_data.ieee80211.bssid, "\0\0\0\0\0\0", 6) != 0)
                         {
-                            PLATFORM_MEMCPY(ap_operational_bss_tlv->radio[radio].radio_uid, x->mac_address, 6);
+                            memcpy(ap_operational_bss_tlv->radio[radio].radio_uid, x->mac_address, 6);
                             ap_operational_bss_tlv->radio[radio].bss_nr = 1;
                             ap_operational_bss_tlv->radio[radio].bss =
                                     PLATFORM_MALLOC(sizeof(*ap_operational_bss_tlv->radio[radio].bss) * 1);
-                            PLATFORM_MEMCPY(ap_operational_bss_tlv->radio[radio].bss[0].bssid,
+                            memcpy(ap_operational_bss_tlv->radio[radio].bss[0].bssid,
                                             x->interface_type_data.ieee80211.bssid, 6);
                             ap_operational_bss_tlv->radio[radio].bss[0].ssid.length =
                                     PLATFORM_STRLEN(x->interface_type_data.ieee80211.ssid);
-                            PLATFORM_MEMCPY(ap_operational_bss_tlv->radio[radio].bss[0].ssid.ssid,
+                            memcpy(ap_operational_bss_tlv->radio[radio].bss[0].ssid.ssid,
                                             x->interface_type_data.ieee80211.ssid,
                                             ap_operational_bss_tlv->radio[radio].bss[0].ssid.length);
                             radio++;
@@ -1678,7 +1678,7 @@ void _obtainLocalGenericPhyTLV(struct genericPhyDeviceInformationTypeTLV *generi
     char   **interfaces_names;
     INT8U    interfaces_names_nr;
 
-    PLATFORM_MEMCPY(al_mac_address, DMalMacGet(), 6);
+    memcpy(al_mac_address, DMalMacGet(), 6);
 
     generic_phy->tlv_type          = TLV_TYPE_GENERIC_PHY_DEVICE_INFORMATION;
     generic_phy->al_mac_address[0] = al_mac_address[0];
@@ -1722,7 +1722,7 @@ void _obtainLocalGenericPhyTLV(struct genericPhyDeviceInformationTypeTLV *generi
                 generic_phy->local_interfaces = (struct _genericPhyDeviceEntries *)PLATFORM_REALLOC(generic_phy->local_interfaces, sizeof(struct _genericPhyDeviceEntries) * (generic_phy->local_interfaces_nr + 1));
             }
 
-            PLATFORM_MEMCPY(generic_phy->local_interfaces[generic_phy->local_interfaces_nr].local_interface_address,                          x->mac_address, 6);
+            memcpy(generic_phy->local_interfaces[generic_phy->local_interfaces_nr].local_interface_address,                          x->mac_address, 6);
                             generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_common_data.oui[0]                  = x->interface_type_data.other.oui[0];
                             generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_common_data.oui[1]                  = x->interface_type_data.other.oui[1];
                             generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_common_data.oui[2]                  = x->interface_type_data.other.oui[2];
@@ -1740,11 +1740,11 @@ void _obtainLocalGenericPhyTLV(struct genericPhyDeviceInformationTypeTLV *generi
                             generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_common_data.media_specific_bytes    = NULL;
             }
 
-            PLATFORM_MEMCPY(generic_phy->local_interfaces[generic_phy->local_interfaces_nr].variant_name,                                     x->interface_type_data.other.variant_name, PLATFORM_STRLEN(x->interface_type_data.other.variant_name)+1);
+            memcpy(generic_phy->local_interfaces[generic_phy->local_interfaces_nr].variant_name,                                     x->interface_type_data.other.variant_name, PLATFORM_STRLEN(x->interface_type_data.other.variant_name)+1);
                             generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_description_xml_url_len             = PLATFORM_STRLEN(x->interface_type_data.other.generic_phy_description_xml_url)+1;
 
                             generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_description_xml_url                 = PLATFORM_MALLOC(generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_description_xml_url_len);
-            PLATFORM_MEMCPY(generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_description_xml_url,                  x->interface_type_data.other.generic_phy_description_xml_url, generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_description_xml_url_len);
+            memcpy(generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_description_xml_url,                  x->interface_type_data.other.generic_phy_description_xml_url, generic_phy->local_interfaces[generic_phy->local_interfaces_nr].generic_phy_description_xml_url_len);
 
             generic_phy->local_interfaces_nr++;
         }
@@ -1824,9 +1824,9 @@ void _obtainLocalDeviceIdentificationTLV(struct deviceIdentificationTypeTLV *ide
 
     identification->tlv_type = TLV_TYPE_DEVICE_IDENTIFICATION;
 
-    PLATFORM_MEMCPY(identification->friendly_name,      x->friendly_name,      PLATFORM_STRLEN(x->friendly_name)+1);
-    PLATFORM_MEMCPY(identification->manufacturer_name,  x->manufacturer_name,  PLATFORM_STRLEN(x->manufacturer_name)+1);
-    PLATFORM_MEMCPY(identification->manufacturer_model, x->manufacturer_model, PLATFORM_STRLEN(x->manufacturer_model)+1);
+    memcpy(identification->friendly_name,      x->friendly_name,      PLATFORM_STRLEN(x->friendly_name)+1);
+    memcpy(identification->manufacturer_name,  x->manufacturer_name,  PLATFORM_STRLEN(x->manufacturer_name)+1);
+    memcpy(identification->manufacturer_model, x->manufacturer_model, PLATFORM_STRLEN(x->manufacturer_model)+1);
 }
 
 // Free the contents of the provided "deviceIdentificationTypeTLV" structure
@@ -1917,7 +1917,7 @@ void _obtainLocalIpsTLVs(struct ipv4TypeTLV *ipv4, struct ipv6TypeTLV *ipv6)
                 ipv4->ipv4_interfaces = (struct _ipv4InterfaceEntries *)PLATFORM_REALLOC(ipv4->ipv4_interfaces, sizeof(struct _ipv4InterfaceEntries) * (ipv4->ipv4_interfaces_nr + 1));
             }
 
-            PLATFORM_MEMCPY(ipv4->ipv4_interfaces[ipv4->ipv4_interfaces_nr].mac_address,   y->mac_address, 6);
+            memcpy(ipv4->ipv4_interfaces[ipv4->ipv4_interfaces_nr].mac_address,   y->mac_address, 6);
                             ipv4->ipv4_interfaces[ipv4->ipv4_interfaces_nr].ipv4_nr      = y->ipv4_nr;
                             ipv4->ipv4_interfaces[ipv4->ipv4_interfaces_nr].ipv4         = (struct _ipv4Entries *)PLATFORM_MALLOC(sizeof(struct _ipv4Entries) * y->ipv4_nr);
             for (j=0; j<y->ipv4_nr; j++)
@@ -1950,8 +1950,8 @@ void _obtainLocalIpsTLVs(struct ipv4TypeTLV *ipv4, struct ipv6TypeTLV *ipv6)
                         break;
                     }
                 }
-                PLATFORM_MEMCPY(ipv4->ipv4_interfaces[ipv4->ipv4_interfaces_nr].ipv4[j].ipv4_address,     y->ipv4[j].address,     4);
-                PLATFORM_MEMCPY(ipv4->ipv4_interfaces[ipv4->ipv4_interfaces_nr].ipv4[j].ipv4_dhcp_server, y->ipv4[j].dhcp_server, 4);
+                memcpy(ipv4->ipv4_interfaces[ipv4->ipv4_interfaces_nr].ipv4[j].ipv4_address,     y->ipv4[j].address,     4);
+                memcpy(ipv4->ipv4_interfaces[ipv4->ipv4_interfaces_nr].ipv4[j].ipv4_dhcp_server, y->ipv4[j].dhcp_server, 4);
             }
 
             ipv4->ipv4_interfaces_nr++;
@@ -1968,7 +1968,7 @@ void _obtainLocalIpsTLVs(struct ipv4TypeTLV *ipv4, struct ipv6TypeTLV *ipv6)
                 ipv6->ipv6_interfaces = (struct _ipv6InterfaceEntries *)PLATFORM_REALLOC(ipv6->ipv6_interfaces, sizeof(struct _ipv6InterfaceEntries) * (ipv6->ipv6_interfaces_nr + 1));
             }
 
-            PLATFORM_MEMCPY(ipv6->ipv6_interfaces[ipv6->ipv6_interfaces_nr].mac_address,   y->mac_address, 6);
+            memcpy(ipv6->ipv6_interfaces[ipv6->ipv6_interfaces_nr].mac_address,   y->mac_address, 6);
                             ipv6->ipv6_interfaces[ipv6->ipv6_interfaces_nr].ipv6_nr      = y->ipv6_nr;
                             ipv6->ipv6_interfaces[ipv6->ipv6_interfaces_nr].ipv6         = (struct _ipv6Entries *)PLATFORM_MALLOC(sizeof(struct _ipv6Entries) * y->ipv6_nr);
             for (j=0; j<y->ipv6_nr; j++)
@@ -2001,8 +2001,8 @@ void _obtainLocalIpsTLVs(struct ipv4TypeTLV *ipv4, struct ipv6TypeTLV *ipv6)
                         break;
                     }
                 }
-                PLATFORM_MEMCPY(ipv6->ipv6_interfaces[ipv6->ipv6_interfaces_nr].ipv6[j].ipv6_address,        y->ipv6[j].address,  16);
-                PLATFORM_MEMCPY(ipv6->ipv6_interfaces[ipv6->ipv6_interfaces_nr].ipv6[j].ipv6_address_origin, y->ipv6[j].origin,   16);
+                memcpy(ipv6->ipv6_interfaces[ipv6->ipv6_interfaces_nr].ipv6[j].ipv6_address,        y->ipv6[j].address,  16);
+                memcpy(ipv6->ipv6_interfaces[ipv6->ipv6_interfaces_nr].ipv6[j].ipv6_address_origin, y->ipv6[j].origin,   16);
             }
 
             ipv6->ipv6_interfaces_nr++;
@@ -2361,7 +2361,7 @@ INT8U send1905TopologyDiscoveryPacket(char *interface_name, INT16U mid)
 
     PLATFORM_PRINTF_DEBUG_INFO("--> CMDU_TYPE_TOPOLOGY_DISCOVERY (%s)\n", interface_name);
 
-    PLATFORM_MEMCPY(interface_mac_address, DMinterfaceNameToMac(interface_name), 6);
+    memcpy(interface_mac_address, DMinterfaceNameToMac(interface_name), 6);
 
     // Fill the AL MAC address type TLV
     //
@@ -3156,7 +3156,7 @@ INT8U send1905PushButtonJoinNotificationPacket(char *interface_name, INT16U mid,
 
     PLATFORM_PRINTF_DEBUG_INFO("--> CMDU_TYPE_PUSH_BUTTON_JOIN_NOTIFICATION (%s)\n", interface_name);
 
-    PLATFORM_MEMCPY(al_mac_address, DMalMacGet(), 6);
+    memcpy(al_mac_address, DMalMacGet(), 6);
 
     // Fill the AL MAC address type TLV
     //
@@ -3377,7 +3377,7 @@ INT8U send1905APAutoconfigurationWSCPacket(char *interface_name, INT16U mid, INT
     wsc_tlv.tlv_type       = TLV_TYPE_WSC;
     wsc_tlv.wsc_frame_size = wsc_frame_size;
     wsc_tlv.wsc_frame      = (INT8U *)PLATFORM_MALLOC(wsc_frame_size);
-    PLATFORM_MEMCPY(wsc_tlv.wsc_frame, wsc_frame, wsc_frame_size);
+    memcpy(wsc_tlv.wsc_frame, wsc_frame, wsc_frame_size);
 
     // Build the CMDU
     //
@@ -3680,7 +3680,7 @@ INT8U send1905InterfacePowerChangeRequestPacket(char *interface_name, INT16U mid
 
     for (i=0; i<nr; i++)
     {
-        PLATFORM_MEMCPY(power_change.power_change_interfaces[i].interface_address,        remote_interfaces[i], 6);
+        memcpy(power_change.power_change_interfaces[i].interface_address,        remote_interfaces[i], 6);
                         power_change.power_change_interfaces[i].requested_power_state  =  new_states[i];
     }
 
@@ -3752,7 +3752,7 @@ INT8U send1905InterfacePowerChangeResponsePacket(char *interface_name, INT16U mi
 
     for (i=0; i<nr; i++)
     {
-        PLATFORM_MEMCPY(power_change.power_change_interfaces[i].interface_address,     local_interfaces[i], 6);
+        memcpy(power_change.power_change_interfaces[i].interface_address,     local_interfaces[i], 6);
                         power_change.power_change_interfaces[i].result              =  results[i];
     }
 
@@ -3803,8 +3803,8 @@ INT8U sendLLDPBridgeDiscoveryPacket(char *interface_name)
 
     PLATFORM_PRINTF_DEBUG_INFO("--> LLDP BRIDGE DISCOVERY (%s)\n", interface_name);
 
-    PLATFORM_MEMCPY(al_mac_address,        DMalMacGet(),                         6);
-    PLATFORM_MEMCPY(interface_mac_address, DMinterfaceNameToMac(interface_name), 6);
+    memcpy(al_mac_address,        DMalMacGet(),                         6);
+    memcpy(interface_mac_address, DMinterfaceNameToMac(interface_name), 6);
 
     // Fill the chassis ID TLV
     //
@@ -3948,7 +3948,7 @@ INT8U send1905InterfaceListResponseALME(INT8U alme_client_id)
                         out->interface_descriptors[i].vendor_specific_info[j].oui[2]       = x->vendor_specific_elements[j].oui[2];
 
                         out->interface_descriptors[i].vendor_specific_info[j].vendor_si    = (INT8U *)PLATFORM_MALLOC(x->vendor_specific_elements[j].vendor_data_len);
-                        PLATFORM_MEMCPY(out->interface_descriptors[i].vendor_specific_info[j].vendor_si, x->vendor_specific_elements[j].vendor_data, x->vendor_specific_elements[j].vendor_data_len);
+                        memcpy(out->interface_descriptors[i].vendor_specific_info[j].vendor_si, x->vendor_specific_elements[j].vendor_data, x->vendor_specific_elements[j].vendor_data_len);
                     }
                 }
             }
@@ -4043,8 +4043,8 @@ INT8U send1905MetricsResponseALME(INT8U alme_client_id, INT8U *mac_address)
 
         for (i=0; i<total_tlvs; i++)
         {
-            PLATFORM_MEMCPY(out->metrics[i].neighbor_dev_address,   tx_tlvs[i]->neighbor_al_address, 6);
-            PLATFORM_MEMCPY(out->metrics[i].local_intf_address,     tx_tlvs[i]->transmitter_link_metrics[0].local_interface_address, 6);
+            memcpy(out->metrics[i].neighbor_dev_address,   tx_tlvs[i]->neighbor_al_address, 6);
+            memcpy(out->metrics[i].local_intf_address,     tx_tlvs[i]->transmitter_link_metrics[0].local_interface_address, 6);
                             out->metrics[i].bridge_flag           = DMisLinkBridged(out->metrics[i].local_intf_address, out->metrics[i].neighbor_dev_address, tx_tlvs[i]->transmitter_link_metrics[0].neighbor_interface_address);
                             out->metrics[i].tx_metric             = tx_tlvs[i];
                             out->metrics[i].rx_metric             = rx_tlvs[i];

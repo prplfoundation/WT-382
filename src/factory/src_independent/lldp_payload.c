@@ -261,7 +261,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
         PLATFORM_FREE(buffer);
         return NULL;
     }
-    PLATFORM_MEMCPY(buffer + total_len, stream, stream_len);
+    memcpy(buffer + total_len, stream, stream_len);
     PLATFORM_FREE(stream);
     total_len += stream_len;
 
@@ -274,7 +274,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
         PLATFORM_FREE(buffer);
         return NULL;
     }
-    PLATFORM_MEMCPY(buffer + total_len, stream, stream_len);
+    memcpy(buffer + total_len, stream, stream_len);
     PLATFORM_FREE(stream);
     total_len += stream_len;
 
@@ -287,7 +287,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
         PLATFORM_FREE(buffer);
         return NULL;
     }
-    PLATFORM_MEMCPY(buffer + total_len, stream, stream_len);
+    memcpy(buffer + total_len, stream, stream_len);
     PLATFORM_FREE(stream);
     total_len += stream_len;
 
@@ -300,7 +300,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
         PLATFORM_FREE(buffer);
         return NULL;
     }
-    PLATFORM_MEMCPY(buffer + total_len, stream, stream_len);
+    memcpy(buffer + total_len, stream, stream_len);
     PLATFORM_FREE(stream);
     total_len += stream_len;
 
