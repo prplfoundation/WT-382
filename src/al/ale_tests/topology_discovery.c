@@ -15,12 +15,12 @@
 
 static struct alMacAddressTypeTLV expect_al_mac_tlv =
 {
-    .tlv_type          = TLV_TYPE_AL_MAC_ADDRESS_TYPE,
+    .tlv.type          = TLV_TYPE_AL_MAC_ADDRESS_TYPE,
     .al_mac_address    = ADDR_AL,
 };
 
 static struct supportedServiceTLV multiApControllerService = {
-    .tlv_type          = TLV_TYPE_SUPPORTED_SERVICE,
+    .tlv.type          = TLV_TYPE_SUPPORTED_SERVICE,
     .supported_service_nr = 2,
     .supported_service = (enum serviceType[]){ SERVICE_MULTI_AP_CONTROLLER, SERVICE_MULTI_AP_AGENT },
 };
@@ -64,7 +64,7 @@ static struct CMDU aletest_expect_cmdu_topology_discovery =
             (uint8_t *)&expect_al_mac_tlv,
             (uint8_t *)(struct macAddressTypeTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_MAC_ADDRESS_TYPE,
+                    .tlv.type          = TLV_TYPE_MAC_ADDRESS_TYPE,
                     .mac_address       = ADDR_MAC0,
                 }
             },
@@ -82,13 +82,13 @@ static struct CMDU aletest_send_cmdu_topology_discovery =
         (uint8_t* []){
             (uint8_t *)(struct alMacAddressTypeTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_AL_MAC_ADDRESS_TYPE,
+                    .tlv.type          = TLV_TYPE_AL_MAC_ADDRESS_TYPE,
                     .al_mac_address    = ADDR_AL_PEER0,
                 }
             },
             (uint8_t *)(struct macAddressTypeTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_MAC_ADDRESS_TYPE,
+                    .tlv.type          = TLV_TYPE_MAC_ADDRESS_TYPE,
                     .mac_address       = ADDR_MAC_PEER0,
                 }
             },
@@ -153,7 +153,7 @@ static struct CMDU aletest_expect_cmdu_topology_response =
         (uint8_t* []){
             (uint8_t *)(struct deviceInformationTypeTLV[]){
                 {
-                    .tlv_type            = TLV_TYPE_DEVICE_INFORMATION_TYPE,
+                    .tlv.type            = TLV_TYPE_DEVICE_INFORMATION_TYPE,
                     .al_mac_address      = ADDR_AL,
                     .local_interfaces_nr = 4,
                     .local_interfaces    = aletest_local_interfaces,
@@ -161,13 +161,13 @@ static struct CMDU aletest_expect_cmdu_topology_response =
             },
             (uint8_t *)(struct deviceBridgingCapabilityTLV[]){
                 {
-                    .tlv_type            = TLV_TYPE_DEVICE_BRIDGING_CAPABILITIES,
+                    .tlv.type            = TLV_TYPE_DEVICE_BRIDGING_CAPABILITIES,
                     .bridging_tuples_nr  = 0,
                 },
             },
             (uint8_t *)(struct neighborDeviceListTLV[]){
                 {
-                    .tlv_type            = TLV_TYPE_NEIGHBOR_DEVICE_LIST,
+                    .tlv.type            = TLV_TYPE_NEIGHBOR_DEVICE_LIST,
                     .local_mac_address   = ADDR_MAC0,
                     .neighbors_nr        = 1,
                     .neighbors           = (struct _neighborEntries[]) {
@@ -180,13 +180,13 @@ static struct CMDU aletest_expect_cmdu_topology_response =
             },
             (uint8_t *)(struct powerOffInterfaceTLV[]){
                 {
-                    .tlv_type                 = TLV_TYPE_POWER_OFF_INTERFACE,
+                    .tlv.type                 = TLV_TYPE_POWER_OFF_INTERFACE,
                     .power_off_interfaces_nr  = 0,
                 },
             },
             (uint8_t *)(struct l2NeighborDeviceTLV[]){
                 {
-                    .tlv_type            = TLV_TYPE_L2_NEIGHBOR_DEVICE,
+                    .tlv.type            = TLV_TYPE_L2_NEIGHBOR_DEVICE,
                     .local_interfaces_nr  = 0,
                 },
             },
@@ -205,13 +205,13 @@ static struct CMDU aletest_send_cmdu_topology_discovery2 =
         (uint8_t* []){
             (uint8_t *)(struct alMacAddressTypeTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_AL_MAC_ADDRESS_TYPE,
+                    .tlv.type          = TLV_TYPE_AL_MAC_ADDRESS_TYPE,
                     .al_mac_address    = ADDR_AL_PEER1,
                 }
             },
             (uint8_t *)(struct macAddressTypeTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_MAC_ADDRESS_TYPE,
+                    .tlv.type          = TLV_TYPE_MAC_ADDRESS_TYPE,
                     .mac_address       = ADDR_MAC_PEER1,
                 }
             },
@@ -230,7 +230,7 @@ static struct CMDU aletest_expect_cmdu_topology_discovery2 =
             (uint8_t *)&expect_al_mac_tlv,
             (uint8_t *)(struct macAddressTypeTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_MAC_ADDRESS_TYPE,
+                    .tlv.type          = TLV_TYPE_MAC_ADDRESS_TYPE,
                     .mac_address       = ADDR_MAC1,
                 }
             },
@@ -247,7 +247,7 @@ static struct CMDU aletest_send_cmdu_topology_response2 = {
         (uint8_t* []){
             (uint8_t *)(struct deviceInformationTypeTLV[]){
                 {
-                    .tlv_type            = TLV_TYPE_DEVICE_INFORMATION_TYPE,
+                    .tlv.type            = TLV_TYPE_DEVICE_INFORMATION_TYPE,
                     .al_mac_address      = ADDR_AL_PEER1,
                     .local_interfaces_nr = 1,
                     .local_interfaces    = (struct _localInterfaceEntries[]){
@@ -264,7 +264,7 @@ static struct CMDU aletest_send_cmdu_topology_response2 = {
             /* No 1905 neighbors */
             (uint8_t *)(struct supportedServiceTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_SUPPORTED_SERVICE,
+                    .tlv.type          = TLV_TYPE_SUPPORTED_SERVICE,
                     .supported_service_nr = 2,
                     .supported_service = (enum serviceType[]){ SERVICE_MULTI_AP_AGENT },
                 },

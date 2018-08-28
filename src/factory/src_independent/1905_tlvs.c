@@ -295,7 +295,7 @@ static bool tlv_forge_field2_linkMetricQuery(const struct linkMetricQueryTLV *se
          * The original 1905 standard document (and also its later "1a" update) describe the "metric query TLV" fields
          * like this:
          *
-         *   - Field #1: 1 octet set to "8" (tlv_type)
+         *   - Field #1: 1 octet set to "8" (tlv.type)
          *   - Field #2: 1 octet set to "8" (tlv_length)
          *   - Field #3: 1 octet set to "0" or "1" (destination)
          *   - Field #4: 6 octets set to the MAC address of a neighbour when field #3 is set "1"
@@ -804,7 +804,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_DEVICE_INFORMATION_TYPE;
+            ret->tlv.type = TLV_TYPE_DEVICE_INFORMATION_TYPE;
 
             _EnB(&p,  ret->al_mac_address, 6);
             _E1B(&p, &ret->local_interfaces_nr);
@@ -903,7 +903,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_DEVICE_BRIDGING_CAPABILITIES;
+            ret->tlv.type = TLV_TYPE_DEVICE_BRIDGING_CAPABILITIES;
 
             if (0 == len)
             {
@@ -987,7 +987,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 free(ret);
                 return NULL;
             }
-            ret->tlv_type = TLV_TYPE_NON_1905_NEIGHBOR_DEVICE_LIST;
+            ret->tlv.type = TLV_TYPE_NON_1905_NEIGHBOR_DEVICE_LIST;
 
             _EnB(&p,  ret->local_mac_address, 6);
 
@@ -1029,7 +1029,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 free(ret);
                 return NULL;
             }
-            ret->tlv_type = TLV_TYPE_NEIGHBOR_DEVICE_LIST;
+            ret->tlv.type = TLV_TYPE_NEIGHBOR_DEVICE_LIST;
 
             _EnB(&p,  ret->local_mac_address, 6);
 
@@ -1091,7 +1091,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_TRANSMITTER_LINK_METRIC;
+            ret->tlv.type = TLV_TYPE_TRANSMITTER_LINK_METRIC;
 
             _EnB(&p, ret->local_al_address,    6);
             _EnB(&p, ret->neighbor_al_address, 6);
@@ -1160,7 +1160,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_RECEIVER_LINK_METRIC;
+            ret->tlv.type = TLV_TYPE_RECEIVER_LINK_METRIC;
 
             _EnB(&p, ret->local_al_address,    6);
             _EnB(&p, ret->neighbor_al_address, 6);
@@ -1217,7 +1217,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_LINK_METRIC_RESULT_CODE;
+            ret->tlv.type = TLV_TYPE_LINK_METRIC_RESULT_CODE;
 
             _E1B(&p, &ret->result_code);
 
@@ -1249,7 +1249,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_SEARCHED_ROLE;
+            ret->tlv.type = TLV_TYPE_SEARCHED_ROLE;
 
             _E1B(&p, &ret->role);
 
@@ -1281,7 +1281,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_AUTOCONFIG_FREQ_BAND;
+            ret->tlv.type = TLV_TYPE_AUTOCONFIG_FREQ_BAND;
 
             _E1B(&p, &ret->freq_band);
 
@@ -1313,7 +1313,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_SUPPORTED_ROLE;
+            ret->tlv.type = TLV_TYPE_SUPPORTED_ROLE;
 
             _E1B(&p, &ret->role);
 
@@ -1345,7 +1345,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_SUPPORTED_FREQ_BAND;
+            ret->tlv.type = TLV_TYPE_SUPPORTED_FREQ_BAND;
 
             _E1B(&p, &ret->freq_band);
 
@@ -1367,7 +1367,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type       = TLV_TYPE_WSC;
+            ret->tlv.type       = TLV_TYPE_WSC;
             ret->wsc_frame_size = len;
 
             if (len>0)
@@ -1395,7 +1395,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_PUSH_BUTTON_EVENT_NOTIFICATION;
+            ret->tlv.type = TLV_TYPE_PUSH_BUTTON_EVENT_NOTIFICATION;
 
             if (0 == len)
             {
@@ -1521,7 +1521,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_PUSH_BUTTON_JOIN_NOTIFICATION;
+            ret->tlv.type = TLV_TYPE_PUSH_BUTTON_JOIN_NOTIFICATION;
 
             _EnB(&p,  ret->al_mac_address, 6);
             _E2B(&p, &ret->message_identifier);
@@ -1547,7 +1547,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_GENERIC_PHY_DEVICE_INFORMATION;
+            ret->tlv.type = TLV_TYPE_GENERIC_PHY_DEVICE_INFORMATION;
 
             _EnB(&p,  ret->al_mac_address, 6);
             _E1B(&p, &ret->local_interfaces_nr);
@@ -1628,7 +1628,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_DEVICE_IDENTIFICATION;
+            ret->tlv.type = TLV_TYPE_DEVICE_IDENTIFICATION;
 
             _EnB(&p,  ret->friendly_name,      64);
             _EnB(&p,  ret->manufacturer_name,  64);
@@ -1652,7 +1652,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type       = TLV_TYPE_CONTROL_URL;
+            ret->tlv.type       = TLV_TYPE_CONTROL_URL;
 
             if (len>0)
             {
@@ -1679,7 +1679,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_IPV4;
+            ret->tlv.type = TLV_TYPE_IPV4;
 
             if (0 == len)
             {
@@ -1761,7 +1761,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_IPV6;
+            ret->tlv.type = TLV_TYPE_IPV6;
 
             if (0 == len)
             {
@@ -1844,7 +1844,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_GENERIC_PHY_EVENT_NOTIFICATION;
+            ret->tlv.type = TLV_TYPE_GENERIC_PHY_EVENT_NOTIFICATION;
 
             if (0 == len)
             {
@@ -1930,7 +1930,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_1905_PROFILE_VERSION;
+            ret->tlv.type = TLV_TYPE_1905_PROFILE_VERSION;
 
             _E1B(&p, &ret->profile);
 
@@ -1953,7 +1953,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_POWER_OFF_INTERFACE;
+            ret->tlv.type = TLV_TYPE_POWER_OFF_INTERFACE;
 
             if (0 == len)
             {
@@ -2030,7 +2030,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_INTERFACE_POWER_CHANGE_INFORMATION;
+            ret->tlv.type = TLV_TYPE_INTERFACE_POWER_CHANGE_INFORMATION;
 
             if (0 == len)
             {
@@ -2093,7 +2093,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_INTERFACE_POWER_CHANGE_STATUS;
+            ret->tlv.type = TLV_TYPE_INTERFACE_POWER_CHANGE_STATUS;
 
             if (0 == len)
             {
@@ -2159,7 +2159,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             p = packet_stream + 1;
             _E2B(&p, &len);
 
-            ret->tlv_type = TLV_TYPE_L2_NEIGHBOR_DEVICE;
+            ret->tlv.type = TLV_TYPE_L2_NEIGHBOR_DEVICE;
 
             if (0 == len)
             {
@@ -2271,7 +2271,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
         return NULL;
     }
 
-    // The first byte of any of the valid structures is always the "tlv_type"
+    // The first byte of any of the valid structures is always the "tlv.type"
     // field.
     //
     switch (*memory_structure)
@@ -2302,7 +2302,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,            &p);
+            _I1B(&m->tlv.type,            &p);
             _I2B(&tlv_length,             &p);
             _InB( m->al_mac_address,      &p, 6);
             _I1B(&m->local_interfaces_nr, &p);
@@ -2395,7 +2395,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,           &p);
+            _I1B(&m->tlv.type,           &p);
             _I2B(&tlv_length,            &p);
             _I1B(&m->bridging_tuples_nr, &p);
 
@@ -2431,7 +2431,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,            &p);
+            _I1B(&m->tlv.type,            &p);
             _I2B(&tlv_length,             &p);
             _InB( m->local_mac_address,   &p, 6);
 
@@ -2462,7 +2462,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,            &p);
+            _I1B(&m->tlv.type,            &p);
             _I2B(&tlv_length,             &p);
             _InB( m->local_mac_address,   &p, 6);
 
@@ -2506,7 +2506,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,            &p);
+            _I1B(&m->tlv.type,            &p);
             _I2B(&tlv_length,             &p);
             _InB( m->local_al_address,    &p, 6);
             _InB( m->neighbor_al_address, &p, 6);
@@ -2546,7 +2546,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,            &p);
+            _I1B(&m->tlv.type,            &p);
             _I2B(&tlv_length,             &p);
             _InB( m->local_al_address,    &p, 6);
             _InB( m->neighbor_al_address, &p, 6);
@@ -2581,7 +2581,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,     &p);
+            _I1B(&m->tlv.type,     &p);
             _I2B(&tlv_length,      &p);
 
             if (m->result_code != LINK_METRIC_RESULT_CODE_TLV_INVALID_NEIGHBOR)
@@ -2614,7 +2614,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,     &p);
+            _I1B(&m->tlv.type,     &p);
             _I2B(&tlv_length,      &p);
 
             if (m->role != IEEE80211_ROLE_REGISTRAR)
@@ -2647,7 +2647,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,     &p);
+            _I1B(&m->tlv.type,     &p);
             _I2B(&tlv_length,      &p);
 
             if (
@@ -2684,7 +2684,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,     &p);
+            _I1B(&m->tlv.type,     &p);
             _I2B(&tlv_length,      &p);
 
             if (m->role != IEEE80211_ROLE_REGISTRAR)
@@ -2717,7 +2717,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,     &p);
+            _I1B(&m->tlv.type,     &p);
             _I2B(&tlv_length,      &p);
 
             if (
@@ -2754,7 +2754,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,     &p);
+            _I1B(&m->tlv.type,     &p);
             _I2B(&tlv_length,      &p);
             _InB( m->wsc_frame,    &p, m->wsc_frame_size);
 
@@ -2787,7 +2787,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,        &p);
+            _I1B(&m->tlv.type,        &p);
             _I2B(&tlv_length,         &p);
             _I1B(&m->media_types_nr,  &p);
 
@@ -2871,7 +2871,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,            &p);
+            _I1B(&m->tlv.type,            &p);
             _I2B(&tlv_length,             &p);
             _InB( m->al_mac_address,      &p, 6);
             _I2B(&m->message_identifier,  &p);
@@ -2914,7 +2914,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,            &p);
+            _I1B(&m->tlv.type,            &p);
             _I2B(&tlv_length,             &p);
             _InB( m->al_mac_address,      &p,  6);
             _I1B(&m->local_interfaces_nr, &p);
@@ -2957,7 +2957,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,           &p);
+            _I1B(&m->tlv.type,           &p);
             _I2B(&tlv_length,            &p);
             _InB( m->friendly_name,      &p, 64);
             _InB( m->manufacturer_name,  &p, 64);
@@ -2983,7 +2983,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,     &p);
+            _I1B(&m->tlv.type,     &p);
             _I2B(&tlv_length,      &p);
             _InB( m->url,          &p, tlv_length);
 
@@ -3015,7 +3015,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,           &p);
+            _I1B(&m->tlv.type,           &p);
             _I2B(&tlv_length,            &p);
             _I1B(&m->ipv4_interfaces_nr, &p);
 
@@ -3061,7 +3061,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,           &p);
+            _I1B(&m->tlv.type,           &p);
             _I2B(&tlv_length,            &p);
             _I1B(&m->ipv6_interfaces_nr, &p);
 
@@ -3109,7 +3109,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,                &p);
+            _I1B(&m->tlv.type,                &p);
             _I2B(&tlv_length,                 &p);
             _I1B(&m->local_interfaces_nr, &p);
 
@@ -3144,7 +3144,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,     &p);
+            _I1B(&m->tlv.type,     &p);
             _I2B(&tlv_length,      &p);
 
             if (
@@ -3192,7 +3192,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,                &p);
+            _I1B(&m->tlv.type,                &p);
             _I2B(&tlv_length,                 &p);
             _I1B(&m->power_off_interfaces_nr, &p);
 
@@ -3233,7 +3233,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,                   &p);
+            _I1B(&m->tlv.type,                   &p);
             _I2B(&tlv_length,                    &p);
             _I1B(&m->power_change_interfaces_nr, &p);
 
@@ -3267,7 +3267,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,                   &p);
+            _I1B(&m->tlv.type,                   &p);
             _I2B(&tlv_length,                    &p);
             _I1B(&m->power_change_interfaces_nr, &p);
 
@@ -3311,7 +3311,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
-            _I1B(&m->tlv_type,            &p);
+            _I1B(&m->tlv.type,            &p);
             _I2B(&tlv_length,             &p);
             _I1B(&m->local_interfaces_nr, &p);
 

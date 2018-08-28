@@ -102,7 +102,7 @@ struct CMDU x1905_cmdu_structure_001 =
         (uint8_t* []){
             (uint8_t *)(struct linkMetricQueryTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_LINK_METRIC_QUERY,
+                    .tlv.type          = TLV_TYPE_LINK_METRIC_QUERY,
                     .destination       = LINK_METRIC_QUERY_TLV_ALL_NEIGHBORS,
                     .specific_neighbor = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
                     .link_metrics_type = LINK_METRIC_QUERY_TLV_BOTH_TX_AND_RX_LINK_METRICS,
@@ -151,7 +151,7 @@ struct CMDU x1905_cmdu_structure_002 =
         (uint8_t* []){
             (uint8_t *)(struct linkMetricQueryTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_LINK_METRIC_QUERY,
+                    .tlv.type          = TLV_TYPE_LINK_METRIC_QUERY,
                     .destination       = LINK_METRIC_QUERY_TLV_SPECIFIC_NEIGHBOR,
                     .specific_neighbor = {0x01, 0x02, 0x02, 0x03, 0x04, 0x05},
                     .link_metrics_type = LINK_METRIC_QUERY_TLV_BOTH_TX_AND_RX_LINK_METRICS,
@@ -200,7 +200,7 @@ struct CMDU x1905_cmdu_structure_003 =
         (uint8_t* []){
             (uint8_t *)(struct linkMetricQueryTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_LINK_METRIC_QUERY,
+                    .tlv.type          = TLV_TYPE_LINK_METRIC_QUERY,
                     .destination       = LINK_METRIC_QUERY_TLV_ALL_NEIGHBORS,
                     .specific_neighbor = {0x01, 0x02, 0x02, 0x03, 0x04, 0x05},
                     .link_metrics_type = LINK_METRIC_QUERY_TLV_BOTH_TX_AND_RX_LINK_METRICS,
@@ -251,7 +251,7 @@ struct CMDU x1905_cmdu_structure_004 =
         (uint8_t* []){
             (uint8_t *)(struct linkMetricQueryTLV[]){
                 {
-                    .tlv_type          = TLV_TYPE_LINK_METRIC_QUERY,
+                    .tlv.type          = TLV_TYPE_LINK_METRIC_QUERY,
                     .destination       = LINK_METRIC_QUERY_TLV_ALL_NEIGHBORS,
                     .specific_neighbor = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
                     .link_metrics_type = LINK_METRIC_QUERY_TLV_BOTH_TX_AND_RX_LINK_METRICS,

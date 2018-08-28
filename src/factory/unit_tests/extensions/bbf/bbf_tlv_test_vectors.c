@@ -92,7 +92,7 @@
 
 struct linkMetricQueryTLV bbf_tlv_structure_001 =
 {
-    .tlv_type          = BBF_TLV_TYPE_NON_1905_LINK_METRIC_QUERY,
+    .tlv.type          = BBF_TLV_TYPE_NON_1905_LINK_METRIC_QUERY,
     .destination       = LINK_METRIC_QUERY_TLV_SPECIFIC_NEIGHBOR,
     .specific_neighbor = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05},
     .link_metrics_type = LINK_METRIC_QUERY_TLV_RX_LINK_METRICS_ONLY,
@@ -116,7 +116,7 @@ uint16_t bbf_tlv_stream_len_001 = 11;
 
 struct linkMetricQueryTLV bbf_tlv_structure_002 =
 {
-    .tlv_type          = BBF_TLV_TYPE_NON_1905_LINK_METRIC_QUERY,
+    .tlv.type          = BBF_TLV_TYPE_NON_1905_LINK_METRIC_QUERY,
     .destination       = LINK_METRIC_QUERY_TLV_ALL_NEIGHBORS,
     .specific_neighbor = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05},
     .link_metrics_type = LINK_METRIC_QUERY_TLV_BOTH_TX_AND_RX_LINK_METRICS,
@@ -152,7 +152,7 @@ uint16_t bbf_tlv_stream_len_002 = 11;
 
 struct linkMetricQueryTLV bbf_tlv_structure_003 =
 {
-    .tlv_type          = BBF_TLV_TYPE_NON_1905_LINK_METRIC_QUERY,
+    .tlv.type          = BBF_TLV_TYPE_NON_1905_LINK_METRIC_QUERY,
     .destination       = LINK_METRIC_QUERY_TLV_ALL_NEIGHBORS,
     .specific_neighbor = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
     .link_metrics_type = LINK_METRIC_QUERY_TLV_BOTH_TX_AND_RX_LINK_METRICS,
@@ -176,7 +176,7 @@ uint16_t bbf_tlv_stream_len_003 = 11;
 
 struct transmitterLinkMetricTLV bbf_tlv_structure_004 =
 {
-    .tlv_type                    = BBF_TLV_TYPE_NON_1905_TRANSMITTER_LINK_METRIC,
+    .tlv.type                    = BBF_TLV_TYPE_NON_1905_TRANSMITTER_LINK_METRIC,
     .local_al_address            = {0x01, 0x02, 0x03, 0x01, 0x02, 0x03},
     .neighbor_al_address         = {0x0a, 0x0b, 0x0c, 0x0a, 0x0b, 0x0c},
     .transmitter_link_metrics_nr = 1,
@@ -244,7 +244,7 @@ uint16_t bbf_tlv_stream_len_004 = 44;
 
 struct transmitterLinkMetricTLV bbf_tlv_structure_005 =
 {
-    .tlv_type                    = BBF_TLV_TYPE_NON_1905_TRANSMITTER_LINK_METRIC,
+    .tlv.type                    = BBF_TLV_TYPE_NON_1905_TRANSMITTER_LINK_METRIC,
     .local_al_address            = {0x01, 0x01, 0x01, 0x01, 0x01, 0x01},
     .neighbor_al_address         = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
     .transmitter_link_metrics_nr = 2,
@@ -312,7 +312,7 @@ uint16_t bbf_tlv_stream_len_005 = 73;
 
 struct receiverLinkMetricTLV bbf_tlv_structure_006 =
 {
-    .tlv_type                    = BBF_TLV_TYPE_NON_1905_RECEIVER_LINK_METRIC,
+    .tlv.type                    = BBF_TLV_TYPE_NON_1905_RECEIVER_LINK_METRIC,
     .local_al_address            = {0x01, 0x02, 0xff, 0x01, 0x02, 0x03},
     .neighbor_al_address         = {0x0a, 0x0b, 0x0c, 0x0a, 0x77, 0x0c},
     .receiver_link_metrics_nr    = 1,
@@ -371,7 +371,7 @@ uint16_t bbf_tlv_stream_len_006 = 38;
 
 struct receiverLinkMetricTLV bbf_tlv_structure_007 =
 {
-    .tlv_type                    = BBF_TLV_TYPE_NON_1905_RECEIVER_LINK_METRIC,
+    .tlv.type                    = BBF_TLV_TYPE_NON_1905_RECEIVER_LINK_METRIC,
     .local_al_address            = {0x01, 0x02, 0xff, 0x01, 0x02, 0x03},
     .neighbor_al_address         = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
     .receiver_link_metrics_nr    = 2,

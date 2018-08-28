@@ -205,8 +205,7 @@ struct _genericPhyCommonData
 ////////////////////////////////////////////////////////////////////////////////
 struct vendorSpecificTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_VENDOR_SPECIFIC
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_VENDOR_SPECIFIC. */
 
     uint8_t  vendorOUI[3];          // Vendor specific OUI, the value of the 24
                                   // bit globally unique IEEE-SA assigned number
@@ -222,8 +221,7 @@ struct vendorSpecificTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct alMacAddressTypeTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_AL_MAC_ADDRESS_TYPE
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_AL_MAC_ADDRESS_TYPE. */
 
     uint8_t   al_mac_address[6];    // 1905 AL MAC address of the transmitting
                                   // device
@@ -235,8 +233,7 @@ struct alMacAddressTypeTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct macAddressTypeTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_MAC_ADDRESS_TYPE
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_MAC_ADDRESS_TYPE. */
 
     uint8_t   mac_address[6];       // MAC address of the interface on which the
                                   // message is transmitted
@@ -273,8 +270,7 @@ struct _localInterfaceEntries
 };
 struct deviceInformationTypeTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_DEVICE_INFORMATION_TYPE
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_DEVICE_INFORMATION_TYPE. */
 
     uint8_t   al_mac_address[6];    // 1905 AL MAC address of the device
 
@@ -305,8 +301,7 @@ struct _bridgingTupleEntries
 };
 struct deviceBridgingCapabilityTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_DEVICE_BRIDGING_CAPABILITIES
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_DEVICE_BRIDGING_CAPABILITIES. */
 
     uint8_t   bridging_tuples_nr;   // Number of MAC addresses in this bridging
                                   // tuple
@@ -325,8 +320,7 @@ struct _non1905neighborEntries
 };
 struct non1905NeighborDeviceListTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_NON_1905_NEIGHBOR_DEVICE_LIST
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_NON_1905_NEIGHBOR_DEVICE_LIST. */
 
     uint8_t   local_mac_address[6]; // MAC address of the local interface
 
@@ -351,8 +345,7 @@ struct _neighborEntries
 };
 struct neighborDeviceListTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_NEIGHBOR_DEVICE_LIST
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_NEIGHBOR_DEVICE_LIST. */
 
     uint8_t   local_mac_address[6]; // MAC address of the local interface
 
@@ -367,8 +360,7 @@ struct neighborDeviceListTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct linkMetricQueryTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_LINK_METRIC_QUERY
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_LINK_METRIC_QUERY. */
 
     #define LINK_METRIC_QUERY_TLV_ALL_NEIGHBORS      (0x00)
     #define LINK_METRIC_QUERY_TLV_SPECIFIC_NEIGHBOR  (0x01)
@@ -429,8 +421,7 @@ struct _transmitterLinkMetricEntries
 };
 struct transmitterLinkMetricTLV
 {
-    uint8_t  tlv_type;               // Must always be set to
-                                   // TLV_TYPE_TRANSMITTER_LINK_METRIC
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_TRANSMITTER_LINK_METRIC. */
 
     uint8_t  local_al_address[6];    // AL MAC address of the device that
                                    // transmits the response message that
@@ -478,8 +469,7 @@ struct  _receiverLinkMetricEntries
 };
 struct receiverLinkMetricTLV
 {
-    uint8_t   tlv_type;              // Must always be set to
-                                   // TLV_TYPE_RECEIVER_LINK_METRIC
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_RECEIVER_LINK_METRIC. */
 
     uint8_t local_al_address[6];     // AL MAC address of the device that
                                    // transmits the response message that
@@ -501,8 +491,7 @@ struct receiverLinkMetricTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct linkMetricResultCodeTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_LINK_METRIC_RESULT_CODE
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_LINK_METRIC_RESULT_CODE. */
 
     #define LINK_METRIC_RESULT_CODE_TLV_INVALID_NEIGHBOR  (0x00)
     uint8_t   result_code;          // One of the values from above
@@ -514,8 +503,7 @@ struct linkMetricResultCodeTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct searchedRoleTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_SEARCHED_ROLE
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_SEARCHED_ROLE. */
 
     uint8_t   role;                 // One of the values from IEEE80211_ROLE_*
 };
@@ -526,8 +514,7 @@ struct searchedRoleTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct autoconfigFreqBandTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_AUTOCONFIG_FREQ_BAND
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_AUTOCONFIG_FREQ_BAND. */
 
     uint8_t   freq_band;            // Frequency band of the unconfigured
                                   // interface requesting an autoconfiguration.
@@ -541,8 +528,7 @@ struct autoconfigFreqBandTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct supportedRoleTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_SUPPORTED_ROLE
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_SUPPORTED_ROLE. */
 
     uint8_t   role;                 // One of the values from IEEE80211_ROLE_*
 };
@@ -554,8 +540,7 @@ struct supportedRoleTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct supportedFreqBandTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_SUPPORTED_FREQ_BAND
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_SUPPORTED_FREQ_BAND. */
 
     uint8_t   freq_band;            // Frequency band of the unconfigured
                                   // interface requesting an autoconfiguration.
@@ -569,8 +554,7 @@ struct supportedFreqBandTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct wscTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_WSC
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_WSC. */
 
     uint16_t  wsc_frame_size;
     uint8_t  *wsc_frame;            // Pointer to a buffer containing the M1 or
@@ -603,8 +587,7 @@ struct _mediaTypeEntries
 };
 struct pushButtonEventNotificationTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_PUSH_BUTTON_EVENT_NOTIFICATION
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_PUSH_BUTTON_EVENT_NOTIFICATION. */
 
     uint8_t   media_types_nr;       // Number of media types included in this
                                   // message: can be "0" or larger
@@ -618,8 +601,7 @@ struct pushButtonEventNotificationTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct pushButtonJoinNotificationTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_AL_MAC_ADDRESS_TYPE
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_AL_MAC_ADDRESS_TYPE. */
 
     uint8_t   al_mac_address[6];    // 1905 AL MAC address of the device that sent
                                   // the push button event notification message
@@ -667,8 +649,7 @@ struct _genericPhyDeviceEntries
 };
 struct genericPhyDeviceInformationTypeTLV
 {
-    uint8_t  tlv_type;                  // Must always be set to
-                                      // TLV_TYPE_GENERIC_PHY_DEVICE_INFORMATION
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_GENERIC_PHY_DEVICE_INFORMATION. */
 
     uint8_t   al_mac_address[6];        // 1905 AL MAC address of the device
 
@@ -686,8 +667,7 @@ struct genericPhyDeviceInformationTypeTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct deviceIdentificationTypeTLV
 {
-    uint8_t  tlv_type;                  // Must always be set to
-                                      // TLV_TYPE_DEVICE_IDENTIFICATION
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_DEVICE_IDENTIFICATION. */
 
     char  friendly_name[64];         // Friendly name UTF-8 string (NULL
                                       // terminated)
@@ -706,8 +686,7 @@ struct deviceIdentificationTypeTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct controlUrlTypeTLV
 {
-    uint8_t  tlv_type;                  // Must always be set to
-                                      // TLV_TYPE_CONTROL_URL
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_CONTROL_URL. */
 
     char   *url;                      // Pointer to a NULL terminated string
                                       // containing the URL to a control or
@@ -749,8 +728,7 @@ struct _ipv4InterfaceEntries
 };
 struct ipv4TypeTLV
 {
-    uint8_t  tlv_type;                  // Must always be set to
-                                      // TLV_TYPE_IPV4
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_IPV4. */
 
     uint8_t                          ipv4_interfaces_nr;
     struct _ipv4InterfaceEntries  *ipv4_interfaces;
@@ -803,8 +781,7 @@ struct _ipv6InterfaceEntries
 };
 struct ipv6TypeTLV
 {
-    uint8_t  tlv_type;                  // Must always be set to
-                                      // TLV_TYPE_IPV6
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_IPV6. */
 
     uint8_t                          ipv6_interfaces_nr;
     struct _ipv6InterfaceEntries  *ipv6_interfaces;
@@ -819,8 +796,7 @@ struct ipv6TypeTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct pushButtonGenericPhyEventNotificationTLV
 {
-    uint8_t  tlv_type;               // Must always be set to
-                                   // TLV_TYPE_GENERIC_PHY_EVENT_NOTIFICATION
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_GENERIC_PHY_EVENT_NOTIFICATION. */
 
     uint8_t                            local_interfaces_nr;
     struct _genericPhyCommonData    *local_interfaces;
@@ -837,8 +813,7 @@ struct pushButtonGenericPhyEventNotificationTLV
 ////////////////////////////////////////////////////////////////////////////////
 struct x1905ProfileVersionTLV
 {
-    uint8_t   tlv_type;             // Must always be set to
-                                  // TLV_TYPE_1905_PROFILE_VERSION
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_1905_PROFILE_VERSION. */
 
     #define PROFILE_1905_1   (0x00)
     #define PROFILE_1905_1A  (0x01)
@@ -866,8 +841,7 @@ struct _powerOffInterfaceEntries
 };
 struct powerOffInterfaceTLV
 {
-    uint8_t  tlv_type;               // Must always be set to
-                                   // TLV_TYPE_POWER_OFF_INTERFACE
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_POWER_OFF_INTERFACE. */
 
     uint8_t                              power_off_interfaces_nr;
     struct _powerOffInterfaceEntries  *power_off_interfaces;
@@ -892,8 +866,7 @@ struct _powerChangeInformationEntries
 };
 struct interfacePowerChangeInformationTLV
 {
-    uint8_t  tlv_type;             // Must always be set to
-                                 // TLV_TYPE_INTERFACE_POWER_CHANGE_INFORMATION
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_INTERFACE_POWER_CHANGE_INFORMATION. */
 
     uint8_t                                   power_change_interfaces_nr;
     struct _powerChangeInformationEntries  *power_change_interfaces;
@@ -917,8 +890,7 @@ struct _powerChangeStatusEntries
 };
 struct interfacePowerChangeStatusTLV
 {
-    uint8_t  tlv_type;             // Must always be set to
-                                 // TLV_TYPE_INTERFACE_POWER_CHANGE_STATUS
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_INTERFACE_POWER_CHANGE_STATUS. */
 
     uint8_t                              power_change_interfaces_nr;
     struct _powerChangeStatusEntries  *power_change_interfaces;
@@ -954,8 +926,7 @@ struct _l2InterfacesEntries
 };
 struct l2NeighborDeviceTLV
 {
-    uint8_t  tlv_type;                  // Must always be set to
-                                      // TLV_TYPE_L2_NEIGHBOR_DEVICE
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_L2_NEIGHBOR_DEVICE. */
 
     uint8_t                         local_interfaces_nr;
     struct _l2InterfacesEntries  *local_interfaces;
@@ -976,7 +947,7 @@ enum serviceType {
 
 struct supportedServiceTLV
 {
-    uint8_t  tlv_type; /**< @brief TLV type, must always be set to TLV_TYPE_SUPPORTED_SERVICE. */
+    struct tlv   tlv; /**< @brief TLV type, must always be set to TLV_TYPE_SUPPORTED_SERVICE. */
     uint8_t  supported_service_nr; /**< @brief Number of supported_service. */
     enum serviceType *supported_service; /**< @brief List of supported services. */
 };

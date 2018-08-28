@@ -110,7 +110,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_END_OF_LLDPPDU;
+            ret->tlv.type = TLV_TYPE_END_OF_LLDPPDU;
 
             return (uint8_t *)ret;
         }
@@ -137,7 +137,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_CHASSIS_ID;
+            ret->tlv.type = TLV_TYPE_CHASSIS_ID;
 
             _E1B(&p, &ret->chassis_id_subtype);
 
@@ -180,7 +180,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_PORT_ID;
+            ret->tlv.type = TLV_TYPE_PORT_ID;
 
             _E1B(&p, &ret->port_id_subtype);
 
@@ -220,7 +220,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
                 return NULL;
             }
 
-            ret->tlv_type = TLV_TYPE_TIME_TO_LIVE;
+            ret->tlv.type = TLV_TYPE_TIME_TO_LIVE;
 
             _E2B(&p, &ret->ttl);
 
@@ -271,7 +271,7 @@ uint8_t *forge_lldp_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 1 + tlv_length);
 
-            byte1 = (m->tlv_type << 1) | ((tlv_length & 0x80) >> 7);
+            byte1 = (m->tlv.type << 1) | ((tlv_length & 0x80) >> 7);
             byte2 = tlv_length & 0x7f;
 
             _I1B(&byte1,  &p);
@@ -305,7 +305,7 @@ uint8_t *forge_lldp_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 1 + tlv_length);
 
-            byte1 = (m->tlv_type << 1) | ((tlv_length & 0x80) >> 7);
+            byte1 = (m->tlv.type << 1) | ((tlv_length & 0x80) >> 7);
             byte2 = tlv_length & 0x7f;
 
             _I1B(&byte1,                 &p);
@@ -341,7 +341,7 @@ uint8_t *forge_lldp_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 1 + tlv_length);
 
-            byte1 = (m->tlv_type << 1) | ((tlv_length & 0x80) >> 7);
+            byte1 = (m->tlv.type << 1) | ((tlv_length & 0x80) >> 7);
             byte2 = tlv_length & 0x7f;
 
             _I1B(&byte1,              &p);
@@ -377,7 +377,7 @@ uint8_t *forge_lldp_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             p = ret = (uint8_t *)memalloc(1 + 1 + tlv_length);
 
-            byte1 = (m->tlv_type << 1) | ((tlv_length & 0x80) >> 7);
+            byte1 = (m->tlv.type << 1) | ((tlv_length & 0x80) >> 7);
             byte2 = tlv_length & 0x7f;
 
             _I1B(&byte1,  &p);
