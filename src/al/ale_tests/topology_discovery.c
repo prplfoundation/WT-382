@@ -60,9 +60,9 @@ static struct CMDU aletest_expect_cmdu_topology_discovery =
     .message_type    = CMDU_TYPE_TOPOLOGY_DISCOVERY,
     .relay_indicator = 0,
     .list_of_TLVs    =
-        (INT8U* []){
-            (INT8U *)&expect_al_mac_tlv,
-            (INT8U *)(struct macAddressTypeTLV[]){
+        (uint8_t* []){
+            (uint8_t *)&expect_al_mac_tlv,
+            (uint8_t *)(struct macAddressTypeTLV[]){
                 {
                     .tlv_type          = TLV_TYPE_MAC_ADDRESS_TYPE,
                     .mac_address       = ADDR_MAC0,
@@ -79,14 +79,14 @@ static struct CMDU aletest_send_cmdu_topology_discovery =
     .message_type    = CMDU_TYPE_TOPOLOGY_DISCOVERY,
     .relay_indicator = 0,
     .list_of_TLVs    =
-        (INT8U* []){
-            (INT8U *)(struct alMacAddressTypeTLV[]){
+        (uint8_t* []){
+            (uint8_t *)(struct alMacAddressTypeTLV[]){
                 {
                     .tlv_type          = TLV_TYPE_AL_MAC_ADDRESS_TYPE,
                     .al_mac_address    = ADDR_AL_PEER0,
                 }
             },
-            (INT8U *)(struct macAddressTypeTLV[]){
+            (uint8_t *)(struct macAddressTypeTLV[]){
                 {
                     .tlv_type          = TLV_TYPE_MAC_ADDRESS_TYPE,
                     .mac_address       = ADDR_MAC_PEER0,
@@ -102,7 +102,7 @@ static struct CMDU aletest_cmdu_topology_query =
     .message_type    = CMDU_TYPE_TOPOLOGY_QUERY,
     .relay_indicator = 0,
     .list_of_TLVs    =
-        (INT8U* []){
+        (uint8_t* []){
             NULL,
         },
 };
@@ -150,8 +150,8 @@ static struct CMDU aletest_expect_cmdu_topology_response =
     .message_type    = CMDU_TYPE_TOPOLOGY_RESPONSE,
     .relay_indicator = 0,
     .list_of_TLVs    =
-        (INT8U* []){
-            (INT8U *)(struct deviceInformationTypeTLV[]){
+        (uint8_t* []){
+            (uint8_t *)(struct deviceInformationTypeTLV[]){
                 {
                     .tlv_type            = TLV_TYPE_DEVICE_INFORMATION_TYPE,
                     .al_mac_address      = ADDR_AL,
@@ -159,13 +159,13 @@ static struct CMDU aletest_expect_cmdu_topology_response =
                     .local_interfaces    = aletest_local_interfaces,
                 }
             },
-            (INT8U *)(struct deviceBridgingCapabilityTLV[]){
+            (uint8_t *)(struct deviceBridgingCapabilityTLV[]){
                 {
                     .tlv_type            = TLV_TYPE_DEVICE_BRIDGING_CAPABILITIES,
                     .bridging_tuples_nr  = 0,
                 },
             },
-            (INT8U *)(struct neighborDeviceListTLV[]){
+            (uint8_t *)(struct neighborDeviceListTLV[]){
                 {
                     .tlv_type            = TLV_TYPE_NEIGHBOR_DEVICE_LIST,
                     .local_mac_address   = ADDR_MAC0,
@@ -178,20 +178,20 @@ static struct CMDU aletest_expect_cmdu_topology_response =
                     },
                 }
             },
-            (INT8U *)(struct powerOffInterfaceTLV[]){
+            (uint8_t *)(struct powerOffInterfaceTLV[]){
                 {
                     .tlv_type                 = TLV_TYPE_POWER_OFF_INTERFACE,
                     .power_off_interfaces_nr  = 0,
                 },
             },
-            (INT8U *)(struct l2NeighborDeviceTLV[]){
+            (uint8_t *)(struct l2NeighborDeviceTLV[]){
                 {
                     .tlv_type            = TLV_TYPE_L2_NEIGHBOR_DEVICE,
                     .local_interfaces_nr  = 0,
                 },
             },
-            (INT8U *)&multiApControllerService,
-            (INT8U *)&multiApOperationalBss,
+            (uint8_t *)&multiApControllerService,
+            (uint8_t *)&multiApOperationalBss,
             NULL,
         },
 };
@@ -202,14 +202,14 @@ static struct CMDU aletest_send_cmdu_topology_discovery2 =
     .message_type    = CMDU_TYPE_TOPOLOGY_DISCOVERY,
     .relay_indicator = 0,
     .list_of_TLVs    =
-        (INT8U* []){
-            (INT8U *)(struct alMacAddressTypeTLV[]){
+        (uint8_t* []){
+            (uint8_t *)(struct alMacAddressTypeTLV[]){
                 {
                     .tlv_type          = TLV_TYPE_AL_MAC_ADDRESS_TYPE,
                     .al_mac_address    = ADDR_AL_PEER1,
                 }
             },
-            (INT8U *)(struct macAddressTypeTLV[]){
+            (uint8_t *)(struct macAddressTypeTLV[]){
                 {
                     .tlv_type          = TLV_TYPE_MAC_ADDRESS_TYPE,
                     .mac_address       = ADDR_MAC_PEER1,
@@ -226,9 +226,9 @@ static struct CMDU aletest_expect_cmdu_topology_discovery2 =
     .message_type    = CMDU_TYPE_TOPOLOGY_DISCOVERY,
     .relay_indicator = 0,
     .list_of_TLVs    =
-        (INT8U* []){
-            (INT8U *)&expect_al_mac_tlv,
-            (INT8U *)(struct macAddressTypeTLV[]){
+        (uint8_t* []){
+            (uint8_t *)&expect_al_mac_tlv,
+            (uint8_t *)(struct macAddressTypeTLV[]){
                 {
                     .tlv_type          = TLV_TYPE_MAC_ADDRESS_TYPE,
                     .mac_address       = ADDR_MAC1,
@@ -244,8 +244,8 @@ static struct CMDU aletest_send_cmdu_topology_response2 = {
     .message_type    = CMDU_TYPE_TOPOLOGY_RESPONSE,
     .relay_indicator = 0,
     .list_of_TLVs    =
-        (INT8U* []){
-            (INT8U *)(struct deviceInformationTypeTLV[]){
+        (uint8_t* []){
+            (uint8_t *)(struct deviceInformationTypeTLV[]){
                 {
                     .tlv_type            = TLV_TYPE_DEVICE_INFORMATION_TYPE,
                     .al_mac_address      = ADDR_AL_PEER1,
@@ -262,7 +262,7 @@ static struct CMDU aletest_send_cmdu_topology_response2 = {
             /* No device bridging capability */
             /* No Non-1905 neighbors */
             /* No 1905 neighbors */
-            (INT8U *)(struct supportedServiceTLV[]){
+            (uint8_t *)(struct supportedServiceTLV[]){
                 {
                     .tlv_type          = TLV_TYPE_SUPPORTED_SERVICE,
                     .supported_service_nr = 2,
@@ -279,8 +279,8 @@ static struct CMDU aletest_expect_cmdu_topology_notification =
     .message_type    = CMDU_TYPE_TOPOLOGY_NOTIFICATION,
     .relay_indicator = 1,
     .list_of_TLVs    =
-        (INT8U* []){
-            (INT8U *)&expect_al_mac_tlv,
+        (uint8_t* []){
+            (uint8_t *)&expect_al_mac_tlv,
             NULL,
         },
 };

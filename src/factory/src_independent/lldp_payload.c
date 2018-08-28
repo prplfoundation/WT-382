@@ -59,12 +59,12 @@
 // Actual API functions
 ////////////////////////////////////////////////////////////////////////////////
 
-struct PAYLOAD *parse_lldp_PAYLOAD_from_packet(INT8U *packet_stream)
+struct PAYLOAD *parse_lldp_PAYLOAD_from_packet(uint8_t *packet_stream)
 {
     struct PAYLOAD *ret;
 
-    INT8U *p;
-    INT8U i, j;
+    uint8_t *p;
+    uint8_t i, j;
 
     if (NULL == packet_stream)
     {
@@ -82,10 +82,10 @@ struct PAYLOAD *parse_lldp_PAYLOAD_from_packet(INT8U *packet_stream)
 
     while (1)
     {
-        INT8U *tlv;
+        uint8_t *tlv;
 
-        INT8U byte1, byte2;
-        INT16U len;
+        uint8_t byte1, byte2;
+        uint16_t len;
 
         tlv = parse_lldp_TLV_from_packet(p);
 
@@ -141,9 +141,9 @@ struct PAYLOAD *parse_lldp_PAYLOAD_from_packet(INT8U *packet_stream)
     // needed TLVs (ie. "chassis ID", "port ID" and "time to live")
     //
     {
-        INT8U chassis_id    = 0;
-        INT8U port_id       = 0;
-        INT8U time_to_live  = 0;
+        uint8_t chassis_id    = 0;
+        uint8_t port_id       = 0;
+        uint8_t time_to_live  = 0;
 
         for (j=0; j<i; j++)
         {
@@ -178,19 +178,19 @@ struct PAYLOAD *parse_lldp_PAYLOAD_from_packet(INT8U *packet_stream)
 }
 
 
-INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16U *len)
+uint8_t *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, uint16_t *len)
 {
-    INT8U i;
+    uint8_t i;
 
     struct chassisIdTLV       *x;
     struct portIdTLV          *y;
     struct timeToLiveTypeTLV  *z;
 
-    INT8U  *stream;
-    INT16U  stream_len;
+    uint8_t  *stream;
+    uint16_t  stream_len;
 
-    INT8U  *buffer;
-    INT16U  total_len;
+    uint8_t  *buffer;
+    uint16_t  total_len;
 
     struct endOfLldppduTLV  end_of_lldppdu_tlv = { .tlv_type = TLV_TYPE_END_OF_LLDPPDU };
 
@@ -199,9 +199,9 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
     // "time to live") and nothing else.
     //
     {
-        INT8U chassis_id    = 0;
-        INT8U port_id       = 0;
-        INT8U time_to_live  = 0;
+        uint8_t chassis_id    = 0;
+        uint8_t port_id       = 0;
+        uint8_t time_to_live  = 0;
 
         for (i=0; i<MAX_LLDP_TLVS; i++)
         {
@@ -245,7 +245,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
 
     // Prepare the output buffer
     //
-    buffer = (INT8U *)PLATFORM_MALLOC(MAX_NETWORK_SEGMENT_SIZE);
+    buffer = (uint8_t *)PLATFORM_MALLOC(MAX_NETWORK_SEGMENT_SIZE);
 
     // Next, from each of the just filled structures, obtain its packet
     // representation (ie. bit stream layout) and fill 'buffer' with them in
@@ -253,7 +253,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
     //
     total_len = 0;
 
-    stream = forge_lldp_TLV_from_structure((INT8U *)x, &stream_len);
+    stream = forge_lldp_TLV_from_structure((uint8_t *)x, &stream_len);
     if (NULL == stream)
     {
         // Could not forge the packet. Error?
@@ -266,7 +266,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
     PLATFORM_FREE(stream);
     total_len += stream_len;
 
-    stream = forge_lldp_TLV_from_structure((INT8U *)y, &stream_len);
+    stream = forge_lldp_TLV_from_structure((uint8_t *)y, &stream_len);
     if (NULL == stream)
     {
         // Could not forge the packet. Error?
@@ -279,7 +279,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
     PLATFORM_FREE(stream);
     total_len += stream_len;
 
-    stream = forge_lldp_TLV_from_structure((INT8U *)z, &stream_len);
+    stream = forge_lldp_TLV_from_structure((uint8_t *)z, &stream_len);
     if (NULL == stream)
     {
         // Could not forge the packet. Error?
@@ -292,7 +292,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
     PLATFORM_FREE(stream);
     total_len += stream_len;
 
-    stream = forge_lldp_TLV_from_structure((INT8U *)&end_of_lldppdu_tlv, &stream_len);
+    stream = forge_lldp_TLV_from_structure((uint8_t *)&end_of_lldppdu_tlv, &stream_len);
     if (NULL == stream)
     {
         // Could not forge the packet. Error?
@@ -314,7 +314,7 @@ INT8U *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, INT16
 
 void free_lldp_PAYLOAD_structure(struct PAYLOAD *memory_structure)
 {
-    INT8U i;
+    uint8_t i;
 
     i = 0;
     while (memory_structure->list_of_TLVs[i])
@@ -329,9 +329,9 @@ void free_lldp_PAYLOAD_structure(struct PAYLOAD *memory_structure)
 }
 
 
-INT8U compare_lldp_PAYLOAD_structures(struct PAYLOAD *memory_structure_1, struct PAYLOAD *memory_structure_2)
+uint8_t compare_lldp_PAYLOAD_structures(struct PAYLOAD *memory_structure_1, struct PAYLOAD *memory_structure_2)
 {
-    INT8U i;
+    uint8_t i;
 
     if (NULL == memory_structure_1 || NULL == memory_structure_2)
     {
@@ -370,7 +370,7 @@ void visit_lldp_PAYLOAD_structure(struct PAYLOAD *memory_structure, visitor_call
     //
     #define MAX_PREFIX  100
 
-    INT8U i;
+    uint8_t i;
 
     if (NULL == memory_structure)
     {

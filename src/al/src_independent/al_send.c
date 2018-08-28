@@ -96,11 +96,11 @@
 //
 void _obtainLocalDeviceInfoTLV(struct deviceInformationTypeTLV *device_info)
 {
-    INT8U  al_mac_address[6];
+    uint8_t  al_mac_address[6];
 
     char   **interfaces_names;
-    INT8U    interfaces_names_nr;
-    INT8U    i;
+    uint8_t    interfaces_names_nr;
+    uint8_t    i;
 
     memcpy(al_mac_address, DMalMacGet(), 6);
 
@@ -223,8 +223,8 @@ void _freeLocalDeviceInfoTLV(struct deviceInformationTypeTLV *device_info)
 void _obtainLocalBridgingCapabilitiesTLV(struct deviceBridgingCapabilityTLV *bridge_info)
 {
     struct bridge *br;
-    INT8U          br_nr;
-    INT8U          i, j;
+    uint8_t          br_nr;
+    uint8_t          i, j;
 
     bridge_info->tlv_type = TLV_TYPE_DEVICE_BRIDGING_CAPABILITIES;
 
@@ -254,7 +254,7 @@ void _obtainLocalBridgingCapabilitiesTLV(struct deviceBridgingCapabilityTLV *bri
 
                 for (j=0; j<bridge_info->bridging_tuples[i].bridging_tuple_macs_nr; j++)
                 {
-                    INT8U mac_address[6];
+                    uint8_t mac_address[6];
 
                     memcpy(mac_address, DMinterfaceNameToMac(br[i].bridged_interfaces[j]), 6);
                     bridge_info->bridging_tuples[i].bridging_tuple_macs[j].mac_address[0] = mac_address[0];
@@ -277,7 +277,7 @@ void _obtainLocalBridgingCapabilitiesTLV(struct deviceBridgingCapabilityTLV *bri
 //
 void _freeLocalBridgingCapabilitiesTLV(struct deviceBridgingCapabilityTLV *bridge_info)
 {
-    INT8U i;
+    uint8_t i;
 
     if (bridge_info->bridging_tuples_nr > 0)
     {
@@ -298,8 +298,8 @@ void _freeLocalBridgingCapabilitiesTLV(struct deviceBridgingCapabilityTLV *bridg
 //
 // Example: this is how you would use this function:
 //
-//   struct non1905NeighborDeviceListTLV **a;   INT8U a_nr;
-//   struct neighborDeviceListTLV        **b;   INT8U b_nr;
+//   struct non1905NeighborDeviceListTLV **a;   uint8_t a_nr;
+//   struct neighborDeviceListTLV        **b;   uint8_t b_nr;
 //
 //   _obtainLocalNeighborsTLV(&a, &a_nr, &b, &b_nr);
 //
@@ -313,11 +313,11 @@ void _freeLocalBridgingCapabilitiesTLV(struct deviceBridgingCapabilityTLV *bridg
 //   // ...
 //   // b[b_nr-1] --> ptr to the last "neighborDeviceListTLV" structure
 //
-void _obtainLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_neighbors, INT8U *non_1905_neighbors_nr, struct neighborDeviceListTLV ***neighbors, INT8U *neighbors_nr)
+void _obtainLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_neighbors, uint8_t *non_1905_neighbors_nr, struct neighborDeviceListTLV ***neighbors, uint8_t *neighbors_nr)
 {
     char                  **interfaces_names;
-    INT8U                   interfaces_names_nr;
-    INT8U                   i, j, k;
+    uint8_t                   interfaces_names_nr;
+    uint8_t                   i, j, k;
 
     *non_1905_neighbors    = NULL;
     *neighbors             = NULL;
@@ -325,8 +325,8 @@ void _obtainLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_ne
     *non_1905_neighbors_nr = 0;
     *neighbors_nr          = 0;
 
-    INT8U (*al_mac_addresses)[6];
-    INT8U al_mac_addresses_nr;
+    uint8_t (*al_mac_addresses)[6];
+    uint8_t al_mac_addresses_nr;
 
     interfaces_names = PLATFORM_GET_LIST_OF_1905_INTERFACES(&interfaces_names_nr);
 
@@ -372,7 +372,7 @@ void _obtainLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_ne
         //
         if (x->neighbor_mac_addresses_nr != INTERFACE_NEIGHBORS_UNKNOWN)
         {
-            INT8U *al_mac_address_has_been_reported;
+            uint8_t *al_mac_address_has_been_reported;
 
             // Keep track of all the AL MACs that the interface reports he is
             // seeing.
@@ -382,14 +382,14 @@ void _obtainLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_ne
                 // Originally, none of the neighbors in the data model has been
                 // reported...
                 //
-                al_mac_address_has_been_reported = (INT8U *)PLATFORM_MALLOC(sizeof(INT8U) * al_mac_addresses_nr);
+                al_mac_address_has_been_reported = (uint8_t *)PLATFORM_MALLOC(sizeof(uint8_t) * al_mac_addresses_nr);
                 memset(al_mac_address_has_been_reported, 0x0, al_mac_addresses_nr);
             }
 
             for (j=0; j<x->neighbor_mac_addresses_nr; j++)
             {
-                INT8U *al_mac;
-                INT8U k;
+                uint8_t *al_mac;
+                uint8_t k;
 
                 al_mac = DMmacToAlMac(x->neighbor_mac_addresses[j]);
 
@@ -397,7 +397,7 @@ void _obtainLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_ne
                 {
                     // Non-1905 neighbor
 
-                    INT8U already_added;
+                    uint8_t already_added;
 
                     // Make sure it has not already been added
                     //
@@ -438,7 +438,7 @@ void _obtainLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_ne
                 {
                     // 1905 neighbor
 
-                    INT8U already_added;
+                    uint8_t already_added;
 
                     // Mark this AL MAC as reported
                     //
@@ -519,7 +519,7 @@ void _obtainLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_ne
 
             for (j=0; j<al_mac_addresses_nr; j++)
             {
-                INT8U already_added;
+                uint8_t already_added;
 
                 // Make sure it has not already been added
                 //
@@ -618,9 +618,9 @@ void _obtainLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_ne
 // This function is called with the same arguments as
 // "_obtainLocalNeighborsTLV()"
 //
-void _freeLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_neighbors, INT8U *non_1905_neighbors_nr, struct neighborDeviceListTLV ***neighbors, INT8U *neighbors_nr)
+void _freeLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_neighbors, uint8_t *non_1905_neighbors_nr, struct neighborDeviceListTLV ***neighbors, uint8_t *neighbors_nr)
 {
-    INT8U i;
+    uint8_t i;
 
     if (*non_1905_neighbors_nr > 0)
     {
@@ -654,8 +654,8 @@ void _freeLocalNeighborsTLV(struct non1905NeighborDeviceListTLV ***non_1905_neig
 void _obtainLocalPowerOffInterfacesTLV(struct powerOffInterfaceTLV *power_off)
 {
     char                  **interfaces_names;
-    INT8U                   interfaces_names_nr;
-    INT8U                   i;
+    uint8_t                   interfaces_names_nr;
+    uint8_t                   i;
 
     power_off->tlv_type                = TLV_TYPE_POWER_OFF_INTERFACE;
     power_off->power_off_interfaces_nr = 0;
@@ -789,8 +789,8 @@ void _obtainLocalPowerOffInterfacesTLV(struct powerOffInterfaceTLV *power_off)
         }
         else
         {
-            INT16U  len;
-            INT8U  *m;
+            uint16_t  len;
+            uint8_t  *m;
 
             power_off->power_off_interfaces[power_off->power_off_interfaces_nr].generic_phy_common_data.oui[0]                  = x->interface_type_data.other.oui[0];
             power_off->power_off_interfaces[power_off->power_off_interfaces_nr].generic_phy_common_data.oui[1]                  = x->interface_type_data.other.oui[1];
@@ -827,7 +827,7 @@ void _obtainLocalPowerOffInterfacesTLV(struct powerOffInterfaceTLV *power_off)
 //
 void _freeLocalPowerOffInterfacesTLV(struct powerOffInterfaceTLV *power_off)
 {
-    INT8U i;
+    uint8_t i;
 
     if (power_off->power_off_interfaces_nr > 0)
     {
@@ -854,8 +854,8 @@ void _freeLocalPowerOffInterfacesTLV(struct powerOffInterfaceTLV *power_off)
 void _obtainLocalL2NeighborsTLV(struct l2NeighborDeviceTLV *l2_neighbors)
 {
     char                  **interfaces_names;
-    INT8U                   interfaces_names_nr;
-    INT8U                   i, j;
+    uint8_t                   interfaces_names_nr;
+    uint8_t                   i, j;
 
     l2_neighbors->tlv_type                = TLV_TYPE_L2_NEIGHBOR_DEVICE;
     l2_neighbors->local_interfaces_nr     = 0;
@@ -925,7 +925,7 @@ void _obtainLocalL2NeighborsTLV(struct l2NeighborDeviceTLV *l2_neighbors)
 //
 void _freeLocalL2NeighborsTLV(struct l2NeighborDeviceTLV *l2_neighbors)
 {
-    INT8U i, j;
+    uint8_t i, j;
 
     if (l2_neighbors->local_interfaces_nr > 0)
     {
@@ -958,7 +958,7 @@ void _freeLocalL2NeighborsTLV(struct l2NeighborDeviceTLV *l2_neighbors)
 //
 void _obtainLocalAlMacAddressTLV(struct alMacAddressTypeTLV *al_mac_addr)
 {
-    INT8U  al_mac_address[6];
+    uint8_t  al_mac_address[6];
 
     memcpy(al_mac_address, DMalMacGet(), 6);
 
@@ -1009,19 +1009,19 @@ void _freeLocalAlMacAddressTLV(__attribute__((unused)) struct alMacAddressTypeTL
 // If there is a problem (example: a specific neighbor was not found), this
 // function returns '0', otherwise it returns '1'.
 //
-void _obtainLocalMetricsTLVs(INT8U destination, INT8U *specific_neighbor, INT8U metrics_type,
+void _obtainLocalMetricsTLVs(uint8_t destination, uint8_t *specific_neighbor, uint8_t metrics_type,
                              struct transmitterLinkMetricTLV ***tx,
                              struct receiverLinkMetricTLV    ***rx,
-                             INT8U *nr)
+                             uint8_t *nr)
 {
-    INT8U (*al_mac_addresses)[6];
-    INT8U   al_mac_addresses_nr;
+    uint8_t (*al_mac_addresses)[6];
+    uint8_t   al_mac_addresses_nr;
 
     struct transmitterLinkMetricTLV   **tx_tlvs;
     struct receiverLinkMetricTLV      **rx_tlvs;
 
-    INT8U total_tlvs;
-    INT8U i, j;
+    uint8_t total_tlvs;
+    uint8_t i, j;
 
     al_mac_addresses = DMgetListOfNeighbors(&al_mac_addresses_nr);
 
@@ -1076,9 +1076,9 @@ void _obtainLocalMetricsTLVs(INT8U destination, INT8U *specific_neighbor, INT8U 
     total_tlvs = 0;
     for (i=0; i<al_mac_addresses_nr; i++)
     {
-        INT8U  (*remote_macs)[6];
+        uint8_t  (*remote_macs)[6];
         char   **local_interfaces;
-        INT8U    links_nr;
+        uint8_t    links_nr;
 
         // Check if we are really interested in obtaining metrics information
         // regarding this particular neighbor
@@ -1238,9 +1238,9 @@ void _obtainLocalMetricsTLVs(INT8U destination, INT8U *specific_neighbor, INT8U 
 // This function is called with the same three last arguments as
 // "_obtainLocalMetricsTLVs()"
 //
-void _freeLocalMetricsTLVs(struct transmitterLinkMetricTLV ***tx_tlvs, struct receiverLinkMetricTLV ***rx_tlvs, INT8U *total_tlvs)
+void _freeLocalMetricsTLVs(struct transmitterLinkMetricTLV ***tx_tlvs, struct receiverLinkMetricTLV ***rx_tlvs, uint8_t *total_tlvs)
 {
-    INT8U i;
+    uint8_t i;
 
     if (NULL != tx_tlvs && NULL != *tx_tlvs)
     {
@@ -1328,9 +1328,9 @@ void _freeLocalMetricsTLVs(struct transmitterLinkMetricTLV ***tx_tlvs, struct re
 // Note: this function should always return "1". If it ever returns "0" it means
 // there is a design error and the function implementation should be reviewed
 //
-INT8U _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
+uint8_t _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
                               struct receiverLinkMetricTLV   ***rx,
-                              INT8U *nr)
+                              uint8_t *nr)
 {
     struct transmitterLinkMetricTLV   **tx_tlvs;
     struct receiverLinkMetricTLV      **rx_tlvs;
@@ -1338,16 +1338,16 @@ INT8U _reStructureMetricsTLVs(struct transmitterLinkMetricTLV ***tx,
     struct transmitterLinkMetricTLV   **new_tx_tlvs;
     struct receiverLinkMetricTLV      **new_rx_tlvs;
 
-    INT8U total_tlvs;
-    INT8U new_total_tlvs_rx;
-    INT8U new_total_tlvs_tx;
+    uint8_t total_tlvs;
+    uint8_t new_total_tlvs_rx;
+    uint8_t new_total_tlvs_tx;
 
     char   **interfaces_names;
-    INT8U    interfaces_names_nr;
+    uint8_t    interfaces_names_nr;
 
     interfaces_names = PLATFORM_GET_LIST_OF_1905_INTERFACES(&interfaces_names_nr);
 
-    INT8U i, j, k;
+    uint8_t i, j, k;
 
     tx_tlvs           = *tx;
     rx_tlvs           = *rx;
@@ -1563,9 +1563,9 @@ static void _obtainLocalSupportedServicesTLV(struct supportedServiceTLV *support
 static void _obtainLocalApOperationalBssTLV(struct apOperationalBssTLV *ap_operational_bss_tlv)
 {
     char **ifs_names;
-    INT8U  ifs_nr;
-    INT8U  radio_nr = 0;
-    INT8U  i;
+    uint8_t  ifs_nr;
+    uint8_t  radio_nr = 0;
+    uint8_t  i;
 
     ap_operational_bss_tlv->tlv.type = TLV_TYPE_AP_OPERATIONAL_BSS;
 
@@ -1614,7 +1614,7 @@ static void _obtainLocalApOperationalBssTLV(struct apOperationalBssTLV *ap_opera
     }
     else
     {
-        INT8U radio = 0;
+        uint8_t radio = 0;
         ap_operational_bss_tlv->radio = PLATFORM_MALLOC(sizeof(*ap_operational_bss_tlv->radio) * radio_nr);
 
         /* First count # radios */
@@ -1670,11 +1670,11 @@ static void _obtainLocalApOperationalBssTLV(struct apOperationalBssTLV *ap_opera
 //
 void _obtainLocalGenericPhyTLV(struct genericPhyDeviceInformationTypeTLV *generic_phy)
 {
-    INT8U  al_mac_address[6];
-    INT8U  i;
+    uint8_t  al_mac_address[6];
+    uint8_t  i;
 
     char   **interfaces_names;
-    INT8U    interfaces_names_nr;
+    uint8_t    interfaces_names_nr;
 
     memcpy(al_mac_address, DMalMacGet(), 6);
 
@@ -1708,8 +1708,8 @@ void _obtainLocalGenericPhyTLV(struct genericPhyDeviceInformationTypeTLV *generi
         {
             // We are only interested in "generic" interfaces
 
-            INT16U  len;
-            INT8U  *m;
+            uint16_t  len;
+            uint8_t  *m;
 
             if (0 == generic_phy->local_interfaces_nr)
             {
@@ -1759,7 +1759,7 @@ void _obtainLocalGenericPhyTLV(struct genericPhyDeviceInformationTypeTLV *generi
 //
 void _freeLocalGenericPhyTLV(struct genericPhyDeviceInformationTypeTLV *generic_phy)
 {
-    INT8U i;
+    uint8_t i;
 
     if (generic_phy->local_interfaces_nr > 0)
     {
@@ -1882,9 +1882,9 @@ void _freeLocalControlUrlTLV(__attribute__((unused)) struct controlUrlTypeTLV *c
 void _obtainLocalIpsTLVs(struct ipv4TypeTLV *ipv4, struct ipv6TypeTLV *ipv6)
 {
     char **ifs_names;
-    INT8U  ifs_nr;
+    uint8_t  ifs_nr;
 
-    INT8U i, j;
+    uint8_t i, j;
 
     ipv4->tlv_type                 = TLV_TYPE_IPV4;
     ipv4->ipv4_interfaces_nr       = 0;
@@ -2019,7 +2019,7 @@ void _obtainLocalIpsTLVs(struct ipv4TypeTLV *ipv4, struct ipv6TypeTLV *ipv6)
 //
 void _freeLocalIpsTLVs(struct ipv4TypeTLV *ipv4, struct ipv6TypeTLV *ipv6)
 {
-    INT8U i;
+    uint8_t i;
 
     if (0 != ipv4->ipv4_interfaces_nr && NULL != ipv4->ipv4_interfaces)
     {
@@ -2063,7 +2063,7 @@ void _freeLocalIpsTLVs(struct ipv4TypeTLV *ipv4, struct ipv6TypeTLV *ipv6)
 //
 #define MEMORY_BUFFER_SIZE (63*1024)
 char   *memory_buffer     = NULL;
-INT16U  memory_buffer_i   = 0;
+uint16_t  memory_buffer_i   = 0;
 
 void _memoryBufferWriterInit()
 {
@@ -2131,8 +2131,8 @@ void _updateLocalDeviceData()
 {
     struct deviceInformationTypeTLV            *info;
     struct deviceBridgingCapabilityTLV        **bridges;
-    struct non1905NeighborDeviceListTLV       **non1905_neighbors; INT8U non1905_neighbors_nr;
-    struct neighborDeviceListTLV              **x1905_neighbors;   INT8U x1905_neighbors_nr;
+    struct non1905NeighborDeviceListTLV       **non1905_neighbors; uint8_t non1905_neighbors_nr;
+    struct neighborDeviceListTLV              **x1905_neighbors;   uint8_t x1905_neighbors_nr;
     struct powerOffInterfaceTLV               **power_off;
     struct l2NeighborDeviceTLV                **l2_neighbors;
     struct supportedServiceTLV                 *supported_service_tlv;
@@ -2145,10 +2145,10 @@ void _updateLocalDeviceData()
 
     struct transmitterLinkMetricTLV           **tx_tlvs;
     struct receiverLinkMetricTLV              **rx_tlvs;
-    INT8U                                       total_metrics_tlvs;
-    INT8U                                       i;
+    uint8_t                                       total_metrics_tlvs;
+    uint8_t                                       i;
 
-    struct vendorSpecificTLV                  **extensions;        INT8U extensions_nr;
+    struct vendorSpecificTLV                  **extensions;        uint8_t extensions_nr;
 
     // We need to allocate these structures in the heap (instead of simply
     // declaring variables in the stack) because they are going to be "saved"
@@ -2217,8 +2217,8 @@ void _updateLocalDeviceData()
     //
     for (i=0; i<total_metrics_tlvs; i++)
     {
-        DMupdateNetworkDeviceMetrics((INT8U *)tx_tlvs[i]);
-        DMupdateNetworkDeviceMetrics((INT8U *)rx_tlvs[i]);
+        DMupdateNetworkDeviceMetrics((uint8_t *)tx_tlvs[i]);
+        DMupdateNetworkDeviceMetrics((uint8_t *)rx_tlvs[i]);
     }
 
     // ... and that's why we need to do this (the "0" is so that pointers
@@ -2246,12 +2246,12 @@ void _updateLocalDeviceData()
 // Public functions (exported only to files in this same folder)
 ////////////////////////////////////////////////////////////////////////////////
 
-INT8U send1905RawPacket(char *interface_name, INT16U mid, INT8U *dst_mac_address, struct CMDU *cmdu)
+uint8_t send1905RawPacket(char *interface_name, uint16_t mid, uint8_t *dst_mac_address, struct CMDU *cmdu)
 {
-    INT8U  **streams;
-    INT16U  *streams_lens;
+    uint8_t  **streams;
+    uint16_t  *streams_lens;
 
-    INT8U total_streams, x;
+    uint8_t total_streams, x;
 
     // Insert protocol extensions to the CMDU, which has been already built at
     // this point.
@@ -2314,18 +2314,18 @@ INT8U send1905RawPacket(char *interface_name, INT16U mid, INT8U *dst_mac_address
     return 1;
 }
 
-INT8U send1905RawALME(INT8U alme_client_id, INT8U *alme)
+uint8_t send1905RawALME(uint8_t alme_client_id, uint8_t *alme)
 {
-    INT8U    *packet_out;
-    INT16U    packet_out_len;
+    uint8_t    *packet_out;
+    uint16_t    packet_out_len;
 
     PLATFORM_PRINTF_DEBUG_DETAIL("Contents of ALME reply to send:\n");
-    visit_1905_ALME_structure((INT8U *)alme, print_callback, PLATFORM_PRINTF_DEBUG_DETAIL, "");
+    visit_1905_ALME_structure((uint8_t *)alme, print_callback, PLATFORM_PRINTF_DEBUG_DETAIL, "");
 
     // Use the getIntfListResponseALME structure to forge the packet
     // bit stream
     //
-    packet_out = forge_1905_ALME_from_structure((INT8U *)alme, &packet_out_len);
+    packet_out = forge_1905_ALME_from_structure((uint8_t *)alme, &packet_out_len);
     if (NULL == packet_out)
     {
         PLATFORM_PRINTF_DEBUG_WARNING("forge_1905_ALME_from_structure() failed.\n");
@@ -2343,15 +2343,15 @@ INT8U send1905RawALME(INT8U alme_client_id, INT8U *alme)
     return 1;
 }
 
-INT8U send1905TopologyDiscoveryPacket(char *interface_name, INT16U mid)
+uint8_t send1905TopologyDiscoveryPacket(char *interface_name, uint16_t mid)
 {
     // The "topology discovery" message is a CMDU with two TLVs:
     //   - One AL MAC address type TLV
     //   - One MAC address type TLV
 
-    INT8U  interface_mac_address[6];
+    uint8_t  interface_mac_address[6];
 
-    INT8U  mcast_address[] = MCAST_1905;
+    uint8_t  mcast_address[] = MCAST_1905;
 
     struct CMDU                discovery_message;
     struct alMacAddressTypeTLV al_mac_addr_tlv;
@@ -2381,9 +2381,9 @@ INT8U send1905TopologyDiscoveryPacket(char *interface_name, INT16U mid)
     discovery_message.message_type    = CMDU_TYPE_TOPOLOGY_DISCOVERY;
     discovery_message.message_id      = mid;
     discovery_message.relay_indicator = 0;
-    discovery_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*3);
-    discovery_message.list_of_TLVs[0] = (INT8U *)&al_mac_addr_tlv;
-    discovery_message.list_of_TLVs[1] = (INT8U *)&mac_addr_tlv;
+    discovery_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*3);
+    discovery_message.list_of_TLVs[0] = (uint8_t *)&al_mac_addr_tlv;
+    discovery_message.list_of_TLVs[1] = (uint8_t *)&mac_addr_tlv;
     discovery_message.list_of_TLVs[2] = NULL;
 
     // Send the packet
@@ -2403,11 +2403,11 @@ INT8U send1905TopologyDiscoveryPacket(char *interface_name, INT16U mid)
     return 1;
 }
 
-INT8U send1905TopologyQueryPacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address)
+uint8_t send1905TopologyQueryPacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address)
 {
     // The "topology query" message is a CMDU with no TLVs
 
-    INT8U ret;
+    uint8_t ret;
 
     struct CMDU  query_message;
 
@@ -2420,7 +2420,7 @@ INT8U send1905TopologyQueryPacket(char *interface_name, INT16U mid, INT8U *desti
     query_message.message_type    = CMDU_TYPE_TOPOLOGY_QUERY;
     query_message.message_id      = mid;
     query_message.relay_indicator = 0;
-    query_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *));
+    query_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *));
     query_message.list_of_TLVs[0] = NULL;
 
     // Send the packet
@@ -2442,7 +2442,7 @@ INT8U send1905TopologyQueryPacket(char *interface_name, INT16U mid, INT8U *desti
     return ret;
 }
 
-INT8U send1905TopologyResponsePacket(char *interface_name, INT16U mid, INT8U* destination_al_mac_address)
+uint8_t send1905TopologyResponsePacket(char *interface_name, uint16_t mid, uint8_t* destination_al_mac_address)
 {
     // The "topology response" message is a CMDU with the following TLVs:
     //   - One device information type TLV
@@ -2471,7 +2471,7 @@ INT8U send1905TopologyResponsePacket(char *interface_name, INT16U mid, INT8U* de
     //   NOTE: Since a compliant implementation should ignore unknown TLVs, we can simply always send the Multi-AP
     //   TLVs
 
-    INT8U  ret;
+    uint8_t  ret;
 
     struct CMDU                            response_message;
     struct deviceInformationTypeTLV        device_info;
@@ -2483,11 +2483,11 @@ INT8U send1905TopologyResponsePacket(char *interface_name, INT16U mid, INT8U* de
     struct supportedServiceTLV             supported_service_tlv;
     struct apOperationalBssTLV             ap_operational_bss_tlv;
 
-    INT8U                                 non_1905_neighbors_nr;
-    INT8U                                 neighbors_nr;
+    uint8_t                                 non_1905_neighbors_nr;
+    uint8_t                                 neighbors_nr;
 
-    INT8U                                 total_tlvs            = 0;
-    INT8U                                 i, j;
+    uint8_t                                 total_tlvs            = 0;
+    uint8_t                                 i, j;
 
     PLATFORM_PRINTF_DEBUG_INFO("--> CMDU_TYPE_TOPOLOGY_RESPONSE (%s)\n", interface_name);
     PLATFORM_PRINTF_DEBUG_DETAIL("Sending to %02x:%02x:%02x:%02x:%02x:%02x\n", destination_al_mac_address[0], destination_al_mac_address[1], destination_al_mac_address[2], destination_al_mac_address[3], destination_al_mac_address[4], destination_al_mac_address[5]);
@@ -2537,43 +2537,43 @@ INT8U send1905TopologyResponsePacket(char *interface_name, INT16U mid, INT8U* de
     response_message.message_type    = CMDU_TYPE_TOPOLOGY_RESPONSE;
     response_message.message_id      = mid;
     response_message.relay_indicator = 0;
-    response_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*(total_tlvs+1));
-    response_message.list_of_TLVs[0] = (INT8U *)&device_info;
+    response_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*(total_tlvs+1));
+    response_message.list_of_TLVs[0] = (uint8_t *)&device_info;
 
     i = 1;
 #ifndef SEND_EMPTY_TLVS
     if (bridge_info.bridging_tuples_nr != 0)
 #endif
     {
-        response_message.list_of_TLVs[i++] = (INT8U *)&bridge_info;
+        response_message.list_of_TLVs[i++] = (uint8_t *)&bridge_info;
     }
 
     for (j=0; j<non_1905_neighbors_nr; j++)
     {
-        response_message.list_of_TLVs[i++] = (INT8U *)non_1905_neighbors[j];
+        response_message.list_of_TLVs[i++] = (uint8_t *)non_1905_neighbors[j];
     }
 
     for (j=0; j<neighbors_nr; j++)
     {
-        response_message.list_of_TLVs[i++] = (INT8U *)neighbors[j];
+        response_message.list_of_TLVs[i++] = (uint8_t *)neighbors[j];
     }
 
 #ifndef SEND_EMPTY_TLVS
     if (power_off.power_off_interfaces_nr != 0)
 #endif
     {
-        response_message.list_of_TLVs[i++] = (INT8U *)&power_off;
+        response_message.list_of_TLVs[i++] = (uint8_t *)&power_off;
     }
 
 #ifndef SEND_EMPTY_TLVS
     if (l2_neighbors.local_interfaces_nr != 0)
 #endif
     {
-        response_message.list_of_TLVs[i++] = (INT8U *)&l2_neighbors;
+        response_message.list_of_TLVs[i++] = (uint8_t *)&l2_neighbors;
     }
 
-    response_message.list_of_TLVs[i++] = (INT8U *)&supported_service_tlv;
-    response_message.list_of_TLVs[i++] = (INT8U *)&ap_operational_bss_tlv;
+    response_message.list_of_TLVs[i++] = (uint8_t *)&supported_service_tlv;
+    response_message.list_of_TLVs[i++] = (uint8_t *)&ap_operational_bss_tlv;
 
     response_message.list_of_TLVs[i] = NULL;
 
@@ -2604,14 +2604,14 @@ INT8U send1905TopologyResponsePacket(char *interface_name, INT16U mid, INT8U* de
     return ret;
 }
 
-INT8U send1905TopologyNotificationPacket(char *interface_name, INT16U mid)
+uint8_t send1905TopologyNotificationPacket(char *interface_name, uint16_t mid)
 {
     // The "topology discovery" message is a CMDU with one TLVs:
     //   - One AL MAC address type TLV
 
-    INT8U  ret;
+    uint8_t  ret;
 
-    INT8U  mcast_address[] = MCAST_1905;
+    uint8_t  mcast_address[] = MCAST_1905;
 
     struct CMDU                discovery_message;
     struct alMacAddressTypeTLV al_mac_addr_tlv;
@@ -2628,8 +2628,8 @@ INT8U send1905TopologyNotificationPacket(char *interface_name, INT16U mid)
     discovery_message.message_type    = CMDU_TYPE_TOPOLOGY_NOTIFICATION;
     discovery_message.message_id      = mid;
     discovery_message.relay_indicator = 0;
-    discovery_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*3);
-    discovery_message.list_of_TLVs[0] = (INT8U *)&al_mac_addr_tlv;
+    discovery_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*3);
+    discovery_message.list_of_TLVs[0] = (uint8_t *)&al_mac_addr_tlv;
     discovery_message.list_of_TLVs[1] = NULL;
 
     // Send the packet
@@ -2654,12 +2654,12 @@ INT8U send1905TopologyNotificationPacket(char *interface_name, INT16U mid)
     return ret;
 }
 
-INT8U send1905MetricsQueryPacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address)
+uint8_t send1905MetricsQueryPacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address)
 {
     // The "metrics query" message is a CMDU with one TLV:
     //   - One link metric query TLV
 
-    INT8U ret;
+    uint8_t ret;
 
     struct CMDU                query_message;
     struct linkMetricQueryTLV  metric_query_tlv;
@@ -2685,8 +2685,8 @@ INT8U send1905MetricsQueryPacket(char *interface_name, INT16U mid, INT8U *destin
     query_message.message_type    = CMDU_TYPE_LINK_METRIC_QUERY;
     query_message.message_id      = mid;
     query_message.relay_indicator = 0;
-    query_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*2);
-    query_message.list_of_TLVs[0] = (INT8U *)&metric_query_tlv;
+    query_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*2);
+    query_message.list_of_TLVs[0] = (uint8_t *)&metric_query_tlv;
     query_message.list_of_TLVs[1] = NULL;
 
     if (0 == send1905RawPacket(interface_name, mid, destination_al_mac_address, &query_message))
@@ -2706,7 +2706,7 @@ INT8U send1905MetricsQueryPacket(char *interface_name, INT16U mid, INT8U *destin
     return ret;
 }
 
-INT8U send1905MetricsResponsePacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address, INT8U destination, INT8U *specific_neighbor, INT8U metrics_type)
+uint8_t send1905MetricsResponsePacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address, uint8_t destination, uint8_t *specific_neighbor, uint8_t metrics_type)
 {
     // The "metrics response" message can be either:
     //
@@ -2728,14 +2728,14 @@ INT8U send1905MetricsResponsePacket(char *interface_name, INT16U mid, INT8U *des
     //
     //   'destination' == LINK_METRIC_QUERY_TLV_ALL_NEIGHBORS
     //
-    INT8U   ret;
+    uint8_t   ret;
 
     struct CMDU                        response_message;
     struct transmitterLinkMetricTLV  **tx_tlvs;
     struct receiverLinkMetricTLV     **rx_tlvs;
 
-    INT8U total_tlvs;
-    INT8U i, j;
+    uint8_t total_tlvs;
+    uint8_t i, j;
 
     PLATFORM_PRINTF_DEBUG_INFO("--> CMDU_TYPE_LINK_METRIC_RESPONSE (%s)\n", interface_name);
     PLATFORM_PRINTF_DEBUG_DETAIL("Sending to %02x:%02x:%02x:%02x:%02x:%02x\n", destination_al_mac_address[0], destination_al_mac_address[1], destination_al_mac_address[2], destination_al_mac_address[3], destination_al_mac_address[4], destination_al_mac_address[5]);
@@ -2754,11 +2754,11 @@ INT8U send1905MetricsResponsePacket(char *interface_name, INT16U mid, INT8U *des
 
     if (NULL == tx_tlvs || NULL == rx_tlvs)
     {
-        response_message.list_of_TLVs = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*(total_tlvs+1));
+        response_message.list_of_TLVs = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*(total_tlvs+1));
     }
     else
     {
-        response_message.list_of_TLVs = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*((2*total_tlvs) + 1));
+        response_message.list_of_TLVs = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*((2*total_tlvs) + 1));
     }
 
     j = 0;
@@ -2766,14 +2766,14 @@ INT8U send1905MetricsResponsePacket(char *interface_name, INT16U mid, INT8U *des
     {
         for (i=0; i<total_tlvs; i++)
         {
-            response_message.list_of_TLVs[j++] = (INT8U *)(tx_tlvs[i]);
+            response_message.list_of_TLVs[j++] = (uint8_t *)(tx_tlvs[i]);
         }
     }
     if (NULL != rx_tlvs)
     {
         for (i=0; i<total_tlvs; i++)
         {
-            response_message.list_of_TLVs[j++] = (INT8U *)(rx_tlvs[i]);
+            response_message.list_of_TLVs[j++] = (uint8_t *)(rx_tlvs[i]);
         }
     }
 
@@ -2800,20 +2800,20 @@ INT8U send1905MetricsResponsePacket(char *interface_name, INT16U mid, INT8U *des
     return ret;
 }
 
-INT8U send1905PushButtonEventNotificationPacket(char *interface_name, INT16U mid, char **all_interfaces_names, INT8U *push_button_mask, INT8U nr)
+uint8_t send1905PushButtonEventNotificationPacket(char *interface_name, uint16_t mid, char **all_interfaces_names, uint8_t *push_button_mask, uint8_t nr)
 {
     // The "push button event notification" message is a CMDU with two TLVs:
     //   - One AL MAC address type TLV
     //   - One push button event notification TLV
     //   - Zero or one push button generic phy event notification
 
-    INT8U ret;
+    uint8_t ret;
 
-    INT8U  mcast_address[] = MCAST_1905;
+    uint8_t  mcast_address[] = MCAST_1905;
 
-    INT8U  media_types_nr;
-    INT8U  generic_media_types_nr;
-    INT8U  i, j;
+    uint8_t  media_types_nr;
+    uint8_t  generic_media_types_nr;
+    uint8_t  i, j;
 
     struct CMDU                                       notification_message;
     struct alMacAddressTypeTLV                        al_mac_addr_tlv;
@@ -3048,8 +3048,8 @@ INT8U send1905PushButtonEventNotificationPacket(char *interface_name, INT16U mid
                 {
                     // We only care about "generic" interfaces
 
-                    INT16U len;
-                    INT8U  *m;
+                    uint16_t len;
+                    uint8_t  *m;
 
                     pbg_event_tlv.local_interfaces[j].oui[0]        = x->interface_type_data.other.oui[0];
                     pbg_event_tlv.local_interfaces[j].oui[1]        = x->interface_type_data.other.oui[1];
@@ -3087,18 +3087,18 @@ INT8U send1905PushButtonEventNotificationPacket(char *interface_name, INT16U mid
 
     if (generic_media_types_nr != 0)
     {
-        notification_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*4);
-        notification_message.list_of_TLVs[2] = (INT8U *)&pbg_event_tlv;
+        notification_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*4);
+        notification_message.list_of_TLVs[2] = (uint8_t *)&pbg_event_tlv;
         notification_message.list_of_TLVs[3] = NULL;
     }
     else
     {
-        notification_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*3);
+        notification_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*3);
         notification_message.list_of_TLVs[2] = NULL;
     }
 
-    notification_message.list_of_TLVs[0] = (INT8U *)&al_mac_addr_tlv;
-    notification_message.list_of_TLVs[1] = (INT8U *)&pb_event_tlv;
+    notification_message.list_of_TLVs[0] = (uint8_t *)&al_mac_addr_tlv;
+    notification_message.list_of_TLVs[1] = (uint8_t *)&pb_event_tlv;
 
     // Send the packet
     //
@@ -3137,16 +3137,16 @@ INT8U send1905PushButtonEventNotificationPacket(char *interface_name, INT16U mid
     return ret;
 }
 
-INT8U send1905PushButtonJoinNotificationPacket(char *interface_name, INT16U mid, INT8U *original_al_mac_address, INT16U original_mid, INT8U *local_mac_address, INT8U *new_mac_address)
+uint8_t send1905PushButtonJoinNotificationPacket(char *interface_name, uint16_t mid, uint8_t *original_al_mac_address, uint16_t original_mid, uint8_t *local_mac_address, uint8_t *new_mac_address)
 {
     // The "push button join notification" message is a CMDU with two TLVs:
     //   - One AL MAC address type TLV
     //   - One push button join notification TLV
 
-    INT8U ret;
+    uint8_t ret;
 
-    INT8U  al_mac_address[6];
-    INT8U  mcast_address[] = MCAST_1905;
+    uint8_t  al_mac_address[6];
+    uint8_t  mcast_address[] = MCAST_1905;
 
     struct CMDU                             notification_message;
     struct alMacAddressTypeTLV              al_mac_addr_tlv;
@@ -3189,9 +3189,9 @@ INT8U send1905PushButtonJoinNotificationPacket(char *interface_name, INT16U mid,
     notification_message.message_type    = CMDU_TYPE_PUSH_BUTTON_JOIN_NOTIFICATION;
     notification_message.message_id      = mid;
     notification_message.relay_indicator = 1;
-    notification_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*3);
-    notification_message.list_of_TLVs[0] = (INT8U *)&al_mac_addr_tlv;
-    notification_message.list_of_TLVs[1] = (INT8U *)&pb_join_tlv;
+    notification_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*3);
+    notification_message.list_of_TLVs[0] = (uint8_t *)&al_mac_addr_tlv;
+    notification_message.list_of_TLVs[1] = (uint8_t *)&pb_join_tlv;
     notification_message.list_of_TLVs[2] = NULL;
 
     // Send the packet
@@ -3215,16 +3215,16 @@ INT8U send1905PushButtonJoinNotificationPacket(char *interface_name, INT16U mid,
     return ret;
 }
 
-INT8U send1905APAutoconfigurationSearchPacket(char *interface_name, INT16U mid, INT8U freq_band)
+uint8_t send1905APAutoconfigurationSearchPacket(char *interface_name, uint16_t mid, uint8_t freq_band)
 {
     // The "AP-autoconfiguration search" message is a CMDU with three TLVs:
     //   - One AL MAC address type TLV
     //   - One searched role TLV
     //   - One autoconfig freq band TLV
 
-    INT8U ret;
+    uint8_t ret;
 
-    INT8U  mcast_address[] = MCAST_1905;
+    uint8_t  mcast_address[] = MCAST_1905;
 
     struct CMDU                   search_message;
     struct alMacAddressTypeTLV    al_mac_addr_tlv;
@@ -3265,12 +3265,12 @@ INT8U send1905APAutoconfigurationSearchPacket(char *interface_name, INT16U mid, 
     search_message.message_type    = CMDU_TYPE_AP_AUTOCONFIGURATION_SEARCH;
     search_message.message_id      = mid;
     search_message.relay_indicator = 1;
-    search_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*6);
-    search_message.list_of_TLVs[0] = (INT8U *)&al_mac_addr_tlv;
-    search_message.list_of_TLVs[1] = (INT8U *)&searched_role_tlv;
-    search_message.list_of_TLVs[2] = (INT8U *)&ac_freq_band_tlv;
-    search_message.list_of_TLVs[3] = (INT8U *)&supported_service_tlv;
-    search_message.list_of_TLVs[4] = (INT8U *)&searched_service_tlv;
+    search_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*6);
+    search_message.list_of_TLVs[0] = (uint8_t *)&al_mac_addr_tlv;
+    search_message.list_of_TLVs[1] = (uint8_t *)&searched_role_tlv;
+    search_message.list_of_TLVs[2] = (uint8_t *)&ac_freq_band_tlv;
+    search_message.list_of_TLVs[3] = (uint8_t *)&supported_service_tlv;
+    search_message.list_of_TLVs[4] = (uint8_t *)&searched_service_tlv;
     search_message.list_of_TLVs[5] = NULL;
 
     if (0 == send1905RawPacket(interface_name, mid, mcast_address, &search_message))
@@ -3293,14 +3293,14 @@ INT8U send1905APAutoconfigurationSearchPacket(char *interface_name, INT16U mid, 
     return ret;
 }
 
-INT8U send1905APAutoconfigurationResponsePacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address,
-                                                INT8U freq_band, bool include_easymesh)
+uint8_t send1905APAutoconfigurationResponsePacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address,
+                                                uint8_t freq_band, bool include_easymesh)
 {
     // The "AP-autoconfiguration response" message is a CMDU with two TLVs:
     //   - One supported role TLV
     //   - One supported freq band TLV
 
-    INT8U ret;
+    uint8_t ret;
 
     struct CMDU                  response_message;
     struct supportedRoleTLV      supported_role_tlv;
@@ -3327,12 +3327,12 @@ INT8U send1905APAutoconfigurationResponsePacket(char *interface_name, INT16U mid
     response_message.message_type    = CMDU_TYPE_AP_AUTOCONFIGURATION_RESPONSE;
     response_message.message_id      = mid;
     response_message.relay_indicator = 0;
-    response_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*4);
-    response_message.list_of_TLVs[0] = (INT8U *)&supported_role_tlv;
-    response_message.list_of_TLVs[1] = (INT8U *)&supported_freq_band_tlv;
+    response_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*4);
+    response_message.list_of_TLVs[0] = (uint8_t *)&supported_role_tlv;
+    response_message.list_of_TLVs[1] = (uint8_t *)&supported_freq_band_tlv;
     if (include_easymesh)
     {
-        response_message.list_of_TLVs[2] = (INT8U *)&supported_service_tlv;
+        response_message.list_of_TLVs[2] = (uint8_t *)&supported_service_tlv;
         response_message.list_of_TLVs[3] = NULL;
     }
     else
@@ -3358,12 +3358,12 @@ INT8U send1905APAutoconfigurationResponsePacket(char *interface_name, INT16U mid
     return ret;
 }
 
-INT8U send1905APAutoconfigurationWSCPacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address, INT8U *wsc_frame, INT16U wsc_frame_size)
+uint8_t send1905APAutoconfigurationWSCPacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address, uint8_t *wsc_frame, uint16_t wsc_frame_size)
 {
     // The "AP-autoconfiguration WSC" message is a CMDU with just one TLVs:
     //   - One WSC TLV
 
-    INT8U ret;
+    uint8_t ret;
 
     struct CMDU     data_message;
     struct wscTLV   wsc_tlv;
@@ -3374,7 +3374,7 @@ INT8U send1905APAutoconfigurationWSCPacket(char *interface_name, INT16U mid, INT
     //
     wsc_tlv.tlv_type       = TLV_TYPE_WSC;
     wsc_tlv.wsc_frame_size = wsc_frame_size;
-    wsc_tlv.wsc_frame      = (INT8U *)PLATFORM_MALLOC(wsc_frame_size);
+    wsc_tlv.wsc_frame      = (uint8_t *)PLATFORM_MALLOC(wsc_frame_size);
     memcpy(wsc_tlv.wsc_frame, wsc_frame, wsc_frame_size);
 
     // Build the CMDU
@@ -3383,8 +3383,8 @@ INT8U send1905APAutoconfigurationWSCPacket(char *interface_name, INT16U mid, INT
     data_message.message_type    = CMDU_TYPE_AP_AUTOCONFIGURATION_WSC;
     data_message.message_id      = mid;
     data_message.relay_indicator = 0;
-    data_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*2);
-    data_message.list_of_TLVs[0] = (INT8U *)&wsc_tlv;
+    data_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*2);
+    data_message.list_of_TLVs[0] = (uint8_t *)&wsc_tlv;
     data_message.list_of_TLVs[1] = NULL;
 
     if (0 == send1905RawPacket(interface_name, mid, destination_al_mac_address, &data_message))
@@ -3405,11 +3405,11 @@ INT8U send1905APAutoconfigurationWSCPacket(char *interface_name, INT16U mid, INT
     return ret;
 }
 
-INT8U send1905GenericPhyQueryPacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address)
+uint8_t send1905GenericPhyQueryPacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address)
 {
     // The "generic phy query" message is a CMDU with no TLVs
 
-    INT8U ret;
+    uint8_t ret;
 
     struct CMDU  query_message;
 
@@ -3422,7 +3422,7 @@ INT8U send1905GenericPhyQueryPacket(char *interface_name, INT16U mid, INT8U *des
     query_message.message_type    = CMDU_TYPE_GENERIC_PHY_QUERY;
     query_message.message_id      = mid;
     query_message.relay_indicator = 0;
-    query_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *));
+    query_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *));
     query_message.list_of_TLVs[0] = NULL;
 
     // Send packet
@@ -3444,12 +3444,12 @@ INT8U send1905GenericPhyQueryPacket(char *interface_name, INT16U mid, INT8U *des
     return ret;
 }
 
-INT8U send1905GenericPhyResponsePacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address)
+uint8_t send1905GenericPhyResponsePacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address)
 {
     // The "generic phy response" message is a CMDU with the following TLVs:
     //   - One generic phy device information type TLV
 
-    INT8U  ret;
+    uint8_t  ret;
 
     struct CMDU                                response_message;
     struct genericPhyDeviceInformationTypeTLV  generic_phy;
@@ -3467,8 +3467,8 @@ INT8U send1905GenericPhyResponsePacket(char *interface_name, INT16U mid, INT8U *
     response_message.message_type    = CMDU_TYPE_GENERIC_PHY_RESPONSE;
     response_message.message_id      = mid;
     response_message.relay_indicator = 0;
-    response_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*2);
-    response_message.list_of_TLVs[0] = (INT8U *)&generic_phy;
+    response_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*2);
+    response_message.list_of_TLVs[0] = (uint8_t *)&generic_phy;
     response_message.list_of_TLVs[1] = NULL;
 
     // Send the packet
@@ -3492,11 +3492,11 @@ INT8U send1905GenericPhyResponsePacket(char *interface_name, INT16U mid, INT8U *
     return ret;
 }
 
-INT8U send1905HighLayerQueryPacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address)
+uint8_t send1905HighLayerQueryPacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address)
 {
     // The "high level phy query" message is a CMDU with no TLVs
 
-    INT8U ret;
+    uint8_t ret;
 
     struct CMDU  query_message;
 
@@ -3509,7 +3509,7 @@ INT8U send1905HighLayerQueryPacket(char *interface_name, INT16U mid, INT8U *dest
     query_message.message_type    = CMDU_TYPE_HIGHER_LAYER_QUERY;
     query_message.message_id      = mid;
     query_message.relay_indicator = 0;
-    query_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *));
+    query_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *));
     query_message.list_of_TLVs[0] = NULL;
 
     // Send the packet
@@ -3531,7 +3531,7 @@ INT8U send1905HighLayerQueryPacket(char *interface_name, INT16U mid, INT8U *dest
     return ret;
 }
 
-INT8U send1905HighLayerResponsePacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address)
+uint8_t send1905HighLayerResponsePacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address)
 {
     // The "high layer response" message is a CMDU with the following TLVs:
     //   - One AL MAC address type TLV
@@ -3541,8 +3541,8 @@ INT8U send1905HighLayerResponsePacket(char *interface_name, INT16U mid, INT8U *d
     //   - Zero or one IPv4 type TLV
     //   - Zero or one IPv6 type TLV
 
-    INT8U total_tlvs;
-    INT8U i;
+    uint8_t total_tlvs;
+    uint8_t i;
 
     struct CMDU                         response_message;
     struct alMacAddressTypeTLV          al_mac_addr_tlv;
@@ -3587,27 +3587,27 @@ INT8U send1905HighLayerResponsePacket(char *interface_name, INT16U mid, INT8U *d
     response_message.message_type    = CMDU_TYPE_HIGHER_LAYER_RESPONSE;
     response_message.message_id      = mid;
     response_message.relay_indicator = 0;
-    response_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *)*(total_tlvs+1));
-    response_message.list_of_TLVs[0] = (INT8U *)&al_mac_addr_tlv;
-    response_message.list_of_TLVs[1] = (INT8U *)&profile_tlv;
-    response_message.list_of_TLVs[2] = (INT8U *)&identification_tlv;
+    response_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *)*(total_tlvs+1));
+    response_message.list_of_TLVs[0] = (uint8_t *)&al_mac_addr_tlv;
+    response_message.list_of_TLVs[1] = (uint8_t *)&profile_tlv;
+    response_message.list_of_TLVs[2] = (uint8_t *)&identification_tlv;
 
     i = 3;
     if (NULL != control_tlv.url)
     {
-        response_message.list_of_TLVs[i++] = (INT8U *)&control_tlv;
+        response_message.list_of_TLVs[i++] = (uint8_t *)&control_tlv;
     }
 #ifndef SEND_EMPTY_TLVS
     if (0 != ipv4_tlv.ipv4_interfaces_nr)
 #endif
     {
-        response_message.list_of_TLVs[i++] = (INT8U *)&ipv4_tlv;
+        response_message.list_of_TLVs[i++] = (uint8_t *)&ipv4_tlv;
     }
 #ifndef SEND_EMPTY_TLVS
     if (0 != ipv6_tlv.ipv6_interfaces_nr)
 #endif
     {
-        response_message.list_of_TLVs[i++] = (INT8U *)&ipv6_tlv;
+        response_message.list_of_TLVs[i++] = (uint8_t *)&ipv6_tlv;
     }
 
     response_message.list_of_TLVs[i++] = NULL;
@@ -3634,7 +3634,7 @@ INT8U send1905HighLayerResponsePacket(char *interface_name, INT16U mid, INT8U *d
     return 1;
 }
 
-INT8U send1905InterfacePowerChangeRequestPacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address, INT8U (*remote_interfaces)[6], INT8U *new_states, INT8U nr)
+uint8_t send1905InterfacePowerChangeRequestPacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address, uint8_t (*remote_interfaces)[6], uint8_t *new_states, uint8_t nr)
 {
     // NOTE: Right now this function is *not* being used from anywhere. The
     //       reason is that the standard does not say under which circumstances
@@ -3655,12 +3655,12 @@ INT8U send1905InterfacePowerChangeRequestPacket(char *interface_name, INT16U mid
     // So... here we are only going to send *one* TLV containing all the remote
     // interfaces requested new states
 
-    INT8U ret;
+    uint8_t ret;
 
     struct CMDU                                request_message;
     struct interfacePowerChangeInformationTLV  power_change;
 
-    INT8U i;
+    uint8_t i;
 
     if (0 == nr)
     {
@@ -3688,8 +3688,8 @@ INT8U send1905InterfacePowerChangeRequestPacket(char *interface_name, INT16U mid
     request_message.message_type    = CMDU_TYPE_INTERFACE_POWER_CHANGE_REQUEST;
     request_message.message_id      = mid;
     request_message.relay_indicator = 0;
-    request_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *) * 2);
-    request_message.list_of_TLVs[0] = (INT8U *)&power_change;
+    request_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *) * 2);
+    request_message.list_of_TLVs[0] = (uint8_t *)&power_change;
     request_message.list_of_TLVs[1] = NULL;
 
     // Send the packet
@@ -3713,7 +3713,7 @@ INT8U send1905InterfacePowerChangeRequestPacket(char *interface_name, INT16U mid
     return ret;
 }
 
-INT8U send1905InterfacePowerChangeResponsePacket(char *interface_name, INT16U mid, INT8U *destination_al_mac_address, INT8U (*local_interfaces)[6], INT8U *results, INT8U nr)
+uint8_t send1905InterfacePowerChangeResponsePacket(char *interface_name, uint16_t mid, uint8_t *destination_al_mac_address, uint8_t (*local_interfaces)[6], uint8_t *results, uint8_t nr)
 {
     // The "high layer response" message is a CMDU with the following TLVs:
     //   - One or more interface power change status TLVs
@@ -3727,12 +3727,12 @@ INT8U send1905InterfacePowerChangeResponsePacket(char *interface_name, INT16U mi
     // So... here we are only going to send *one* TLV containing all the local
     // interfaces requested status
 
-    INT8U ret;
+    uint8_t ret;
 
     struct CMDU                           response_message;
     struct interfacePowerChangeStatusTLV  power_change;
 
-    INT8U i;
+    uint8_t i;
 
     if (0 == nr)
     {
@@ -3760,8 +3760,8 @@ INT8U send1905InterfacePowerChangeResponsePacket(char *interface_name, INT16U mi
     response_message.message_type    = CMDU_TYPE_INTERFACE_POWER_CHANGE_RESPONSE;
     response_message.message_id      = mid;
     response_message.relay_indicator = 0;
-    response_message.list_of_TLVs    = (INT8U **)PLATFORM_MALLOC(sizeof(INT8U *) * 2);
-    response_message.list_of_TLVs[0] = (INT8U *)&power_change;
+    response_message.list_of_TLVs    = (uint8_t **)PLATFORM_MALLOC(sizeof(uint8_t *) * 2);
+    response_message.list_of_TLVs[0] = (uint8_t *)&power_change;
     response_message.list_of_TLVs[1] = NULL;
 
     // Send the packet
@@ -3785,10 +3785,10 @@ INT8U send1905InterfacePowerChangeResponsePacket(char *interface_name, INT16U mi
     return ret;
 }
 
-INT8U sendLLDPBridgeDiscoveryPacket(char *interface_name)
+uint8_t sendLLDPBridgeDiscoveryPacket(char *interface_name)
 {
-    INT8U  al_mac_address[6];
-    INT8U  interface_mac_address[6];
+    uint8_t  al_mac_address[6];
+    uint8_t  interface_mac_address[6];
 
     struct chassisIdTLV      chassis_id_tlv;
     struct portIdTLV         port_id_tlv;
@@ -3796,8 +3796,8 @@ INT8U sendLLDPBridgeDiscoveryPacket(char *interface_name)
 
     struct PAYLOAD payload;
 
-    INT8U  *stream;
-    INT16U  stream_len;
+    uint8_t  *stream;
+    uint16_t  stream_len;
 
     PLATFORM_PRINTF_DEBUG_INFO("--> LLDP BRIDGE DISCOVERY (%s)\n", interface_name);
 
@@ -3833,9 +3833,9 @@ INT8U sendLLDPBridgeDiscoveryPacket(char *interface_name)
 
     // Forge the LLDP payload containing all these TLVs
     //
-    payload.list_of_TLVs[0] = (INT8U *)&chassis_id_tlv;
-    payload.list_of_TLVs[1] = (INT8U *)&port_id_tlv;
-    payload.list_of_TLVs[2] = (INT8U *)&time_to_live_tlv;
+    payload.list_of_TLVs[0] = (uint8_t *)&chassis_id_tlv;
+    payload.list_of_TLVs[1] = (uint8_t *)&port_id_tlv;
+    payload.list_of_TLVs[2] = (uint8_t *)&time_to_live_tlv;
     payload.list_of_TLVs[3] = NULL;
 
     stream = forge_lldp_PAYLOAD_from_structure(&payload, &stream_len);
@@ -3843,7 +3843,7 @@ INT8U sendLLDPBridgeDiscoveryPacket(char *interface_name)
     // Finally, send the packet!
     //
     {
-        INT8U   mcast_address[] = MCAST_LLDP;
+        uint8_t   mcast_address[] = MCAST_LLDP;
 
         PLATFORM_PRINTF_DEBUG_DETAIL("Sending LLDP bridge discovery message on interface %s\n", interface_name);
         if (0 == PLATFORM_SEND_RAW_PACKET(interface_name,
@@ -3864,14 +3864,14 @@ INT8U sendLLDPBridgeDiscoveryPacket(char *interface_name)
     return 1;
 }
 
-INT8U send1905InterfaceListResponseALME(INT8U alme_client_id)
+uint8_t send1905InterfaceListResponseALME(uint8_t alme_client_id)
 {
-    INT8U   ret;
+    uint8_t   ret;
 
     struct getIntfListResponseALME  *out;
 
     char **ifs_names;
-    INT8U  ifs_nr;
+    uint8_t  ifs_nr;
 
     PLATFORM_PRINTF_DEBUG_INFO("--> ALME_TYPE_GET_INTF_LIST_RESPONSE\n");
 
@@ -3888,7 +3888,7 @@ INT8U send1905InterfaceListResponseALME(INT8U alme_client_id)
     }
     else
     {
-        INT8U i;
+        uint8_t i;
 
         out->interface_descriptors_nr = ifs_nr;
         out->interface_descriptors    = (struct _intfDescriptorEntries *)PLATFORM_MALLOC(sizeof(struct _intfDescriptorEntries) * ifs_nr);
@@ -3932,7 +3932,7 @@ INT8U send1905InterfaceListResponseALME(INT8U alme_client_id)
                 }
                 else
                 {
-                    INT8U j;
+                    uint8_t j;
 
                     out->interface_descriptors[i].vendor_specific_info_nr  = x->vendor_specific_elements_nr;
                     out->interface_descriptors[i].vendor_specific_info     = (struct _vendorSpecificInfoEntries *)PLATFORM_MALLOC(sizeof(struct _vendorSpecificInfoEntries) * x->vendor_specific_elements_nr);
@@ -3945,7 +3945,7 @@ INT8U send1905InterfaceListResponseALME(INT8U alme_client_id)
                         out->interface_descriptors[i].vendor_specific_info[j].oui[1]       = x->vendor_specific_elements[j].oui[1];
                         out->interface_descriptors[i].vendor_specific_info[j].oui[2]       = x->vendor_specific_elements[j].oui[2];
 
-                        out->interface_descriptors[i].vendor_specific_info[j].vendor_si    = (INT8U *)PLATFORM_MALLOC(x->vendor_specific_elements[j].vendor_data_len);
+                        out->interface_descriptors[i].vendor_specific_info[j].vendor_si    = (uint8_t *)PLATFORM_MALLOC(x->vendor_specific_elements[j].vendor_data_len);
                         memcpy(out->interface_descriptors[i].vendor_specific_info[j].vendor_si, x->vendor_specific_elements[j].vendor_data, x->vendor_specific_elements[j].vendor_data_len);
                     }
                 }
@@ -3962,7 +3962,7 @@ INT8U send1905InterfaceListResponseALME(INT8U alme_client_id)
 
     // Send the packet
     //
-    if (0 == send1905RawALME(alme_client_id, (INT8U *)out))
+    if (0 == send1905RawALME(alme_client_id, (uint8_t *)out))
     {
         PLATFORM_PRINTF_DEBUG_ERROR("Could not send the 1905 ALME reply\n");
         ret = 1;
@@ -3974,24 +3974,24 @@ INT8U send1905InterfaceListResponseALME(INT8U alme_client_id)
 
     // Free memory
     //
-    free_1905_ALME_structure((INT8U *)out);
+    free_1905_ALME_structure((uint8_t *)out);
 
     return ret;
 }
 
-INT8U send1905MetricsResponseALME(INT8U alme_client_id, INT8U *mac_address)
+uint8_t send1905MetricsResponseALME(uint8_t alme_client_id, uint8_t *mac_address)
 {
-    INT8U   ret;
+    uint8_t   ret;
 
     struct getMetricResponseALME      *out;
 
     struct transmitterLinkMetricTLV  **tx_tlvs;
     struct receiverLinkMetricTLV     **rx_tlvs;
 
-    INT8U total_tlvs;
-    INT8U res;
+    uint8_t total_tlvs;
+    uint8_t res;
 
-    INT8U i;
+    uint8_t i;
 
     PLATFORM_PRINTF_DEBUG_INFO("--> ALME_TYPE_GET_METRIC_RESPONSE\n");
 
@@ -4051,7 +4051,7 @@ INT8U send1905MetricsResponseALME(INT8U alme_client_id, INT8U *mac_address)
 
     // Send the packet
     //
-    if (0 == send1905RawALME(alme_client_id, (INT8U *)out))
+    if (0 == send1905RawALME(alme_client_id, (uint8_t *)out))
     {
         PLATFORM_PRINTF_DEBUG_ERROR("Could not send the 1905 ALME reply\n");
         ret = 1;
@@ -4073,16 +4073,16 @@ INT8U send1905MetricsResponseALME(INT8U alme_client_id, INT8U *mac_address)
     }
     PLATFORM_FREE(out->metrics);
     out->metrics = NULL;
-    free_1905_ALME_structure((INT8U *)out);
+    free_1905_ALME_structure((uint8_t *)out);
 
     _freeLocalMetricsTLVs(&tx_tlvs, &rx_tlvs, &total_tlvs);
 
     return ret;
 }
 
-INT8U send1905CustomCommandResponseALME(INT8U alme_client_id, INT8U command)
+uint8_t send1905CustomCommandResponseALME(uint8_t alme_client_id, uint8_t command)
 {
-    INT8U   ret;
+    uint8_t   ret;
 
     struct customCommandResponseALME  *out;
 
@@ -4119,7 +4119,7 @@ INT8U send1905CustomCommandResponseALME(INT8U alme_client_id, INT8U command)
 
     // Send the packet
     //
-    if (0 == send1905RawALME(alme_client_id, (INT8U *)out))
+    if (0 == send1905RawALME(alme_client_id, (uint8_t *)out))
     {
         PLATFORM_PRINTF_DEBUG_ERROR("Could not send the 1905 ALME reply\n");
         ret = 1;
@@ -4141,7 +4141,7 @@ INT8U send1905CustomCommandResponseALME(INT8U alme_client_id, INT8U command)
         out->bytes_nr = 0;
         out->bytes    = NULL;
     }
-    free_1905_ALME_structure((INT8U *)out);
+    free_1905_ALME_structure((uint8_t *)out);
 
     return ret;
 }

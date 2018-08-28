@@ -98,7 +98,7 @@ struct linkMetricQueryTLV bbf_tlv_structure_001 =
     .link_metrics_type = LINK_METRIC_QUERY_TLV_RX_LINK_METRICS_ONLY,
 };
 
-INT8U bbf_tlv_stream_001[] =
+uint8_t bbf_tlv_stream_001[] =
 {
     0x01,
     0x00, 0x08,
@@ -107,7 +107,7 @@ INT8U bbf_tlv_stream_001[] =
     0x01
 };
 
-INT16U bbf_tlv_stream_len_001 = 11;
+uint16_t bbf_tlv_stream_len_001 = 11;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +123,7 @@ struct linkMetricQueryTLV bbf_tlv_structure_002 =
 };
 
 // CheckTrue (TLV --> packet)
-INT8U bbf_tlv_stream_002[] =
+uint8_t bbf_tlv_stream_002[] =
 {
     0x01,
     0x00, 0x08,
@@ -134,7 +134,7 @@ INT8U bbf_tlv_stream_002[] =
 
 // CheckFalse (TLV <-- packet)
 //   'specific neighbor mac address' should be zero for non-1905 metrics
-INT8U bbf_tlv_stream_002b[] =
+uint8_t bbf_tlv_stream_002b[] =
 {
     0x01,
     0x00, 0x08,
@@ -143,7 +143,7 @@ INT8U bbf_tlv_stream_002b[] =
     0x02
 };
 
-INT16U bbf_tlv_stream_len_002 = 11;
+uint16_t bbf_tlv_stream_len_002 = 11;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +158,7 @@ struct linkMetricQueryTLV bbf_tlv_structure_003 =
     .link_metrics_type = LINK_METRIC_QUERY_TLV_BOTH_TX_AND_RX_LINK_METRICS,
 };
 
-INT8U bbf_tlv_stream_003[] =
+uint8_t bbf_tlv_stream_003[] =
 {
     0x01,
     0x00, 0x08,
@@ -167,7 +167,7 @@ INT8U bbf_tlv_stream_003[] =
     0x02
 };
 
-INT16U bbf_tlv_stream_len_003 = 11;
+uint16_t bbf_tlv_stream_len_003 = 11;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,7 +197,7 @@ struct transmitterLinkMetricTLV bbf_tlv_structure_004 =
 };
 
 // CheckTrue (TLV --> packet)
-INT8U bbf_tlv_stream_004[] =
+uint8_t bbf_tlv_stream_004[] =
 {
     0x02,
     0x00, 0x29,
@@ -216,7 +216,7 @@ INT8U bbf_tlv_stream_004[] =
 
 // CheckFalse (TLV <-- packet)
 //   'specific neighbor mac address' should be zero for non-1905 metrics
-INT8U bbf_tlv_stream_004b[] =
+uint8_t bbf_tlv_stream_004b[] =
 {
     0x02,
     0x00, 0x29,
@@ -233,7 +233,7 @@ INT8U bbf_tlv_stream_004b[] =
     0x02, 0x08
 };
 
-INT16U bbf_tlv_stream_len_004 = 44;
+uint16_t bbf_tlv_stream_len_004 = 44;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -275,7 +275,7 @@ struct transmitterLinkMetricTLV bbf_tlv_structure_005 =
         },
 };
 
-INT8U bbf_tlv_stream_005[] =
+uint8_t bbf_tlv_stream_005[] =
 {
     0x02,
     0x00, 0x46,
@@ -301,7 +301,7 @@ INT8U bbf_tlv_stream_005[] =
     0x03, 0xe8,
 };
 
-INT16U bbf_tlv_stream_len_005 = 73;
+uint16_t bbf_tlv_stream_len_005 = 73;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -330,7 +330,7 @@ struct receiverLinkMetricTLV bbf_tlv_structure_006 =
 };
 
 // CheckTrue (TLV --> packet)
-INT8U bbf_tlv_stream_006[] =
+uint8_t bbf_tlv_stream_006[] =
 {
     0x03,
     0x00, 0x23,
@@ -346,7 +346,7 @@ INT8U bbf_tlv_stream_006[] =
 
 // CheckFalse (TLV <-- packet)
 //   'specific neighbor mac address' should be zero for non-1905 metrics
-INT8U bbf_tlv_stream_006b[] =
+uint8_t bbf_tlv_stream_006b[] =
 {
     0x03,
     0x00, 0x23,
@@ -360,7 +360,7 @@ INT8U bbf_tlv_stream_006b[] =
     0x02,
 };
 
-INT16U bbf_tlv_stream_len_006 = 38;
+uint16_t bbf_tlv_stream_len_006 = 38;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -396,7 +396,7 @@ struct receiverLinkMetricTLV bbf_tlv_structure_007 =
         },
 };
 
-INT8U bbf_tlv_stream_007[] =
+uint8_t bbf_tlv_stream_007[] =
 {
     0x03,
     0x00, 0x3a,
@@ -416,5 +416,5 @@ INT8U bbf_tlv_stream_007[] =
     0x02,
 };
 
-INT16U bbf_tlv_stream_len_007 = 61;
+uint16_t bbf_tlv_stream_len_007 = 61;
 
