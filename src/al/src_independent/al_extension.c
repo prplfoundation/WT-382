@@ -187,9 +187,9 @@ uint8_t free1905CmduExtensions(struct CMDU *c)
 
             if (vs_tlv->m)
             {
-                PLATFORM_FREE(vs_tlv->m);
+                free(vs_tlv->m);
             }
-            PLATFORM_FREE(vs_tlv);
+            free(vs_tlv);
         }
         i++;
     }
@@ -269,7 +269,7 @@ uint8_t obtainExtendedLocalInfo(struct vendorSpecificTLV ***extensions, uint8_t 
 
                 // Free no longer used resources
                 //
-                PLATFORM_FREE(tlvs);
+                free(tlvs);
                 tlvs = NULL;
             }
         }
@@ -300,12 +300,12 @@ void freeExtendedLocalInfo(struct vendorSpecificTLV ***extensions, uint8_t *nr)
             {
                 if ((*extensions)[i]->m)
                 {
-                    PLATFORM_FREE((*extensions)[i]->m);
+                    free((*extensions)[i]->m);
                 }
-                PLATFORM_FREE((*extensions)[i]);
+                free((*extensions)[i]);
             }
         }
-        PLATFORM_FREE(*extensions);
+        free(*extensions);
     }
 }
 

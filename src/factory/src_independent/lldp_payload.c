@@ -97,7 +97,7 @@ struct PAYLOAD *parse_lldp_PAYLOAD_from_packet(uint8_t *packet_stream)
             {
                 free_lldp_TLV_structure(ret->list_of_TLVs[j]);
             }
-            PLATFORM_FREE(ret);
+            free(ret);
             return NULL;
         }
 
@@ -169,7 +169,7 @@ struct PAYLOAD *parse_lldp_PAYLOAD_from_packet(uint8_t *packet_stream)
             {
                 free_lldp_TLV_structure(ret->list_of_TLVs[j]);
             }
-            PLATFORM_FREE(ret);
+            free(ret);
             return NULL;
         }
     }
@@ -259,11 +259,11 @@ uint8_t *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, uin
         // Could not forge the packet. Error?
         //
         PLATFORM_PRINTF_DEBUG_WARNING("forge_lldp_TLV_from_structure(\"chassis ID\") failed!\n");
-        PLATFORM_FREE(buffer);
+        free(buffer);
         return NULL;
     }
     memcpy(buffer + total_len, stream, stream_len);
-    PLATFORM_FREE(stream);
+    free(stream);
     total_len += stream_len;
 
     stream = forge_lldp_TLV_from_structure((uint8_t *)y, &stream_len);
@@ -272,11 +272,11 @@ uint8_t *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, uin
         // Could not forge the packet. Error?
         //
         PLATFORM_PRINTF_DEBUG_WARNING("forge_lldp_TLV_from_structure(\"port ID\") failed!\n");
-        PLATFORM_FREE(buffer);
+        free(buffer);
         return NULL;
     }
     memcpy(buffer + total_len, stream, stream_len);
-    PLATFORM_FREE(stream);
+    free(stream);
     total_len += stream_len;
 
     stream = forge_lldp_TLV_from_structure((uint8_t *)z, &stream_len);
@@ -285,11 +285,11 @@ uint8_t *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, uin
         // Could not forge the packet. Error?
         //
         PLATFORM_PRINTF_DEBUG_WARNING("forge_lldp_TLV_from_structure(\"time to live\") failed!\n");
-        PLATFORM_FREE(buffer);
+        free(buffer);
         return NULL;
     }
     memcpy(buffer + total_len, stream, stream_len);
-    PLATFORM_FREE(stream);
+    free(stream);
     total_len += stream_len;
 
     stream = forge_lldp_TLV_from_structure((uint8_t *)&end_of_lldppdu_tlv, &stream_len);
@@ -298,11 +298,11 @@ uint8_t *forge_lldp_PAYLOAD_from_structure(struct PAYLOAD *memory_structure, uin
         // Could not forge the packet. Error?
         //
         PLATFORM_PRINTF_DEBUG_WARNING("forge_lldp_TLV_from_structure() failed!\n");
-        PLATFORM_FREE(buffer);
+        free(buffer);
         return NULL;
     }
     memcpy(buffer + total_len, stream, stream_len);
-    PLATFORM_FREE(stream);
+    free(stream);
     total_len += stream_len;
 
     *len = total_len;
@@ -323,7 +323,7 @@ void free_lldp_PAYLOAD_structure(struct PAYLOAD *memory_structure)
         i++;
     }
 
-    PLATFORM_FREE(memory_structure);
+    free(memory_structure);
 
     return;
 }

@@ -106,7 +106,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
             {
                 // Malformed packet
                 //
-                PLATFORM_FREE(ret);
+                free(ret);
                 return NULL;
             }
 
@@ -133,7 +133,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
             {
                 // Not interested
                 //
-                PLATFORM_FREE(ret);
+                free(ret);
                 return NULL;
             }
 
@@ -149,7 +149,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
             {
                 // Not interested
                 //
-                PLATFORM_FREE(ret);
+                free(ret);
                 return NULL;
             }
 
@@ -176,7 +176,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
             {
                 // Not interested
                 //
-                PLATFORM_FREE(ret);
+                free(ret);
                 return NULL;
             }
 
@@ -192,7 +192,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
             {
                 // Not interested
                 //
-                PLATFORM_FREE(ret);
+                free(ret);
                 return NULL;
             }
 
@@ -216,7 +216,7 @@ uint8_t *parse_lldp_TLV_from_packet(uint8_t *packet_stream)
             {
                 // Not interested
                 //
-                PLATFORM_FREE(ret);
+                free(ret);
                 return NULL;
             }
 
@@ -418,7 +418,7 @@ void free_lldp_TLV_structure(uint8_t *memory_structure)
         case TLV_TYPE_PORT_ID:
         case TLV_TYPE_TIME_TO_LIVE:
         {
-            PLATFORM_FREE(memory_structure);
+            free(memory_structure);
 
             return;
         }

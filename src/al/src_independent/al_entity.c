@@ -313,7 +313,7 @@ struct CMDU *_reAssembleFragmentedCMDUs(uint8_t *packet_buffer, uint16_t len)
             {
                 if (1 == mids_in_flight[j].fragments[i] && NULL != mids_in_flight[j].streams[i])
                 {
-                    PLATFORM_FREE(mids_in_flight[j].streams[i]);
+                    free(mids_in_flight[j].streams[i]);
                 }
             }
 
@@ -391,7 +391,7 @@ struct CMDU *_reAssembleFragmentedCMDUs(uint8_t *packet_buffer, uint16_t len)
 
         for (j=0; j<=mids_in_flight[i].last_fragment; j++)
         {
-            PLATFORM_FREE(mids_in_flight[i].streams[j]);
+            free(mids_in_flight[i].streams[j]);
         }
         mids_in_flight[i].in_use = 0;
 
@@ -630,14 +630,14 @@ void _checkForwarding(uint8_t *receiving_interface_addr, uint8_t *destination_ma
                 //
                 if (NULL != x)
                 {
-                    PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                    free_1905_INTERFACE_INFO(x);
                 }
                 continue;
             }
 
             if (NULL != x)
             {
-                PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                free_1905_INTERFACE_INFO(x);
             }
 
             // Retransmit message
@@ -722,7 +722,7 @@ void _checkForwarding(uint8_t *receiving_interface_addr, uint8_t *destination_ma
                 PLATFORM_PRINTF_DEBUG_WARNING("Could not retransmit 1905 message on interface %s\n", x->name);
             }
         }
-        PLATFORM_FREE_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
+        free_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
     }
 
     return;
@@ -815,14 +815,14 @@ void _triggerAPSearchProcess(void)
                PLATFORM_PRINTF_DEBUG_WARNING("Unknown interface type %s\n", x->interface_type);
                unconfigured_ap_exists = 0;
 
-               PLATFORM_FREE_1905_INTERFACE_INFO(x);
+               free_1905_INTERFACE_INFO(x);
                continue;
            }
 
            break;
         }
 
-        PLATFORM_FREE_1905_INTERFACE_INFO(x);
+        free_1905_INTERFACE_INFO(x);
     }
 
     if (1 == unconfigured_ap_exists)
@@ -857,14 +857,14 @@ void _triggerAPSearchProcess(void)
                 //
                 if (NULL != x)
                 {
-                    PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                    free_1905_INTERFACE_INFO(x);
                 }
                 continue;
             }
 
             if (NULL != x)
             {
-                PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                free_1905_INTERFACE_INFO(x);
             }
 
             if (0 == send1905APAutoconfigurationSearchPacket(ifs_names[i], mid, unconfigured_ap_band))
@@ -874,7 +874,7 @@ void _triggerAPSearchProcess(void)
         }
     }
 
-    PLATFORM_FREE_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
+    free_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
 }
 
 
@@ -974,7 +974,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                 {
                     PLATFORM_PRINTF_DEBUG_ERROR("Interface %s is not a 802.11 interface and thus cannot act as a registrar!\n",x->name);
 
-                    PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                    free_1905_INTERFACE_INFO(x);
                     return AL_ERROR_INTERFACE_ERROR;
                 }
                 else
@@ -984,7 +984,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
             }
         }
 
-        PLATFORM_FREE_1905_INTERFACE_INFO(x);
+        free_1905_INTERFACE_INFO(x);
     }
 
     // Create a queue that will later be used by the platform code to notify us
@@ -1020,7 +1020,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
         }
         PLATFORM_PRINTF_DEBUG_DETAIL("    - %s --> OK\n", interfaces_names[i]);
     }
-    PLATFORM_FREE_LIST_OF_1905_INTERFACES(interfaces_names, interfaces_nr);
+    free_LIST_OF_1905_INTERFACES(interfaces_names, interfaces_nr);
 
     // We are also interested in processing a 60 seconds timeout event (so that
     // we can send new discovery messages into the network)
@@ -1192,10 +1192,10 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                 if (0 == x->is_secured)
                 {
                     PLATFORM_PRINTF_DEBUG_WARNING("This interface (%s) is not secured. No packets should be received. Ignoring...\n", receiving_interface_name);
-                    PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                    free_1905_INTERFACE_INFO(x);
                     continue;
                 }
-                PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                free_1905_INTERFACE_INFO(x);
 
                 q = p;
 
@@ -1381,7 +1381,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                                 authenticated = x->is_secured;
                                 power_state   = x->power_state;
 
-                                PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                                free_1905_INTERFACE_INFO(x);
                             }
 
                             if (
@@ -1409,7 +1409,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                                 PLATFORM_PRINTF_DEBUG_WARNING("Could not send LLDP bridge discovery message\n");
                             }
                         }
-                        PLATFORM_FREE_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
+                        free_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
 
                         break;
                     }
@@ -1454,7 +1454,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                                     authenticated = x->is_secured;
                                     power_state   = x->power_state;
 
-                                    PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                                    free_1905_INTERFACE_INFO(x);
                                 }
 
                                 if (
@@ -1475,7 +1475,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                                     PLATFORM_PRINTF_DEBUG_WARNING("Could not send 1905 topology discovery message\n");
                                 }
                             }
-                            PLATFORM_FREE_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
+                            free_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
                         }
                         break;
                     }
@@ -1525,10 +1525,10 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                         {
                             PLATFORM_PRINTF_DEBUG_INFO("Interface %s is in the middle of a previous 'push button' configuration sequence. Ignoring new event...\n", ifs_names[i]);
 
-                            PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                            free_1905_INTERFACE_INFO(x);
                             break;
                         }
-                        PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                        free_1905_INTERFACE_INFO(x);
                     }
 
                 }
@@ -1614,7 +1614,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                             no_push_button[i] = 0;
                         }
 
-                        PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                        free_1905_INTERFACE_INFO(x);
                     }
                 }
 
@@ -1676,7 +1676,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                         authenticated = x->is_secured;
                         power_state   = x->power_state;
 
-                        PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                        free_1905_INTERFACE_INFO(x);
                     }
 
                     if (
@@ -1698,7 +1698,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                     }
                 }
 
-                PLATFORM_FREE_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
+                free_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
 
                 break;
             }
@@ -1810,14 +1810,14 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                             //
                             if (NULL != x)
                             {
-                                PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                                free_1905_INTERFACE_INFO(x);
                             }
                             continue;
                         }
 
                         if (NULL != x)
                         {
-                            PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                            free_1905_INTERFACE_INFO(x);
                         }
 
                         if (0 == send1905PushButtonJoinNotificationPacket(ifs_names[i], mid, original_al_mac_addr, original_mid, local_mac_addr, new_mac_addr))
@@ -1827,7 +1827,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                     }
                 }
 
-                PLATFORM_FREE_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
+                free_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
 
                 // Finally, trigger the "AP-autoconfiguration" process
                 //
@@ -1881,7 +1881,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                         authenticated = x->is_secured;
                         power_state   = x->power_state;
 
-                        PLATFORM_FREE_1905_INTERFACE_INFO(x);
+                        free_1905_INTERFACE_INFO(x);
                     }
 
                     if (
@@ -1902,7 +1902,7 @@ uint8_t start1905AL(uint8_t *al_mac_address, uint8_t map_whole_network_flag, cha
                         PLATFORM_PRINTF_DEBUG_WARNING("Could not send 1905 topology discovery message\n");
                     }
                 }
-                PLATFORM_FREE_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
+                free_LIST_OF_1905_INTERFACES(ifs_names, ifs_nr);
 
                 break;
             }
