@@ -71,8 +71,8 @@ struct tlv_list
 
 static struct tlv_list *alloc_dummy_tlv_list(uint8_t *tlv)
 {
-    struct tlv_list *tlvs = PLATFORM_MALLOC(sizeof(struct tlv_list));
-    tlvs->tlvs = PLATFORM_MALLOC(sizeof(struct tlv *));
+    struct tlv_list *tlvs = memalloc(sizeof(struct tlv_list));
+    tlvs->tlvs = memalloc(sizeof(struct tlv *));
     tlvs->tlv_nr = 1;
     tlvs->tlvs[0] = (struct tlv*)tlv;
     return tlvs;
@@ -123,7 +123,7 @@ static bool tlv_parse_field2_supportedService(const struct tlv_def *def __attrib
                                       def->name, self->supported_service_nr, *length);
         return false;
     }
-    self->supported_service = PLATFORM_MALLOC(self->supported_service_nr * sizeof(self->supported_service));
+    self->supported_service = memalloc(self->supported_service_nr * sizeof(self->supported_service));
 
     for (i = 0; i < self->supported_service_nr; i++)
     {
@@ -370,7 +370,7 @@ static bool tlv_parse_field2_vendorSpecific(const struct tlv_def *def __attribut
                                             const uint8_t **buf,
                                             size_t *length)
 {
-    self->m = PLATFORM_MALLOC(*length);
+    self->m = memalloc(*length);
     self->m_nr = *length;
     return _EnBL(buf, self->m, *length, length);
 }
@@ -466,7 +466,7 @@ static bool tlv_parse_field2_apOperationalBss(const struct tlv_def *def __attrib
                                               size_t *length)
 {
     uint8_t i, j;
-    self->radio = PLATFORM_MALLOC(self->radio_nr * sizeof(*self->radio));
+    self->radio = memalloc(self->radio_nr * sizeof(*self->radio));
 
     for (i = 0; i < self->radio_nr; i++)
     {
@@ -474,7 +474,7 @@ static bool tlv_parse_field2_apOperationalBss(const struct tlv_def *def __attrib
             return false;
         if (!_E1BL(buf, &self->radio[i].bss_nr, length))
             return false;
-        self->radio[i].bss = PLATFORM_MALLOC(self->radio[i].bss_nr * sizeof(*self->radio[i].bss));
+        self->radio[i].bss = memalloc(self->radio[i].bss_nr * sizeof(*self->radio[i].bss));
         for (j = 0; j < self->radio[i].bss_nr; j++)
         {
             if (!_EmBL(buf, self->radio[i].bss[j].bssid, length))
@@ -656,7 +656,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct deviceInformationTypeTLV *)PLATFORM_MALLOC(sizeof(struct deviceInformationTypeTLV));
+            ret = (struct deviceInformationTypeTLV *)memalloc(sizeof(struct deviceInformationTypeTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -666,7 +666,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             _EnB(&p,  ret->al_mac_address, 6);
             _E1B(&p, &ret->local_interfaces_nr);
 
-            ret->local_interfaces = (struct _localInterfaceEntries *)PLATFORM_MALLOC(sizeof(struct _localInterfaceEntries) * ret->local_interfaces_nr);
+            ret->local_interfaces = (struct _localInterfaceEntries *)memalloc(sizeof(struct _localInterfaceEntries) * ret->local_interfaces_nr);
 
             for (i=0; i < ret->local_interfaces_nr; i++)
             {
@@ -755,7 +755,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i, j;
 
-            ret = (struct deviceBridgingCapabilityTLV *)PLATFORM_MALLOC(sizeof(struct deviceBridgingCapabilityTLV));
+            ret = (struct deviceBridgingCapabilityTLV *)memalloc(sizeof(struct deviceBridgingCapabilityTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -785,7 +785,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (ret->bridging_tuples_nr > 0)
             {
-                ret->bridging_tuples = (struct _bridgingTupleEntries *)PLATFORM_MALLOC(sizeof(struct _bridgingTupleEntries) * ret->bridging_tuples_nr);
+                ret->bridging_tuples = (struct _bridgingTupleEntries *)memalloc(sizeof(struct _bridgingTupleEntries) * ret->bridging_tuples_nr);
 
                 for (i=0; i < ret->bridging_tuples_nr; i++)
                 {
@@ -793,7 +793,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
                     if (ret->bridging_tuples[i].bridging_tuple_macs_nr > 0)
                     {
-                        ret->bridging_tuples[i].bridging_tuple_macs = (struct _bridgingTupleMacEntries *)PLATFORM_MALLOC(sizeof(struct _bridgingTupleMacEntries) * ret->bridging_tuples[i].bridging_tuple_macs_nr);
+                        ret->bridging_tuples[i].bridging_tuple_macs = (struct _bridgingTupleMacEntries *)memalloc(sizeof(struct _bridgingTupleMacEntries) * ret->bridging_tuples[i].bridging_tuple_macs_nr);
 
                         for (j=0; j < ret->bridging_tuples[i].bridging_tuple_macs_nr; j++)
                         {
@@ -830,7 +830,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct non1905NeighborDeviceListTLV *)PLATFORM_MALLOC(sizeof(struct non1905NeighborDeviceListTLV));
+            ret = (struct non1905NeighborDeviceListTLV *)memalloc(sizeof(struct non1905NeighborDeviceListTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -850,7 +850,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             ret->non_1905_neighbors_nr = (len-6)/6;
 
-            ret->non_1905_neighbors = (struct _non1905neighborEntries *)PLATFORM_MALLOC(sizeof(struct _non1905neighborEntries) * ret->non_1905_neighbors_nr);
+            ret->non_1905_neighbors = (struct _non1905neighborEntries *)memalloc(sizeof(struct _non1905neighborEntries) * ret->non_1905_neighbors_nr);
 
             for (i=0; i < ret->non_1905_neighbors_nr; i++)
             {
@@ -871,7 +871,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct neighborDeviceListTLV *)PLATFORM_MALLOC(sizeof(struct neighborDeviceListTLV));
+            ret = (struct neighborDeviceListTLV *)memalloc(sizeof(struct neighborDeviceListTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -892,7 +892,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             ret->neighbors_nr = (len-6)/7;
 
-            ret->neighbors = (struct _neighborEntries *)PLATFORM_MALLOC(sizeof(struct _neighborEntries) * ret->neighbors_nr);
+            ret->neighbors = (struct _neighborEntries *)memalloc(sizeof(struct _neighborEntries) * ret->neighbors_nr);
 
             for (i=0; i < ret->neighbors_nr; i++)
             {
@@ -925,7 +925,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct transmitterLinkMetricTLV *)PLATFORM_MALLOC(sizeof(struct transmitterLinkMetricTLV));
+            ret = (struct transmitterLinkMetricTLV *)memalloc(sizeof(struct transmitterLinkMetricTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -955,7 +955,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             ret->transmitter_link_metrics_nr = (len-12)/29;
 
-            ret->transmitter_link_metrics = (struct _transmitterLinkMetricEntries *)PLATFORM_MALLOC(sizeof(struct _transmitterLinkMetricEntries) * ret->transmitter_link_metrics_nr);
+            ret->transmitter_link_metrics = (struct _transmitterLinkMetricEntries *)memalloc(sizeof(struct _transmitterLinkMetricEntries) * ret->transmitter_link_metrics_nr);
 
             for (i=0; i < ret->transmitter_link_metrics_nr; i++)
             {
@@ -994,7 +994,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct receiverLinkMetricTLV *)PLATFORM_MALLOC(sizeof(struct receiverLinkMetricTLV));
+            ret = (struct receiverLinkMetricTLV *)memalloc(sizeof(struct receiverLinkMetricTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1024,7 +1024,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             ret->receiver_link_metrics_nr = (len-12)/23;
 
-            ret->receiver_link_metrics = (struct _receiverLinkMetricEntries *)PLATFORM_MALLOC(sizeof(struct _receiverLinkMetricEntries) * ret->receiver_link_metrics_nr);
+            ret->receiver_link_metrics = (struct _receiverLinkMetricEntries *)memalloc(sizeof(struct _receiverLinkMetricEntries) * ret->receiver_link_metrics_nr);
 
             for (i=0; i < ret->receiver_link_metrics_nr; i++)
             {
@@ -1059,7 +1059,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct linkMetricResultCodeTLV *)PLATFORM_MALLOC(sizeof(struct linkMetricResultCodeTLV));
+            ret = (struct linkMetricResultCodeTLV *)memalloc(sizeof(struct linkMetricResultCodeTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1091,7 +1091,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct searchedRoleTLV *)PLATFORM_MALLOC(sizeof(struct searchedRoleTLV));
+            ret = (struct searchedRoleTLV *)memalloc(sizeof(struct searchedRoleTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1123,7 +1123,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct autoconfigFreqBandTLV *)PLATFORM_MALLOC(sizeof(struct autoconfigFreqBandTLV));
+            ret = (struct autoconfigFreqBandTLV *)memalloc(sizeof(struct autoconfigFreqBandTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1155,7 +1155,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct supportedRoleTLV *)PLATFORM_MALLOC(sizeof(struct supportedRoleTLV));
+            ret = (struct supportedRoleTLV *)memalloc(sizeof(struct supportedRoleTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1187,7 +1187,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct supportedFreqBandTLV *)PLATFORM_MALLOC(sizeof(struct supportedFreqBandTLV));
+            ret = (struct supportedFreqBandTLV *)memalloc(sizeof(struct supportedFreqBandTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1219,7 +1219,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct wscTLV *)PLATFORM_MALLOC(sizeof(struct wscTLV));
+            ret = (struct wscTLV *)memalloc(sizeof(struct wscTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1229,7 +1229,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (len>0)
             {
-                ret->wsc_frame      = (uint8_t *)PLATFORM_MALLOC(len);
+                ret->wsc_frame      = (uint8_t *)memalloc(len);
                 _EnB(&p, ret->wsc_frame, len);
             }
 
@@ -1247,7 +1247,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t i;
 
-            ret = (struct pushButtonEventNotificationTLV *)PLATFORM_MALLOC(sizeof(struct pushButtonEventNotificationTLV));
+            ret = (struct pushButtonEventNotificationTLV *)memalloc(sizeof(struct pushButtonEventNotificationTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1276,7 +1276,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             _E1B(&p, &ret->media_types_nr);
 
-            ret->media_types = (struct _mediaTypeEntries *)PLATFORM_MALLOC(sizeof(struct _mediaTypeEntries) * ret->media_types_nr);
+            ret->media_types = (struct _mediaTypeEntries *)memalloc(sizeof(struct _mediaTypeEntries) * ret->media_types_nr);
 
             for (i=0; i < ret->media_types_nr; i++)
             {
@@ -1363,7 +1363,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct pushButtonJoinNotificationTLV *)PLATFORM_MALLOC(sizeof(struct pushButtonJoinNotificationTLV));
+            ret = (struct pushButtonJoinNotificationTLV *)memalloc(sizeof(struct pushButtonJoinNotificationTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1399,7 +1399,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct genericPhyDeviceInformationTypeTLV *)PLATFORM_MALLOC(sizeof(struct genericPhyDeviceInformationTypeTLV));
+            ret = (struct genericPhyDeviceInformationTypeTLV *)memalloc(sizeof(struct genericPhyDeviceInformationTypeTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1411,7 +1411,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (ret->local_interfaces_nr > 0)
             {
-                ret->local_interfaces = (struct _genericPhyDeviceEntries *)PLATFORM_MALLOC(sizeof(struct _genericPhyDeviceEntries) * ret->local_interfaces_nr);
+                ret->local_interfaces = (struct _genericPhyDeviceEntries *)memalloc(sizeof(struct _genericPhyDeviceEntries) * ret->local_interfaces_nr);
 
                 for (i=0; i < ret->local_interfaces_nr; i++)
                 {
@@ -1424,13 +1424,13 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
                     if (ret->local_interfaces[i].generic_phy_description_xml_url_len > 0)
                     {
-                        ret->local_interfaces[i].generic_phy_description_xml_url = (char *)PLATFORM_MALLOC(ret->local_interfaces[i].generic_phy_description_xml_url_len);
+                        ret->local_interfaces[i].generic_phy_description_xml_url = (char *)memalloc(ret->local_interfaces[i].generic_phy_description_xml_url_len);
                         _EnB(&p, ret->local_interfaces[i].generic_phy_description_xml_url, ret->local_interfaces[i].generic_phy_description_xml_url_len);
                     }
 
                     if (ret->local_interfaces[i].generic_phy_common_data.media_specific_bytes_nr > 0)
                     {
-                        ret->local_interfaces[i].generic_phy_common_data.media_specific_bytes = (uint8_t *)PLATFORM_MALLOC(ret->local_interfaces[i].generic_phy_common_data.media_specific_bytes_nr);
+                        ret->local_interfaces[i].generic_phy_common_data.media_specific_bytes = (uint8_t *)memalloc(ret->local_interfaces[i].generic_phy_common_data.media_specific_bytes_nr);
                         _EnB(&p, ret->local_interfaces[i].generic_phy_common_data.media_specific_bytes, ret->local_interfaces[i].generic_phy_common_data.media_specific_bytes_nr);
                     }
                 }
@@ -1470,7 +1470,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct deviceIdentificationTypeTLV *)PLATFORM_MALLOC(sizeof(struct deviceIdentificationTypeTLV));
+            ret = (struct deviceIdentificationTypeTLV *)memalloc(sizeof(struct deviceIdentificationTypeTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1504,7 +1504,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct controlUrlTypeTLV *)PLATFORM_MALLOC(sizeof(struct controlUrlTypeTLV));
+            ret = (struct controlUrlTypeTLV *)memalloc(sizeof(struct controlUrlTypeTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1513,7 +1513,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (len>0)
             {
-                ret->url            = (char *)PLATFORM_MALLOC(len);
+                ret->url            = (char *)memalloc(len);
                 _EnB(&p, ret->url, len);
             }
 
@@ -1531,7 +1531,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i, j;
 
-            ret = (struct ipv4TypeTLV *)PLATFORM_MALLOC(sizeof(struct ipv4TypeTLV));
+            ret = (struct ipv4TypeTLV *)memalloc(sizeof(struct ipv4TypeTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1562,7 +1562,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (ret->ipv4_interfaces_nr > 0)
             {
-                ret->ipv4_interfaces = (struct _ipv4InterfaceEntries *)PLATFORM_MALLOC(sizeof(struct _ipv4InterfaceEntries) * ret->ipv4_interfaces_nr);
+                ret->ipv4_interfaces = (struct _ipv4InterfaceEntries *)memalloc(sizeof(struct _ipv4InterfaceEntries) * ret->ipv4_interfaces_nr);
 
                 for (i=0; i < ret->ipv4_interfaces_nr; i++)
                 {
@@ -1571,7 +1571,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
                     if (ret->ipv4_interfaces[i].ipv4_nr > 0)
                     {
-                        ret->ipv4_interfaces[i].ipv4 = (struct _ipv4Entries *)PLATFORM_MALLOC(sizeof(struct _ipv4Entries) * ret->ipv4_interfaces[i].ipv4_nr);
+                        ret->ipv4_interfaces[i].ipv4 = (struct _ipv4Entries *)memalloc(sizeof(struct _ipv4Entries) * ret->ipv4_interfaces[i].ipv4_nr);
 
                         for (j=0; j < ret->ipv4_interfaces[i].ipv4_nr; j++)
                         {
@@ -1613,7 +1613,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i, j;
 
-            ret = (struct ipv6TypeTLV *)PLATFORM_MALLOC(sizeof(struct ipv6TypeTLV));
+            ret = (struct ipv6TypeTLV *)memalloc(sizeof(struct ipv6TypeTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1644,7 +1644,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (ret->ipv6_interfaces_nr > 0)
             {
-                ret->ipv6_interfaces = (struct _ipv6InterfaceEntries *)PLATFORM_MALLOC(sizeof(struct _ipv6InterfaceEntries) * ret->ipv6_interfaces_nr);
+                ret->ipv6_interfaces = (struct _ipv6InterfaceEntries *)memalloc(sizeof(struct _ipv6InterfaceEntries) * ret->ipv6_interfaces_nr);
 
                 for (i=0; i < ret->ipv6_interfaces_nr; i++)
                 {
@@ -1654,7 +1654,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
                     if (ret->ipv6_interfaces[i].ipv6_nr > 0)
                     {
-                        ret->ipv6_interfaces[i].ipv6 = (struct _ipv6Entries *)PLATFORM_MALLOC(sizeof(struct _ipv6Entries) * ret->ipv6_interfaces[i].ipv6_nr);
+                        ret->ipv6_interfaces[i].ipv6 = (struct _ipv6Entries *)memalloc(sizeof(struct _ipv6Entries) * ret->ipv6_interfaces[i].ipv6_nr);
 
                         for (j=0; j < ret->ipv6_interfaces[i].ipv6_nr; j++)
                         {
@@ -1696,7 +1696,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct pushButtonGenericPhyEventNotificationTLV *)PLATFORM_MALLOC(sizeof(struct pushButtonGenericPhyEventNotificationTLV));
+            ret = (struct pushButtonGenericPhyEventNotificationTLV *)memalloc(sizeof(struct pushButtonGenericPhyEventNotificationTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1727,7 +1727,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (ret->local_interfaces_nr > 0)
             {
-                ret->local_interfaces = (struct _genericPhyCommonData *)PLATFORM_MALLOC(sizeof(struct _genericPhyCommonData) * ret->local_interfaces_nr);
+                ret->local_interfaces = (struct _genericPhyCommonData *)memalloc(sizeof(struct _genericPhyCommonData) * ret->local_interfaces_nr);
 
                 for (i=0; i < ret->local_interfaces_nr; i++)
                 {
@@ -1737,7 +1737,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
                     if (ret->local_interfaces[i].media_specific_bytes_nr > 0)
                     {
-                        ret->local_interfaces[i].media_specific_bytes = (uint8_t *)PLATFORM_MALLOC(ret->local_interfaces[i].media_specific_bytes_nr);
+                        ret->local_interfaces[i].media_specific_bytes = (uint8_t *)memalloc(ret->local_interfaces[i].media_specific_bytes_nr);
                         _EnB(&p, ret->local_interfaces[i].media_specific_bytes, ret->local_interfaces[i].media_specific_bytes_nr);
                     }
                 }
@@ -1772,7 +1772,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct x1905ProfileVersionTLV *)PLATFORM_MALLOC(sizeof(struct x1905ProfileVersionTLV));
+            ret = (struct x1905ProfileVersionTLV *)memalloc(sizeof(struct x1905ProfileVersionTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1805,7 +1805,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct powerOffInterfaceTLV *)PLATFORM_MALLOC(sizeof(struct powerOffInterfaceTLV));
+            ret = (struct powerOffInterfaceTLV *)memalloc(sizeof(struct powerOffInterfaceTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1834,7 +1834,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (ret->power_off_interfaces_nr > 0)
             {
-                ret->power_off_interfaces = (struct _powerOffInterfaceEntries *)PLATFORM_MALLOC(sizeof(struct _powerOffInterfaceEntries) * ret->power_off_interfaces_nr);
+                ret->power_off_interfaces = (struct _powerOffInterfaceEntries *)memalloc(sizeof(struct _powerOffInterfaceEntries) * ret->power_off_interfaces_nr);
 
                 for (i=0; i < ret->power_off_interfaces_nr; i++)
                 {
@@ -1846,7 +1846,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
                     if (ret->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes_nr > 0)
                     {
-                        ret->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes = (uint8_t *)PLATFORM_MALLOC(ret->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes_nr);
+                        ret->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes = (uint8_t *)memalloc(ret->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes_nr);
                         _EnB(&p, ret->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes, ret->power_off_interfaces[i].generic_phy_common_data.media_specific_bytes_nr);
                     }
                 }
@@ -1882,7 +1882,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct interfacePowerChangeInformationTLV *)PLATFORM_MALLOC(sizeof(struct interfacePowerChangeInformationTLV));
+            ret = (struct interfacePowerChangeInformationTLV *)memalloc(sizeof(struct interfacePowerChangeInformationTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1913,7 +1913,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (ret->power_change_interfaces_nr > 0)
             {
-                ret->power_change_interfaces = (struct _powerChangeInformationEntries *)PLATFORM_MALLOC(sizeof(struct _powerChangeInformationEntries) * ret->power_change_interfaces_nr);
+                ret->power_change_interfaces = (struct _powerChangeInformationEntries *)memalloc(sizeof(struct _powerChangeInformationEntries) * ret->power_change_interfaces_nr);
 
                 for (i=0; i < ret->power_change_interfaces_nr; i++)
                 {
@@ -1945,7 +1945,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i;
 
-            ret = (struct interfacePowerChangeStatusTLV *)PLATFORM_MALLOC(sizeof(struct interfacePowerChangeStatusTLV));
+            ret = (struct interfacePowerChangeStatusTLV *)memalloc(sizeof(struct interfacePowerChangeStatusTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -1976,7 +1976,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (ret->power_change_interfaces_nr > 0)
             {
-                ret->power_change_interfaces = (struct _powerChangeStatusEntries *)PLATFORM_MALLOC(sizeof(struct _powerChangeStatusEntries) * ret->power_change_interfaces_nr);
+                ret->power_change_interfaces = (struct _powerChangeStatusEntries *)memalloc(sizeof(struct _powerChangeStatusEntries) * ret->power_change_interfaces_nr);
 
                 for (i=0; i < ret->power_change_interfaces_nr; i++)
                 {
@@ -2011,7 +2011,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
             uint16_t len;
             uint8_t  i, j, k;
 
-            ret = (struct l2NeighborDeviceTLV *)PLATFORM_MALLOC(sizeof(struct l2NeighborDeviceTLV));
+            ret = (struct l2NeighborDeviceTLV *)memalloc(sizeof(struct l2NeighborDeviceTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -2042,7 +2042,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
             if (ret->local_interfaces_nr > 0)
             {
-                ret->local_interfaces = (struct _l2InterfacesEntries *)PLATFORM_MALLOC(sizeof(struct _l2InterfacesEntries) * ret->local_interfaces_nr);
+                ret->local_interfaces = (struct _l2InterfacesEntries *)memalloc(sizeof(struct _l2InterfacesEntries) * ret->local_interfaces_nr);
 
                 for (i=0; i < ret->local_interfaces_nr; i++)
                 {
@@ -2051,7 +2051,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
                     if (ret->local_interfaces[i].l2_neighbors_nr > 0)
                     {
-                        ret->local_interfaces[i].l2_neighbors = (struct _l2NeighborsEntries *)PLATFORM_MALLOC(sizeof(struct _l2NeighborsEntries) * ret->local_interfaces[i].l2_neighbors_nr);
+                        ret->local_interfaces[i].l2_neighbors = (struct _l2NeighborsEntries *)memalloc(sizeof(struct _l2NeighborsEntries) * ret->local_interfaces[i].l2_neighbors_nr);
 
                         for (j=0; j < ret->local_interfaces[i].l2_neighbors_nr; j++)
                         {
@@ -2060,7 +2060,7 @@ uint8_t *parse_1905_TLV_from_packet(uint8_t *packet_stream)
 
                             if (ret->local_interfaces[i].l2_neighbors[j].behind_mac_addresses_nr > 0)
                             {
-                                ret->local_interfaces[i].l2_neighbors[j].behind_mac_addresses = (uint8_t (*)[6])PLATFORM_MALLOC(sizeof(uint8_t[6]) * ret->local_interfaces[i].l2_neighbors[j].behind_mac_addresses_nr);
+                                ret->local_interfaces[i].l2_neighbors[j].behind_mac_addresses = (uint8_t (*)[6])memalloc(sizeof(uint8_t[6]) * ret->local_interfaces[i].l2_neighbors[j].behind_mac_addresses_nr);
 
                                 for (k=0; k < ret->local_interfaces[i].l2_neighbors[j].behind_mac_addresses_nr; k++)
                                 {
@@ -2157,7 +2157,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             }
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);
@@ -2250,7 +2250,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             }
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,           &p);
             _I2B(&tlv_length,            &p);
@@ -2286,7 +2286,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 6 + 6*m->non_1905_neighbors_nr;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);
@@ -2317,7 +2317,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 6 + 7*m->neighbors_nr;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);
@@ -2361,7 +2361,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 12 + 29*m->transmitter_link_metrics_nr;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);
@@ -2401,7 +2401,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 12 + 23*m->receiver_link_metrics_nr;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);
@@ -2436,7 +2436,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 1;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
@@ -2469,7 +2469,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 1;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
@@ -2502,7 +2502,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 1;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
@@ -2539,7 +2539,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 1;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
@@ -2572,7 +2572,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 1;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
@@ -2609,7 +2609,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = m->wsc_frame_size;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
@@ -2642,7 +2642,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             }
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,        &p);
             _I2B(&tlv_length,         &p);
@@ -2726,7 +2726,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 20;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);
@@ -2769,7 +2769,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             }
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);
@@ -2812,7 +2812,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 192;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,           &p);
             _I2B(&tlv_length,            &p);
@@ -2838,7 +2838,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = strlen(m->url)+1;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
@@ -2870,7 +2870,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             }
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,           &p);
             _I2B(&tlv_length,            &p);
@@ -2916,7 +2916,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             }
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,           &p);
             _I2B(&tlv_length,            &p);
@@ -2964,7 +2964,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             }
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,                &p);
             _I2B(&tlv_length,                 &p);
@@ -2999,7 +2999,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 1;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
@@ -3047,7 +3047,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             }
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,                &p);
             _I2B(&tlv_length,                 &p);
@@ -3088,7 +3088,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,                   &p);
             _I2B(&tlv_length,                    &p);
@@ -3122,7 +3122,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
 
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,                   &p);
             _I2B(&tlv_length,                    &p);
@@ -3166,7 +3166,7 @@ uint8_t *forge_1905_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             }
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);

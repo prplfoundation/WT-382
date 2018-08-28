@@ -302,7 +302,7 @@ uint8_t _insertNeighbor(char *local_interface_name, uint8_t *al_mac_address)
 
     if (0 == x->neighbors_nr)
     {
-        x->neighbors = (struct _neighbor *)PLATFORM_MALLOC(sizeof (struct _neighbor));
+        x->neighbors = (struct _neighbor *)memalloc(sizeof (struct _neighbor));
 
     }
     else
@@ -347,7 +347,7 @@ uint8_t _insertNeighborInterface(char *local_interface_name, uint8_t *neighbor_a
 
     if (0 == x->remote_interfaces_nr)
     {
-        x->remote_interfaces    = (struct _remoteInterface *)PLATFORM_MALLOC(sizeof (struct _remoteInterface));
+        x->remote_interfaces    = (struct _remoteInterface *)memalloc(sizeof (struct _remoteInterface));
     }
     else
     {
@@ -393,7 +393,7 @@ void DMinit()
     // representing the local node
     //
     data_model.network_devices_nr       = 1;
-    data_model.network_devices          = (struct _networkDevice *)PLATFORM_MALLOC(sizeof(struct _networkDevice));
+    data_model.network_devices          = (struct _networkDevice *)memalloc(sizeof(struct _networkDevice));
 
     data_model.network_devices[0].update_timestamp          = PLATFORM_GET_TIMESTAMP();
     data_model.network_devices[0].info                      = NULL;
@@ -488,7 +488,7 @@ uint8_t DMinsertInterface(char *name, uint8_t *mac_address)
 
     if (0 == data_model.local_interfaces_nr)
     {
-        data_model.local_interfaces = (struct _localInterface *)PLATFORM_MALLOC(sizeof (struct _localInterface));
+        data_model.local_interfaces = (struct _localInterface *)memalloc(sizeof (struct _localInterface));
 
     }
     else
@@ -567,7 +567,7 @@ uint8_t (*DMgetListOfInterfaceNeighbors(char *local_interface_name, uint8_t *al_
         return NULL;
     }
 
-    ret = (uint8_t (*)[6])PLATFORM_MALLOC(sizeof(uint8_t[6]) * x->neighbors_nr);
+    ret = (uint8_t (*)[6])memalloc(sizeof(uint8_t[6]) * x->neighbors_nr);
 
     for (i=0; i<x->neighbors_nr; i++)
     {
@@ -626,7 +626,7 @@ uint8_t (*DMgetListOfNeighbors(uint8_t *al_mac_addresses_nr))[6]
             //
             if (NULL == ret)
             {
-                ret = (uint8_t (*)[6])PLATFORM_MALLOC(sizeof(uint8_t[6]));
+                ret = (uint8_t (*)[6])memalloc(sizeof(uint8_t[6]));
             }
             else
             {
@@ -674,8 +674,8 @@ uint8_t (*DMgetListOfLinksWithNeighbor(uint8_t *neighbor_al_mac_address, char **
                 //
                 if (NULL == ret)
                 {
-                    ret   = (uint8_t (*)[6])PLATFORM_MALLOC(sizeof(uint8_t[6]));
-                    intfs = (char **)PLATFORM_MALLOC(sizeof(char *));
+                    ret   = (uint8_t (*)[6])memalloc(sizeof(uint8_t[6]));
+                    intfs = (char **)memalloc(sizeof(char *));
                 }
                 else
                 {
@@ -932,7 +932,7 @@ uint8_t *DMmacToAlMac(uint8_t *mac_address)
     uint8_t found;
 
     found  = 0;
-    al_mac = (uint8_t *)PLATFORM_MALLOC(sizeof(uint8_t)*6);
+    al_mac = (uint8_t *)memalloc(sizeof(uint8_t)*6);
 
     if (0 == memcmp(data_model.al_mac_address, mac_address, 6))
     {
@@ -1038,7 +1038,7 @@ uint8_t DMupdateNetworkDeviceInfo(uint8_t *al_mac_address,
         {
             if (0 == data_model.network_devices_nr)
             {
-                data_model.network_devices = (struct _networkDevice *)PLATFORM_MALLOC(sizeof(struct _networkDevice));
+                data_model.network_devices = (struct _networkDevice *)memalloc(sizeof(struct _networkDevice));
             }
             else
             {
@@ -1340,7 +1340,7 @@ uint8_t DMupdateNetworkDeviceMetrics(uint8_t *metrics)
         //
         if (0 == data_model.network_devices[i].metrics_with_neighbors_nr)
         {
-            data_model.network_devices[i].metrics_with_neighbors = (struct _metricsWithNeighbor *)PLATFORM_MALLOC(sizeof(struct _metricsWithNeighbor));
+            data_model.network_devices[i].metrics_with_neighbors = (struct _metricsWithNeighbor *)memalloc(sizeof(struct _metricsWithNeighbor));
         }
         else
         {

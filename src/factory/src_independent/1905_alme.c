@@ -367,7 +367,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct getIntfListRequestALME *)PLATFORM_MALLOC(sizeof(struct getIntfListRequestALME));
+            ret = (struct getIntfListRequestALME *)memalloc(sizeof(struct getIntfListRequestALME));
 
             _E1B(&p, &ret->alme_type);
 
@@ -383,14 +383,14 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct getIntfListResponseALME *)PLATFORM_MALLOC(sizeof(struct getIntfListResponseALME));
+            ret = (struct getIntfListResponseALME *)memalloc(sizeof(struct getIntfListResponseALME));
 
             _E1B(&p, &ret->alme_type);
             _E1B(&p, &ret->interface_descriptors_nr);
 
             if (ret->interface_descriptors_nr > 0)
             {
-                ret->interface_descriptors = (struct _intfDescriptorEntries *)PLATFORM_MALLOC(sizeof(struct _intfDescriptorEntries) * ret->interface_descriptors_nr);
+                ret->interface_descriptors = (struct _intfDescriptorEntries *)memalloc(sizeof(struct _intfDescriptorEntries) * ret->interface_descriptors_nr);
 
                 for (i=0; i<ret->interface_descriptors_nr; i++)
                 {
@@ -401,7 +401,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
                     if (ret->interface_descriptors[i].vendor_specific_info_nr > 0)
                     {
-                        ret->interface_descriptors[i].vendor_specific_info = (struct _vendorSpecificInfoEntries *)PLATFORM_MALLOC(sizeof(struct _vendorSpecificInfoEntries) * ret->interface_descriptors[i].vendor_specific_info_nr);
+                        ret->interface_descriptors[i].vendor_specific_info = (struct _vendorSpecificInfoEntries *)memalloc(sizeof(struct _vendorSpecificInfoEntries) * ret->interface_descriptors[i].vendor_specific_info_nr);
 
                         for (j=0; j<ret->interface_descriptors[i].vendor_specific_info_nr; j++)
                         {
@@ -411,7 +411,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
                             if (ret->interface_descriptors[i].vendor_specific_info[j].length_field > 3)
                             {
-                                ret->interface_descriptors[i].vendor_specific_info[j].vendor_si = (uint8_t *)PLATFORM_MALLOC(sizeof(uint8_t) * ((ret->interface_descriptors[i].vendor_specific_info[j].length_field - 3)));
+                                ret->interface_descriptors[i].vendor_specific_info[j].vendor_si = (uint8_t *)memalloc(sizeof(uint8_t) * ((ret->interface_descriptors[i].vendor_specific_info[j].length_field - 3)));
 
                                 _EnB(&p, ret->interface_descriptors[i].vendor_specific_info[j].vendor_si, ret->interface_descriptors[i].vendor_specific_info[j].length_field - 3);
                             }
@@ -435,7 +435,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct setIntfPwrStateRequestALME *)PLATFORM_MALLOC(sizeof(struct setIntfPwrStateRequestALME));
+            ret = (struct setIntfPwrStateRequestALME *)memalloc(sizeof(struct setIntfPwrStateRequestALME));
 
             _E1B(&p, &ret->alme_type);
             _EnB(&p,  ret->interface_address, 6);
@@ -452,7 +452,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct setIntfPwrStateConfirmALME *)PLATFORM_MALLOC(sizeof(struct setIntfPwrStateConfirmALME));
+            ret = (struct setIntfPwrStateConfirmALME *)memalloc(sizeof(struct setIntfPwrStateConfirmALME));
 
             _E1B(&p, &ret->alme_type);
             _EnB(&p,  ret->interface_address, 6);
@@ -469,7 +469,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct getIntfPwrStateRequestALME *)PLATFORM_MALLOC(sizeof(struct getIntfPwrStateRequestALME));
+            ret = (struct getIntfPwrStateRequestALME *)memalloc(sizeof(struct getIntfPwrStateRequestALME));
 
             _E1B(&p, &ret->alme_type);
             _EnB(&p,  ret->interface_address, 6);
@@ -485,7 +485,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct getIntfPwrStateResponseALME *)PLATFORM_MALLOC(sizeof(struct getIntfPwrStateResponseALME));
+            ret = (struct getIntfPwrStateResponseALME *)memalloc(sizeof(struct getIntfPwrStateResponseALME));
 
             _E1B(&p, &ret->alme_type);
             _EnB(&p,  ret->interface_address, 6);
@@ -503,7 +503,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct setFwdRuleRequestALME *)PLATFORM_MALLOC(sizeof(struct setFwdRuleRequestALME));
+            ret = (struct setFwdRuleRequestALME *)memalloc(sizeof(struct setFwdRuleRequestALME));
 
             _E1B(&p, &ret->alme_type);
             _EnB(&p,  ret->classification_set.mac_da, 6);
@@ -520,7 +520,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             if (ret->addresses_nr > 0)
             {
-                ret->addresses = (uint8_t (*)[6])PLATFORM_MALLOC(sizeof(uint8_t[6]) * ret->addresses_nr);
+                ret->addresses = (uint8_t (*)[6])memalloc(sizeof(uint8_t[6]) * ret->addresses_nr);
 
                 for (i=0; i<ret->addresses_nr; i++)
                 {
@@ -539,7 +539,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct setFwdRuleConfirmALME *)PLATFORM_MALLOC(sizeof(struct setFwdRuleConfirmALME));
+            ret = (struct setFwdRuleConfirmALME *)memalloc(sizeof(struct setFwdRuleConfirmALME));
 
             _E1B(&p, &ret->alme_type);
             _E2B(&p, &ret->rule_id);
@@ -556,7 +556,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct getFwdRulesRequestALME *)PLATFORM_MALLOC(sizeof(struct getFwdRulesRequestALME));
+            ret = (struct getFwdRulesRequestALME *)memalloc(sizeof(struct getFwdRulesRequestALME));
 
             _E1B(&p, &ret->alme_type);
 
@@ -572,14 +572,14 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct getFwdRulesResponseALME *)PLATFORM_MALLOC(sizeof(struct getFwdRulesResponseALME));
+            ret = (struct getFwdRulesResponseALME *)memalloc(sizeof(struct getFwdRulesResponseALME));
 
             _E1B(&p, &ret->alme_type);
             _E1B(&p, &ret->rules_nr);
 
             if (ret->rules_nr > 0)
             {
-                ret->rules = (struct _fwdRuleListEntries *)PLATFORM_MALLOC(sizeof(struct _fwdRuleListEntries) * ret->rules_nr);
+                ret->rules = (struct _fwdRuleListEntries *)memalloc(sizeof(struct _fwdRuleListEntries) * ret->rules_nr);
 
                 for (i=0; i<ret->rules_nr; i++)
                 {
@@ -597,7 +597,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
                     if (ret->rules[i].addresses_nr > 0)
                     {
-                        ret->rules[i].addresses = (uint8_t (*)[6])PLATFORM_MALLOC(sizeof(uint8_t[6]) * ret->rules[i].addresses_nr);
+                        ret->rules[i].addresses = (uint8_t (*)[6])memalloc(sizeof(uint8_t[6]) * ret->rules[i].addresses_nr);
 
                         for (j=0; j<ret->rules[i].addresses_nr; j++)
                         {
@@ -621,7 +621,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct modifyFwdRuleRequestALME *)PLATFORM_MALLOC(sizeof(struct modifyFwdRuleRequestALME));
+            ret = (struct modifyFwdRuleRequestALME *)memalloc(sizeof(struct modifyFwdRuleRequestALME));
 
             _E1B(&p, &ret->alme_type);
             _E2B(&p, &ret->rule_id);
@@ -629,7 +629,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             if (ret->addresses_nr > 0)
             {
-                ret->addresses = (uint8_t (*)[6])PLATFORM_MALLOC(sizeof(uint8_t[6]) * ret->addresses_nr);
+                ret->addresses = (uint8_t (*)[6])memalloc(sizeof(uint8_t[6]) * ret->addresses_nr);
 
                 for (i=0; i<ret->addresses_nr; i++)
                 {
@@ -648,7 +648,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct modifyFwdRuleConfirmALME *)PLATFORM_MALLOC(sizeof(struct modifyFwdRuleConfirmALME));
+            ret = (struct modifyFwdRuleConfirmALME *)memalloc(sizeof(struct modifyFwdRuleConfirmALME));
 
             _E1B(&p, &ret->alme_type);
             _E2B(&p, &ret->rule_id);
@@ -665,7 +665,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct removeFwdRuleRequestALME *)PLATFORM_MALLOC(sizeof(struct removeFwdRuleRequestALME));
+            ret = (struct removeFwdRuleRequestALME *)memalloc(sizeof(struct removeFwdRuleRequestALME));
 
             _E1B(&p, &ret->alme_type);
             _E2B(&p, &ret->rule_id);
@@ -681,7 +681,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct removeFwdRuleConfirmALME *)PLATFORM_MALLOC(sizeof(struct removeFwdRuleConfirmALME));
+            ret = (struct removeFwdRuleConfirmALME *)memalloc(sizeof(struct removeFwdRuleConfirmALME));
 
             _E1B(&p, &ret->alme_type);
             _E2B(&p, &ret->rule_id);
@@ -698,7 +698,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct getMetricRequestALME *)PLATFORM_MALLOC(sizeof(struct getMetricRequestALME));
+            ret = (struct getMetricRequestALME *)memalloc(sizeof(struct getMetricRequestALME));
 
             _E1B(&p, &ret->alme_type);
             _EnB(&p,  ret->interface_address, 6);
@@ -715,14 +715,14 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct getMetricResponseALME *)PLATFORM_MALLOC(sizeof(struct getMetricResponseALME));
+            ret = (struct getMetricResponseALME *)memalloc(sizeof(struct getMetricResponseALME));
 
             _E1B(&p, &ret->alme_type);
             _E1B(&p, &ret->metrics_nr);
 
             if (ret->metrics_nr > 0)
             {
-                ret->metrics = (struct _metricDescriptorsEntries *)PLATFORM_MALLOC(sizeof(struct _metricDescriptorsEntries) * ret->metrics_nr);
+                ret->metrics = (struct _metricDescriptorsEntries *)memalloc(sizeof(struct _metricDescriptorsEntries) * ret->metrics_nr);
 
                 for (i=0; i<ret->metrics_nr; i++)
                 {
@@ -804,7 +804,7 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct customCommandRequestALME *)PLATFORM_MALLOC(sizeof(struct customCommandRequestALME));
+            ret = (struct customCommandRequestALME *)memalloc(sizeof(struct customCommandRequestALME));
 
             _E1B(&p, &ret->alme_type);
             _E1B(&p, &ret->command);
@@ -820,14 +820,14 @@ uint8_t *parse_1905_ALME_from_packet(uint8_t *packet_stream)
 
             p = packet_stream;
 
-            ret = (struct customCommandResponseALME *)PLATFORM_MALLOC(sizeof(struct customCommandResponseALME));
+            ret = (struct customCommandResponseALME *)memalloc(sizeof(struct customCommandResponseALME));
 
             _E1B(&p, &ret->alme_type);
             _E2B(&p, &ret->bytes_nr);
 
             if (ret->bytes_nr > 0)
             {
-                ret->bytes = (char *)PLATFORM_MALLOC(ret->bytes_nr);
+                ret->bytes = (char *)memalloc(ret->bytes_nr);
                 _EnB(&p, ret->bytes, ret->bytes_nr);
             }
 
@@ -869,7 +869,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 1; // alme_type
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,  &p);
 
@@ -900,7 +900,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
                 }
             }
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,                 &p);
             _I1B(&m->interface_descriptors_nr,  &p);
@@ -937,7 +937,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 8; // alme_type + interface_address + power_state
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,          &p);
             _InB( m->interface_address,  &p,  6);
@@ -955,7 +955,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 8; // alme_type + interface_address + reason_code
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,          &p);
             _InB( m->interface_address,  &p,  6);
@@ -973,7 +973,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 7; // alme_type + interface_address
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,          &p);
             _InB( m->interface_address,  &p,  6);
@@ -990,7 +990,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 8; // alme_type + interface_address + power_state
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,          &p);
             _InB( m->interface_address,  &p,  6);
@@ -1011,7 +1011,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
             *len  = 24;  // alme_type + classification_set + addresses_nr
             *len += 6 * m->addresses_nr; // addresses
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,                           &p);
             _InB( m->classification_set.mac_da,           &p,  6);
@@ -1043,7 +1043,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 4; // alme_type + rule_id + reason_code
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,    &p);
             _I2B(&m->rule_id,      &p);
@@ -1061,7 +1061,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 1; // alme_type
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,          &p);
 
@@ -1085,7 +1085,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
                 *len += 2; // last_matched
             }
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type, &p);
             _I1B(&m->rules_nr,  &p);
@@ -1127,7 +1127,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
             *len  = 4;  // alme_type + rule_id + addresses_nr
             *len += 6 * m->addresses_nr; // addresses
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,    &p);
             _I2B(&m->rule_id,      &p);
@@ -1150,7 +1150,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 4;  // alme_type + rule_id + reason_code
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,    &p);
             _I2B(&m->rule_id,      &p);
@@ -1168,7 +1168,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 3;  // alme_type + rule_id
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,    &p);
             _I2B(&m->rule_id,      &p);
@@ -1185,7 +1185,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len = 4;  // alme_type + rule_id + reason_code
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,    &p);
             _I2B(&m->rule_id,      &p);
@@ -1203,7 +1203,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len  = 7;  // alme_type + interface_address
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,         &p);
             _InB( m->interface_address, &p, 6);
@@ -1256,7 +1256,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
             }
             *len += 1;  // reason_code
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type,  &p);
             _I1B(&m->metrics_nr, &p);
@@ -1334,7 +1334,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
 
             *len  = 2;  // alme_type + command
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type, &p);
             _I1B(&m->command,   &p);
@@ -1352,7 +1352,7 @@ uint8_t *forge_1905_ALME_from_structure(uint8_t *memory_structure, uint16_t *len
             *len  = 3;  // alme_type + length
             *len += m->bytes_nr;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(*len);
+            p = ret = (uint8_t *)memalloc(*len);
 
             _I1B(&m->alme_type, &p);
             _I2B(&m->bytes_nr,  &p);

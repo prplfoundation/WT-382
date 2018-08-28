@@ -85,7 +85,7 @@ uint8_t *parse_bbf_TLV_from_packet(uint8_t *packet_stream)
             uint8_t destination;
             uint8_t link_metrics_type;
 
-            ret = (struct linkMetricQueryTLV *)PLATFORM_MALLOC(sizeof(struct linkMetricQueryTLV));
+            ret = (struct linkMetricQueryTLV *)memalloc(sizeof(struct linkMetricQueryTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -175,7 +175,7 @@ uint8_t *parse_bbf_TLV_from_packet(uint8_t *packet_stream)
             uint8_t  i;
             uint8_t empty_address[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-            ret = (struct transmitterLinkMetricTLV *)PLATFORM_MALLOC(sizeof(struct transmitterLinkMetricTLV));
+            ret = (struct transmitterLinkMetricTLV *)memalloc(sizeof(struct transmitterLinkMetricTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -214,7 +214,7 @@ uint8_t *parse_bbf_TLV_from_packet(uint8_t *packet_stream)
 
             ret->transmitter_link_metrics_nr = (len-12)/29;
 
-            ret->transmitter_link_metrics = (struct _transmitterLinkMetricEntries *)PLATFORM_MALLOC(sizeof(struct _transmitterLinkMetricEntries) * ret->transmitter_link_metrics_nr);
+            ret->transmitter_link_metrics = (struct _transmitterLinkMetricEntries *)memalloc(sizeof(struct _transmitterLinkMetricEntries) * ret->transmitter_link_metrics_nr);
 
             for (i=0; i < ret->transmitter_link_metrics_nr; i++)
             {
@@ -255,7 +255,7 @@ uint8_t *parse_bbf_TLV_from_packet(uint8_t *packet_stream)
             uint8_t  i;
             uint8_t empty_address[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-            ret = (struct receiverLinkMetricTLV *)PLATFORM_MALLOC(sizeof(struct receiverLinkMetricTLV));
+            ret = (struct receiverLinkMetricTLV *)memalloc(sizeof(struct receiverLinkMetricTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -294,7 +294,7 @@ uint8_t *parse_bbf_TLV_from_packet(uint8_t *packet_stream)
 
             ret->receiver_link_metrics_nr = (len-12)/23;
 
-            ret->receiver_link_metrics = (struct _receiverLinkMetricEntries *)PLATFORM_MALLOC(sizeof(struct _receiverLinkMetricEntries) * ret->receiver_link_metrics_nr);
+            ret->receiver_link_metrics = (struct _receiverLinkMetricEntries *)memalloc(sizeof(struct _receiverLinkMetricEntries) * ret->receiver_link_metrics_nr);
 
             for (i=0; i < ret->receiver_link_metrics_nr; i++)
             {
@@ -329,7 +329,7 @@ uint8_t *parse_bbf_TLV_from_packet(uint8_t *packet_stream)
             uint8_t *p;
             uint16_t len;
 
-            ret = (struct linkMetricResultCodeTLV *)PLATFORM_MALLOC(sizeof(struct linkMetricResultCodeTLV));
+            ret = (struct linkMetricResultCodeTLV *)memalloc(sizeof(struct linkMetricResultCodeTLV));
 
             p = packet_stream + 1;
             _E2B(&p, &len);
@@ -393,7 +393,7 @@ uint8_t *forge_bbf_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 8;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,          &p);
             _I2B(&tlv_length,           &p);
@@ -433,7 +433,7 @@ uint8_t *forge_bbf_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 12 + 29*m->transmitter_link_metrics_nr;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);
@@ -474,7 +474,7 @@ uint8_t *forge_bbf_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 12 + 23*m->receiver_link_metrics_nr;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,            &p);
             _I2B(&tlv_length,             &p);
@@ -509,7 +509,7 @@ uint8_t *forge_bbf_TLV_from_structure(uint8_t *memory_structure, uint16_t *len)
             tlv_length = 1;
             *len = 1 + 2 + tlv_length;
 
-            p = ret = (uint8_t *)PLATFORM_MALLOC(1 + 2  + tlv_length);
+            p = ret = (uint8_t *)memalloc(1 + 2  + tlv_length);
 
             _I1B(&m->tlv_type,     &p);
             _I2B(&tlv_length,      &p);
